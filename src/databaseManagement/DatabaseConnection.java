@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 
 public class DatabaseConnection {
-	private static final Logger LOGGER = Logger.getLogger( DatabaseConnection.class.getName() );
+	private static final Logger LOGGER = Logger.getLogger(DatabaseConnection.class.getName());
 	private static Connection connection = null;
 
 	private DatabaseConnection() {

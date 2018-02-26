@@ -1,0 +1,11 @@
+# ignore all .class
+*.class
+
+# ignore bin folder
+bin/
+
+# ignore ignore folder
+ignore/
+
+# ignore build.xml
+build.xml

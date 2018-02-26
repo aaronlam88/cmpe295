@@ -5,29 +5,35 @@ public class DatabaseConfig {
 	private String password;
 	private String host;
 	private String setting;
+	private String api;
+	private String cookies;
+	private String[] tables;
 	
+	public String getApi() {
+		return api;
+	}
+
+	public String getCookies() {
+		return cookies;
+	}
+
+	public String[] getTables() {
+		return tables;
+	}
+
 	public String getUsername() {
 		return username;
 	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
+
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 	public String getHost() {
 		return host;
 	}
-	public void setHost(String host) {
-		this.host = host;
-	}
+
 	public String getSetting() {
 		return setting;
 	}
-	public void setSetting(String setting) {
-		this.setting = setting;
-	}	
 }
