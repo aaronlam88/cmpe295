@@ -1,0 +1,7 @@
+#!/bin/bash
+FILE=./data/*
+
+for f in $FILE
+	do sed -i '' 1,10d $f
+done
+
