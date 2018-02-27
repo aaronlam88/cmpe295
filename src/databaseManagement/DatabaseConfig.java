@@ -4,6 +4,7 @@ public class DatabaseConfig {
 	private String username;
 	private String password;
 	private String host;
+	private String database;
 	private String setting;
 	private String api;
 	private String cookies;
@@ -35,5 +36,9 @@ public class DatabaseConfig {
 
 	public String getSetting() {
 		return setting;
+	}
+
+	public String getDatabase() {
+		return database;
 	}
 }
