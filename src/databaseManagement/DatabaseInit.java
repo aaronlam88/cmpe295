@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +46,12 @@ public class DatabaseInit {
 
 
 	public void buildDatabase(DatabaseConfig config, Connection conn) {
+		String link = config.getApi();
+		link = link.replace("#PERIOD1", "0");
+		link = link.replace("#PERIOD2", Long.toString(Instant.now().truncatedTo(ChronoUnit.DAYS).toEpochMilli()/1000));
 		for (String table : config.getTables()) {
+			String newLink = link;
+			LOGGER.log(Level.INFO, "Building table: " + table);
 			try {
 				/**************************
 				 *  Create Table
@@ -60,7 +67,7 @@ public class DatabaseInit {
 				 * Insert data into table
 				 **************************/
 				// get data from Yahoo API
-				URL url = new URL(config.getApi().replace("#TABLE", table));
+				URL url = new URL(newLink.replace("#TABLE", table));
 				HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
 				httpconn.setRequestProperty("cookie", config.getCookies());
 				httpconn.connect();
@@ -68,20 +75,18 @@ public class DatabaseInit {
 					LOGGER.log(Level.SEVERE, "buildDatabase fail to create table: " + table);
 					continue;
 				}
-
 				// create a PreparedStatement
-				query = insertStmt.replace("#TABLE", table);
+				query = insertStmt.replace("#DATABASE", config.getDatabase());
+				query = query.replace("#TABLE", table);
 				PreparedStatement ps = conn.prepareStatement(query);
 				int currBatch = 0;
 				int batchSize = 10000;
 
 				BufferedReader in = new BufferedReader(new InputStreamReader(httpconn.getInputStream()));
 				// skip first line
-				in.readLine();
-
 				// read the result line by line
 				String inputLine = in.readLine();
-				while (inputLine != null) {
+				while ((inputLine = in.readLine()) != null) {
 					// split the csv line into data
 					String[] tokens = inputLine.split(",");
 					// clear PreparedStatement Parameters
@@ -91,25 +96,34 @@ public class DatabaseInit {
 					ps.setDate(1, date);
 					for (int i = 1; i < tokens.length; ++i) {
 						if (tokens[i] == null || tokens[i].isEmpty()) {
-							ps.setDouble(i + 1, java.sql.Types.NULL);
+							ps.setNull(i + 1, java.sql.Types.NULL);
 						} else {
 							ps.setDouble(i + 1, Double.parseDouble(tokens[i]));
 						}
 					}
+					
 					ps.addBatch();
 
 					if (currBatch == batchSize) {
-						ps.executeBatch();
 						currBatch = 0;
+						ps.executeBatch();
+						conn.commit();
 					} else {
 						++currBatch;
 					}
 				}
-
+				
+				// if there are jobs in batch, execute them
+				if (currBatch != 0) {
+					currBatch = 0;
+					ps.executeBatch();
+					conn.commit();
+				}
+				
 				// close BufferedReader after we done with it
 				in.close();
 			} catch (Exception e) {
-				LOGGER.log(Level.SEVERE, "buildDatabase fail with message\n" + e.getMessage());
+				LOGGER.log(Level.SEVERE, "buildDatabase fail with message\n", e);
 			}
 
 		}
