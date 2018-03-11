@@ -54,6 +54,12 @@ public class DatabaseInit {
 			LOGGER.log(Level.INFO, "Building table: " + table);
 			try {
 				/**************************
+				 *  Check if Table Exist
+				 **************************/
+				Statement check = conn.createStatement();
+				check.executeQuery("");
+				
+				/**************************
 				 *  Create Table
 				 **************************/
 				String query = createStmt.replace("#TABLE", table);
