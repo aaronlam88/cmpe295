@@ -1,8 +1,8 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var cors=require('cors');
-var Tasks=require('./routes/Tasks');
+var cors = require('cors');
+var Tasks = require('./routes/Tasks');
 var app = express();
 
 
