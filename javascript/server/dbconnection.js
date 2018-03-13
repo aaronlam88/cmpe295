@@ -1,9 +1,12 @@
 var mysql = require('mysql');
+
+let config = require('./ignore/db_config.json')
+
 var connection = mysql.createPool({
-  host:'cmpe295.cxswepygqy9j.us-west-1.rds.amazonaws.com',
-  user:'cmpe295',
-  password:'cmpe295.sjsu.2018',
-  database:'SP500'
+  host: config.host,
+  user: config.username,
+  password: config.password,
+  database: config.database
 });
 
 module.exports = connection;
