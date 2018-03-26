@@ -23,6 +23,7 @@ public class DatabaseManager {
 			+ "  `Date` DATETIME NOT NULL,\n" + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n"
 			+ "  `Low` DOUBLE NULL,\n" + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n"
 			+ "  `Volume` DOUBLE NULL,\n" + "  PRIMARY KEY (`Date`));";
+	
 	private static String insertStmt = "INSERT INTO `#DATABASE`.`#TABLE` VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 	Connection connection = null;
@@ -102,7 +103,6 @@ public class DatabaseManager {
 						ps.setDouble(i + 1, Double.parseDouble(tokens[i]));
 					}
 				}
-
 				ps.addBatch();
 				ps.clearParameters();
 				if (batchSize <= 0) {
@@ -137,6 +137,8 @@ public class DatabaseManager {
 		if (args.length >= 2) {
 			path_to_config_json = args[2];
 		}
+		
+		insertStmt = insertStmt.replace("#DATABASE", schema);
 
 		DatabaseManager manager = new DatabaseManager(path_to_config_json, schema);
 		long currentDate = manager.startOfDay();
