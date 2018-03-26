@@ -1,7 +1,6 @@
 package databaseManagement;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.Date;
@@ -156,6 +155,7 @@ public class DatabaseManager {
 					YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
 					BufferedReader br = yahooAPI.getData(tablename, lastUpdate, currentDate);
 					manager.insert(tablename, br);
+					manager.updateMetaDataTable(tablename, currentDate);
 				}
 			}
 		} catch (Exception e) {
