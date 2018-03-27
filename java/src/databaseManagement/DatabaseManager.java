@@ -7,8 +7,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,29 +45,43 @@ public class DatabaseManager {
 		}
 	}
 
-	public ResultSet getMetaData() {
-		if (this.metaData == null) {
-			try {
-				String query = "SELECT * FROM StockDatabase.metaData WHERE lastUpdate < CURDATE() - 1;";
-				Statement stmt = connection.createStatement();
-				stmt.executeQuery(query);
-				java.sql.Timestamp date = new java.sql.Timestamp(currentDate*1000);
-				query = "UPDATE `StockDatabase`.`metaData` SET `lastUpdate`='" + date + "', `updateStatus`='"
-						+ 1 + "', `updateDate`='" + date + "' LIMIT 100\n";
-				stmt.executeUpdate(query);
-				connection.commit();
-				this.metaData = stmt.getResultSet();
-			} catch (Exception e) {
-				logger.info(e.getMessage());
+	public ArrayList<Update> getMetaData() {
+		try {
+			String query = "SELECT * FROM StockDatabase.metaData WHERE lastUpdate < CURDATE() - 1;";
+			Statement stmt = connection.createStatement();
+			stmt.executeQuery(query);
+			ResultSet result = stmt.getResultSet();
+			ArrayList<Update> list = new ArrayList<>(maxRun);
+			while (result.next() && maxRun > 0) {
+				String tablename = result.getString(1);
+				long lastUpdate = result.getLong(2);
+				if (lastUpdate != 0) {
+					lastUpdate = result.getDate(2).getTime();
+				}
+				boolean updateStatus = result.getBoolean(3);
+				long updateDate = result.getLong(4);
+				if (updateDate != 0) {
+					updateDate = result.getDate(4).getTime() + 86400; // 86400 = 24 hours in seconds
+				}
+				Update update = new Update(tablename, lastUpdate, updateStatus, updateDate);
+				if (update.shouldUpdate()) {
+					list.add(update);
+					--maxRun;
+				}
 			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info(e.getMessage());
 		}
-		return this.metaData;
+		return null;
 	}
 
 	public void updateMetaDataTable(String table) {
 		try {
-			String query = "UPDATE `StockDatabase`.`metaData` SET `lastUpdate`='" + currentDate + "', `updateStatus`='"
-					+ currentDate + "', `updateDate`='" + currentDate + "' WHERE `Symbol`='" + table + "';\n";
+			Timestamp time = new Timestamp(currentDate * 1000);
+			String query = "UPDATE `StockDatabase`.`metaData` SET `lastUpdate`='" + time + "', `updateStatus`='" + 1
+					+ "', `updateDate`='" + time + "' WHERE `Symbol`='" + table + "';\n";
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate(query);
 			connection.commit();
@@ -141,7 +156,7 @@ public class DatabaseManager {
 	 * @return today start of the day in second
 	 */
 	public static long startOfDay() {
-		return Instant.now().truncatedTo(ChronoUnit.DAYS).toEpochMilli() / 1000;
+		return Instant.now().toEpochMilli() / 1000;
 	}
 
 	public static void main(String[] args) {
@@ -161,28 +176,15 @@ public class DatabaseManager {
 
 		DatabaseManager manager = new DatabaseManager(path_to_config_json, schema);
 		try {
-			ResultSet metaData = manager.getMetaData();
-			while (metaData.next() && maxRun > 0) {
-				String tablename = metaData.getString(1);
-				System.out.println(tablename);
-				long lastUpdate = metaData.getLong(2);
-				if (lastUpdate != 0) {
-					lastUpdate = metaData.getDate(2).getTime();
-				}
-				boolean updateStatus = metaData.getBoolean(3);
-				long updateDate = metaData.getLong(4);
-				if (updateDate != 0) {
-					updateDate = metaData.getDate(4).getTime() + 86400; // 86400 = 24 hours in seconds
-				}
-
-				if (updateStatus == false || (updateStatus == true && updateDate < currentDate)) {
-					--maxRun;
-					 manager.createTable(tablename);
-					 YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
-					 BufferedReader br = yahooAPI.getData(tablename, lastUpdate, currentDate);
-					 manager.insert(tablename, br);
-					 manager.updateMetaDataTable(tablename);
-				}
+			ArrayList<Update> list = manager.getMetaData();
+			for (Update update : list) {
+				manager.updateMetaDataTable(update.symbol);
+			}
+			for (Update update : list) {
+				manager.createTable(update.symbol);
+				YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
+				BufferedReader br = yahooAPI.getData(update.symbol, update.lastUpdate, currentDate);
+				manager.insert(update.symbol, br);
 			}
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
@@ -190,4 +192,23 @@ public class DatabaseManager {
 		logger.info("End DatabaseManager");
 	}
 
+	class Update {
+		public String symbol;
+		public long lastUpdate;
+		public boolean updateStatus;
+		public long updateDate;
+		public long currentDate;
+
+		public Update(String symbol, long lastUpdate, boolean updateStatus, long updateDate) {
+			this.symbol = symbol;
+			this.lastUpdate = lastUpdate;
+			this.updateStatus = updateStatus;
+			this.updateDate = updateDate;
+			this.currentDate = Instant.now().toEpochMilli() / 1000;
+		}
+
+		public boolean shouldUpdate() {
+			return (updateStatus == false || (updateStatus == true && updateDate < currentDate));
+		}
+	}
 }
