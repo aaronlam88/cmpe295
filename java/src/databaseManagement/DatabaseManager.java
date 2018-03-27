@@ -177,11 +177,11 @@ public class DatabaseManager {
 
 				if (updateStatus == false || (updateStatus == true && updateDate < currentDate)) {
 					--maxRun;
-					// manager.createTable(tablename);
-					// YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
-					// BufferedReader br = yahooAPI.getData(tablename, lastUpdate, currentDate);
-					// manager.insert(tablename, br);
-					// manager.updateMetaDataTable(tablename, currentDate);
+					 manager.createTable(tablename);
+					 YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
+					 BufferedReader br = yahooAPI.getData(tablename, lastUpdate, currentDate);
+					 manager.insert(tablename, br);
+					 manager.updateMetaDataTable(tablename);
 				}
 			}
 		} catch (Exception e) {
