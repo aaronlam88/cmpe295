@@ -17,12 +17,15 @@ import com.google.gson.Gson;
 
 public class DatabaseManager {
 	protected static Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
+
 	private static int maxRun = 100;
+	private static long currentDate = startOfDay();
+
 	private static String createTableStmt = "CREATE TABLE `StockDatabase`.`#TABLE` (\n"
 			+ "  `Date` DATETIME NOT NULL,\n" + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n"
 			+ "  `Low` DOUBLE NULL,\n" + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n"
 			+ "  `Volume` DOUBLE NULL,\n" + "  PRIMARY KEY (`Date`));";
-	
+
 	private static String insertStmt = "INSERT INTO `#DATABASE`.`#TABLE` VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 	Connection connection = null;
@@ -44,37 +47,43 @@ public class DatabaseManager {
 	public ResultSet getMetaData() {
 		if (this.metaData == null) {
 			try {
-				String query = "SELECT * FROM StockDatabase.metaData;";
+				String query = "SELECT * FROM StockDatabase.metaData WHERE lastUpdate < CURDATE() - 1;";
 				Statement stmt = connection.createStatement();
 				stmt.executeQuery(query);
+				java.sql.Timestamp date = new java.sql.Timestamp(currentDate*1000);
+				query = "UPDATE `StockDatabase`.`metaData` SET `lastUpdate`='" + date + "', `updateStatus`='"
+						+ 1 + "', `updateDate`='" + date + "' LIMIT 100\n";
+				stmt.executeUpdate(query);
 				connection.commit();
 				this.metaData = stmt.getResultSet();
 			} catch (Exception e) {
-				logger.debug(e.getMessage());
+				logger.info(e.getMessage());
 			}
 		}
 		return this.metaData;
 	}
 
-	public void updateMetaDataTable(String table, long currentTime) {
+	public void updateMetaDataTable(String table) {
 		try {
-			String query = "UPDATE `StockDatabase`.`metaData` SET `lastUpdate`='" + currentTime + "', `updateStatus`='"
-					+ currentTime + "', `updateDate`='" + currentTime + "' WHERE `Symbol`='" + table + "';\n";
+			String query = "UPDATE `StockDatabase`.`metaData` SET `lastUpdate`='" + currentDate + "', `updateStatus`='"
+					+ currentDate + "', `updateDate`='" + currentDate + "' WHERE `Symbol`='" + table + "';\n";
 			Statement stmt = connection.createStatement();
-			stmt.executeQuery(query);
+			stmt.executeUpdate(query);
 			connection.commit();
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
 	}
 
+	/**
+	 * create a table with table name
+	 * 
+	 * @param tablename
+	 */
 	public void createTable(String tablename) {
 		try {
 			String query = createTableStmt.replace("#TABLE", tablename);
 			Statement statement = connection.createStatement();
-			statement.executeUpdate(query);
-
-			query = "TRUNCATE TABLE `" + tablename + "`";
 			statement.executeUpdate(query);
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
@@ -82,6 +91,12 @@ public class DatabaseManager {
 		logger.info("Table " + tablename + " created");
 	}
 
+	/**
+	 * insert data in BufferedRead br into table id by tablename
+	 * 
+	 * @param tablename
+	 * @param br
+	 */
 	public void insert(String tablename, BufferedReader br) {
 		logger.info("Start insert data...");
 		String line = null;
@@ -120,7 +135,12 @@ public class DatabaseManager {
 		logger.info("Done insert for table " + tablename);
 	}
 
-	public long startOfDay() {
+	/**
+	 * get today start of the day epoch time in second
+	 * 
+	 * @return today start of the day in second
+	 */
+	public static long startOfDay() {
 		return Instant.now().truncatedTo(ChronoUnit.DAYS).toEpochMilli() / 1000;
 	}
 
@@ -131,31 +151,37 @@ public class DatabaseManager {
 
 		// if a schema and config path is supply by user, use them
 		if (args.length >= 1) {
-			schema = args[1];
+			schema = args[0];
 		}
 		if (args.length >= 2) {
-			path_to_config_json = args[2];
+			path_to_config_json = args[1];
 		}
-		
+
 		insertStmt = insertStmt.replace("#DATABASE", schema);
 
 		DatabaseManager manager = new DatabaseManager(path_to_config_json, schema);
-		long currentDate = manager.startOfDay();
 		try {
 			ResultSet metaData = manager.getMetaData();
 			while (metaData.next() && maxRun > 0) {
 				String tablename = metaData.getString(1);
+				System.out.println(tablename);
 				long lastUpdate = metaData.getLong(2);
+				if (lastUpdate != 0) {
+					lastUpdate = metaData.getDate(2).getTime();
+				}
 				boolean updateStatus = metaData.getBoolean(3);
-				long updateDate = metaData.getLong(4) + 86400; // 86400 = 24 hours in seconds
+				long updateDate = metaData.getLong(4);
+				if (updateDate != 0) {
+					updateDate = metaData.getDate(4).getTime() + 86400; // 86400 = 24 hours in seconds
+				}
 
-				if (updateStatus == false || updateDate < currentDate) {
+				if (updateStatus == false || (updateStatus == true && updateDate < currentDate)) {
 					--maxRun;
-					manager.createTable(tablename);
-					YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
-					BufferedReader br = yahooAPI.getData(tablename, lastUpdate, currentDate);
-					manager.insert(tablename, br);
-					manager.updateMetaDataTable(tablename, currentDate);
+					// manager.createTable(tablename);
+					// YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
+					// BufferedReader br = yahooAPI.getData(tablename, lastUpdate, currentDate);
+					// manager.insert(tablename, br);
+					// manager.updateMetaDataTable(tablename, currentDate);
 				}
 			}
 		} catch (Exception e) {
