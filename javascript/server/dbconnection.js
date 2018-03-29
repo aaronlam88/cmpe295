@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 
-let config = require('./ignore/db_config.json')
+let config = require('../../ignore/db_config.json')
 
 var connection = mysql.createPool({
   host: config.host,
