@@ -26,6 +26,7 @@ public class YahooAPIConnection {
 			URL url = new URL(link);
 			URLConnection urlConn = url.openConnection();
 			urlConn.setRequestProperty("cookie", "B=dcdfouhd4vdkt&b=3&s=n3; PRF=t%3D%255EGSPC%252BAAPL%252BAMD");
+			logger.info(urlConn.getURL().toString());
 			BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
 			return in;
 		} catch (Exception e) {
