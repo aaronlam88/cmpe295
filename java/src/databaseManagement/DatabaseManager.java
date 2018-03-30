@@ -208,7 +208,8 @@ public class DatabaseManager {
 		}
 
 		public boolean shouldUpdate() {
-			return (updateStatus == false || (updateStatus == true && updateDate < currentDate));
+			int day = 24 * 60 * 60; // (day in second)
+			return (updateStatus == false || (updateStatus == true && updateDate+day < currentDate));
 		}
 	}
 }
