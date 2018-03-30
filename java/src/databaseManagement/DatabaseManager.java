@@ -175,6 +175,7 @@ public class DatabaseManager {
 		insertStmt = insertStmt.replace("#DATABASE", schema);
 
 		DatabaseManager manager = new DatabaseManager(path_to_config_json, schema);
+		YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
 		try {
 			ArrayList<Update> list = manager.getMetaData();
 			for (Update update : list) {
@@ -182,7 +183,6 @@ public class DatabaseManager {
 			}
 			for (Update update : list) {
 				manager.createTable(update.symbol);
-				YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
 				BufferedReader br = yahooAPI.getData(update.symbol, update.lastUpdate, currentDate);
 				manager.insert(update.symbol, br);
 			}
