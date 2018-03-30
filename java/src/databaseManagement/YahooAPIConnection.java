@@ -18,6 +18,9 @@ public class YahooAPIConnection {
 	}
 	
 	public BufferedReader getData(String tableName, long startTime, long endTime) {
+		if (tableName.startsWith("^")) {
+			tableName = tableName.replace("^", "%5E");
+		}
 		try {
 			String link = String.format(api, tableName, startTime, endTime);
 			URL url = new URL(link);
