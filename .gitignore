@@ -30,6 +30,7 @@ node_modules/
 # ignore files #
 ################
 build.xml
+package-lock.json
 
 ######################
 # Logs and databases #
