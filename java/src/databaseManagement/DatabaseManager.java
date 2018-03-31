@@ -122,16 +122,21 @@ public class DatabaseManager {
 			int batchSize = 10000;
 
 			br.readLine();// ignore first line
+			Date lastDate = null;
 			while ((line = br.readLine()) != null) {
 				boolean error = false;
 				ps.clearParameters();
-				System.out.println(line);
 				String tokens[] = line.split(",");
 				if (tokens.length != 7) {
 					continue;
 				}
 				// convert string into sql date
 				Date date = Date.valueOf(tokens[0]);
+				if (date == null || date.equals(lastDate)) {
+					continue;
+				} else {
+					lastDate = date;
+				}
 				ps.setDate(1, date);
 				for (int i = 1; i < tokens.length; ++i) {
 					if (tokens[i] == null || tokens[i].isEmpty() || tokens[i].compareTo("null") == 0
@@ -159,6 +164,7 @@ public class DatabaseManager {
 		} catch (Exception e) {
 			logger.info(e.getMessage());
 		}
+		
 		logger.info("Done insert for table " + tablename);
 	}
 
