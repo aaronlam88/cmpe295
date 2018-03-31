@@ -12,9 +12,11 @@ public class YahooAPIConnection {
 	protected static Logger logger = LoggerFactory.getLogger(YahooAPIConnection.class);
 
 	private String api;
+	private String cookies;
 	
-	public YahooAPIConnection(String api) {
+	public YahooAPIConnection(String api, String cookies) {
 		this.api = api;
+		this.cookies = cookies;
 	}
 	
 	public BufferedReader getData(String tableName, long startTime, long endTime) {
@@ -25,8 +27,7 @@ public class YahooAPIConnection {
 			String link = String.format(api, tableName, startTime, endTime);
 			URL url = new URL(link);
 			URLConnection urlConn = url.openConnection();
-			urlConn.setRequestProperty("cookie", "B=dcdfouhd4vdkt&b=3&s=n3; PRF=t%3D%255EGSPC%252BAAPL%252BAMD");
-			logger.info(urlConn.getURL().toString());
+			urlConn.setRequestProperty("cookie", cookies);
 			BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
 			return in;
 		} catch (Exception e) {
