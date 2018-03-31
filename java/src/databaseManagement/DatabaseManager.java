@@ -120,32 +120,44 @@ public class DatabaseManager {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setFetchSize(10000);
 			int batchSize = 10000;
+
 			br.readLine();// ignore first line
 			while ((line = br.readLine()) != null) {
+				boolean error = false;
+				ps.clearParameters();
+				System.out.println(line);
 				String tokens[] = line.split(",");
-				Date date = Date.valueOf(tokens[0]);// converting string into sql date
+				if (tokens.length != 7) {
+					continue;
+				}
+				// convert string into sql date
+				Date date = Date.valueOf(tokens[0]);
 				ps.setDate(1, date);
 				for (int i = 1; i < tokens.length; ++i) {
-					if (tokens[i] == null || tokens[i].isEmpty()) {
-						ps.setDouble(i + 1, java.sql.Types.NULL);
+					if (tokens[i] == null || tokens[i].isEmpty() || tokens[i].compareTo("null") == 0
+							|| tokens[i].compareTo("0") == 0) {
+						error = true;
+						break;
 					} else {
 						ps.setDouble(i + 1, Double.parseDouble(tokens[i]));
 					}
 				}
+				if (error) {
+					continue;
+				}
 				ps.addBatch();
-				ps.clearParameters();
+				--batchSize;
 				if (batchSize <= 0) {
 					ps.executeBatch();
 					batchSize = 10000;
 				}
-				--batchSize;
 			}
 			br.close();
 			ps.executeBatch();
 			ps.close();
 			connection.commit();
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.info(e.getMessage());
 		}
 		logger.info("Done insert for table " + tablename);
 	}
@@ -175,7 +187,7 @@ public class DatabaseManager {
 		insertStmt = insertStmt.replace("#DATABASE", schema);
 
 		DatabaseManager manager = new DatabaseManager(path_to_config_json, schema);
-		YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api);
+		YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api, manager.config.cookies);
 		try {
 			ArrayList<Update> list = manager.getMetaData();
 			for (Update update : list) {
@@ -209,7 +221,7 @@ public class DatabaseManager {
 
 		public boolean shouldUpdate() {
 			int day = 24 * 60 * 60; // (day in second)
-			return (updateStatus == false || (updateStatus == true && updateDate+day < currentDate));
+			return (updateStatus == false || (updateStatus == true && updateDate + day < currentDate));
 		}
 	}
 }
