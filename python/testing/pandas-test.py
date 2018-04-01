@@ -1,23 +1,126 @@
-import matplotlib.pyplot as plt
-import datetime
-import pandas as pd
+# get config to connect to database
+import json
 
-yhoo = DataReader("yhoo", "yahoo", datetime.datetime(2007, 1, 1), 
-    datetime.datetime(2012,1,1))
+data = json.load(open('../../javascript/server/ignore/db_config.json'))
 
-top = plt.subplot2grid((4,4), (0, 0), rowspan=3, colspan=4)
-top.plot(yhoo.index, yhoo["Close"])
-plt.title('Yahoo Price from 2007 - 2012')
+import mysql.connector
 
-bottom = plt.subplot2grid((4,4), (3,0), rowspan=1, colspan=4)
-bottom.bar(yhoo.index, yhoo['Volume'])
-plt.title('Yahoo Trading Volume')
-
-plt.gcf().set_size_inches(15,8)
+from sklearn import tree
 
 
-mavg = yhoo['30_MA_Open'] = pd.stats.moments.rolling_mean(yhoo['Open'], 30)
-yhoo['30_MA_Open'].tail() 
+config = {
+  'user': data['username'],
+  'password': data['password'],
+  'host': data['host'],
+  'database': data['database'],
+  'raise_on_warnings': True,
+}
 
-mavg = yhoo['30_MA_Open'] = pd.stats.moments.rolling_mean(yhoo['Open'], 30)
-yhoo['30_MA_Open'].tail() 
+cnx = mysql.connector.connect(**config)
+cursor = cnx.cursor()
+
+googl = []
+appl = []
+amzn = []
+fb = []
+
+query = ("SELECT * FROM StockDatabase.AAPL WHERE Date >= %s and Date <= %s;")
+stocks = ['SP500.AAPL', 'SP500.GOOGL', 'SP500.AMZN', 'SP500.FB']
+start_date = '2017-01-01' 
+end_date = '2018-01-01'
+
+cursor.execute(query, (start_date, end_date))
+try:
+    results = cursor.fetchall()
+    
+    for row in results:
+        Date = row[0]
+        Open = row[1]
+        High = row[2]
+        Low = row[3]
+        Close = row[4]
+        Volumn = row[5]
+        appl.append(Close - Open)
+except:
+    print('Error: unable to fecth data')
+
+
+query = ("SELECT * FROM StockDatabase.GOOGL WHERE Date >= %s and Date <= %s;")
+try:
+    cursor.execute(query, (start_date, end_date))
+    results = cursor.fetchall()
+    
+    for row in results:
+        Date = row[0]
+        Open = row[1]
+        High = row[2]
+        Low = row[3]
+        Close = row[4]
+        Volumn = row[5]
+        googl.append(Close - Open)
+except:
+    print('Error: unable to fecth data')
+
+query = ("SELECT * FROM StockDatabase.AMZN WHERE Date >= %s and Date <= %s;")
+
+try:
+    cursor.execute(query, (start_date, end_date))
+    results = cursor.fetchall()
+    
+    for row in results:
+        Date = row[0]
+        Open = row[1]
+        High = row[2]
+        Low = row[3]
+        Close = row[4]
+        Volumn = row[5]
+        amzn.append(Close - Open)
+except:
+    print('Error: unable to fecth data')
+
+
+query = ("SELECT * FROM StockDatabase.FB WHERE Date >= %s and Date <= %s;")
+
+try:
+    cursor.execute(query, (start_date, end_date))
+    results = cursor.fetchall()
+    
+    for row in results:
+        Date = row[0]
+        Open = row[1]
+        High = row[2]
+        Low = row[3]
+        Close = row[4]
+        Volumn = row[5]
+        if Close > Open:
+            fb.append(1)
+        else:
+            fb.append(2)
+except:
+    print('Error: unable to fecth data')
+
+
+
+stocks = list(zip(appl, googl, amzn))
+
+clf = tree.DecisionTreeClassifier()
+
+
+stocks_a = stocks[0:200]
+fb_a = fb[1:201]
+stocks_b = stocks[201:230]
+fb_b = fb[202:231]
+
+clf = clf.fit(stocks_a, fb_a)
+
+count = 0
+
+for idx, val in enumerate(stocks_b):
+
+    if fb_b[idx] == clf.predict([val]):
+        count = count + 1
+
+print(count/len(fb_b))
+
+
+cnx.close()
