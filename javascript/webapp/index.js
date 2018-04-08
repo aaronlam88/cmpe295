@@ -11,11 +11,11 @@ import Searchbox from './components/Searchbox.jsx';
 import Table from './components/Table.jsx';
 
 render(
-    <div>
-        <Layout text='This is from Layout'/>
-        <Button text='This is from Button'/>
-        <Calendar text='This is from Calendar'/>
-        <Searchbox text='This is from Searchbox'/>
-        <Table text='This is from Table'/>
+    <div className='grid-main'>
+        <Layout className="grid-graph" text='This is from Layout'/>
+        <Button className="grid-butto" text='This is from Button'/>
+        {/* <Calendar className text='This is from Calendar'/>
+        <Searchbox className text='This is from Searchbox'/> */}
+        <Table className="grid-table" text='This is from Table'/>
     </div>, 
     document.getElementById('app'));
