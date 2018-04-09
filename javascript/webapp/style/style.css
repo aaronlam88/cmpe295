@@ -19,6 +19,7 @@
     grid-template-rows: auto;
     grid-template-areas:
         "graph-area button-area"
+        "searchbox-area searchbox-area"
         "table-area table-area";
 }
 
@@ -30,19 +31,23 @@
 
 .grid-graph {
     grid-area: graph-area;
-    min-height: 10rem;
-    max-height: 16rem;
+    min-height: 20rem;
+    max-height: 40rem;
+}
+
+.grid-searchbox {
+    grid-area: searchbox-area;
+    height: 1rem;
 }
 
 .grid-table {
     grid-area: table-area;
-    min-height: 10rem;
-    max-height: 16rem;
+    min-height: 20rem;
+    max-height: 40rem;
 }
 
-.grid-button {
+.grid-button-area {
     grid-area: button-area;
-    display: grid;
     grid-template-rows: auto;
     grid-template-areas:
         "winner-button"
