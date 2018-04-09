@@ -1,5 +1,5 @@
 .grid-container {
-    display: subgrid;
+    display: grid;
     grid-template-rows: auto;
     grid-template-areas:
         "header-area"
@@ -15,7 +15,7 @@
 
 .grid-main {
     grid-area: main-area;
-    display: subgrid;
+    display: grid;
     grid-template-rows: auto;
     grid-template-areas:
         "graph-area button-area"
@@ -42,7 +42,7 @@
 
 .grid-button {
     grid-area: button-area;
-    display: subgrid;
+    display: grid;
     grid-template-rows: auto;
     grid-template-areas:
         "winner-button"
