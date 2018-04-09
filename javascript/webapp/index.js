@@ -12,13 +12,27 @@ import Calendar from './components/Calendar.jsx';
 import Layout from './components/Layout.jsx';
 import Searchbox from './components/Searchbox.jsx';
 import Table from './components/Table.jsx';
+import Graph from './components/Graph.jsx';
 
 render(
     <div className='grid-main'>
-        <Layout className="grid-graph" text='This is from Layout'/>
-        <Button className="grid-button" text='This is from Button'/>
-        {/* <Calendar className text='This is from Calendar'/>
-        <Searchbox className text='This is from Searchbox'/> */}
-        <Table className="grid-table" text='This is from Table'/>
+        <Graph className="grid-graph" text='grid-graph'/>
+        <div className="grid-button-area">
+            {/*5 winner buttons */}
+            <Button className="winner-button" text='winner-button'/>
+            <Button className="winner-button" text='winner-button'/>
+            <Button className="winner-button" text='winner-button'/>
+            <Button className="winner-button" text='winner-button'/>
+            <Button className="winner-button" text='winner-button'/>
+            {/*5 loser buttons */}
+            <Button className="loser-button" text='loser-button'/>
+            <Button className="loser-button" text='loser-button'/>
+            <Button className="loser-button" text='loser-button'/>
+            <Button className="loser-button" text='loser-button'/>
+            <Button className="loser-button" text='loser-button'/>
+        </div>
+        {/* <Calendar className text='This is from Calendar'/> */}
+        <Searchbox className="grid-searchbox" text='grid-searchbox'/>
+        <Table className="grid-table" text='grid-table'/>
     </div>, 
     document.getElementById('app'));

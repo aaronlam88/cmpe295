@@ -63,9 +63,7 @@ class Button extends React.Component {
     render() {
         return ( 
             <div className={this.props.className}>
-                <hr/>
-                <span>{this.state.text}</span>
-                <hr/>
+                {this.state.text}
             </div>);
     }
 }
