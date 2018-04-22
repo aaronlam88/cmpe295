@@ -3,6 +3,7 @@ All config such as username, password, or host should be in ignore folder in cur
 Please ask your project manager for this folder or set it up yourself so you can run the project.
 ## config file
 path should be (./ignore/db_config.json)
+```javascript
 {
 	"username": "****",
 	"password": "****",
@@ -14,3 +15,4 @@ path should be (./ignore/db_config.json)
 	"api": "****",
 	"cookies": "****",
 }
+```
