@@ -16,3 +16,18 @@ path should be (./ignore/db_config.json)
 	"cookies": "****",
 }
 ```
+# Webapp
+To run webapp, you will need node and npm installed
+```
+cd javascript/webapp
+npm install
+npm install -g webpack webpack-cli
+npm start
+```
+# Server
+To run server, you will need node and npm installed
+```
+cd javascript/server
+npm install
+node app.js
+```
