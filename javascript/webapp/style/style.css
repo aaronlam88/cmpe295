@@ -1,79 +1,119 @@
 .grid-container {
     display: grid;
-    grid-template-rows: auto;
-    grid-template-areas:
-        "header-area"
-        "main-area"
-        "footer-area";
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    /*background-color: #2196F3;*/
+    padding: 10px;
 }
 
-.grid-header {
-    grid-area: header-area;
-    min-height: 4rem;
-    max-height: 6rem;
+.header {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 30px;
+    width: 100%;
+    font-size: 12px;
+    color: #000000;
+    line-height: 30px;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom right, #189ba3, #BCE59B);
+    text-align: center;
+    clear: both;
+    word-wrap:break-word;
+    font-family: "Titillium Web", serif;
 }
 
-.grid-main {
-    grid-area: main-area;
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-areas:
-        "graph-area button-area"
-        "searchbox-area searchbox-area"
-        "table-area table-area";
+.stockTable {
+    grid-row-start: 1;
+    height:300px;
+    background-color: white;
+    text-align: center;
+    /*padding: 20px 0;*/
+    font-size: 15px;
 }
 
-.grid-footer {
-    grid-area: footer-area;
-    min-height: 4rem;
-    max-height: 6rem;
-    background: #4dffff;
+table {
+    width: 100%;
+    background-color: #fff;
 }
 
-.grid-graph {
-    grid-area: graph-area;
-    min-height: 20rem;
-    max-height: 40rem;
-    background: #ffff80;
+th, td {
+    font-weight: unset;
 }
 
-.grid-searchbox {
-    grid-area: searchbox-area;
-    height: 1rem;
-    background: #e6e6e6;
+.row100.head th {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.grid-table {
-    grid-area: table-area;
-    min-height: 20rem;
-    max-height: 40rem;
-    background: #1aa3ff;
+.row100 td {
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
-.grid-button-area {
-    grid-area: button-area;
-    grid-template-rows: auto;
-    grid-template-areas:
-        "winner-button"
-        "winner-button"
-        "winner-button"
-        "winner-button"
-        "winner-button"
-        "loser-button"
-        "loser-button"
-        "loser-button"
-        "loser-button"
-        "loser-button";
+.table100.ver1 td {
+    font-family: "Titillium Web", serif;
+    font-size: 14px;
+    color: #808080;
+    line-height: 1.4;
 }
 
-.winner-button {
-    grid-area: winner-button;
-    height: 1rem;
-    background: #5cd65c;
+.table100.ver1 th {
+    font-family: "Titillium Web", serif;
+    font-size: 12px;
+    color: #fff;
+    line-height: 1.4;
+    text-transform: uppercase;
+    background-color: #105759;
 }
 
-.loser-button {
-    grid-area: loser-button;
-    height: 1rem;
-    background: #ff471a;
+.table100.ver1 .row100:hover {
+    background-color: #D7EFF1;
 }
+
+.table100.ver1 .hov-column-ver1 {
+    background-color: #D7EFF1;
+}
+
+.table100.ver1 .hov-column-head-ver1 {
+    background-color: #484848 !important;
+}
+
+.table100.ver1 .row100 td:hover {
+    background-color: #189ba3;
+    color: #fff;
+}
+
+.prediction {
+    grid-row-start: 1;
+    /*background-color: lightgoldenrodyellow;*/
+    text-align: left;
+    padding: 0 20px ;
+    font-size: 15px;
+    font-family: "Titillium Web", serif;
+}
+
+.graph {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height:280px;
+    background-color: lightblue;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 15px;
+}
+
+footer {
+    height: 30px;
+    width: 100%;
+    font-size: 12px;
+    color: #fff;
+    line-height: 30px;
+    box-sizing: border-box;
+    background-color: #28292B;
+    text-align: center;
+    clear: both;
+    word-wrap:break-word;
+    font-family: "Titillium Web", serif;
+}
+
+
