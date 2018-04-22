@@ -47,6 +47,11 @@ module.exports = {
                     presets: ["es2015", "react"]
                 },
                 // options for the loader
+            },
+            {
+                test: /\.css$/,
+                exclude: [/node_modules/],
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
@@ -56,6 +61,6 @@ module.exports = {
         inline: true,
         contentBase: '.',
         host: '0.0.0.0',
-        port: 8080,
+        port: 9080,
     }
 }
