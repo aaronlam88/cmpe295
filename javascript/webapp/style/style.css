@@ -1,0 +1,79 @@
+.grid-container {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "header-area"
+        "main-area"
+        "footer-area";
+}
+
+.grid-header {
+    grid-area: header-area;
+    min-height: 4rem;
+    max-height: 6rem;
+}
+
+.grid-main {
+    grid-area: main-area;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "graph-area button-area"
+        "searchbox-area searchbox-area"
+        "table-area table-area";
+}
+
+.grid-footer {
+    grid-area: footer-area;
+    min-height: 4rem;
+    max-height: 6rem;
+    background: #4dffff;
+}
+
+.grid-graph {
+    grid-area: graph-area;
+    min-height: 20rem;
+    max-height: 40rem;
+    background: #ffff80;
+}
+
+.grid-searchbox {
+    grid-area: searchbox-area;
+    height: 1rem;
+    background: #e6e6e6;
+}
+
+.grid-table {
+    grid-area: table-area;
+    min-height: 20rem;
+    max-height: 40rem;
+    background: #1aa3ff;
+}
+
+.grid-button-area {
+    grid-area: button-area;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "winner-button"
+        "winner-button"
+        "winner-button"
+        "winner-button"
+        "winner-button"
+        "loser-button"
+        "loser-button"
+        "loser-button"
+        "loser-button"
+        "loser-button";
+}
+
+.winner-button {
+    grid-area: winner-button;
+    height: 1rem;
+    background: #5cd65c;
+}
+
+.loser-button {
+    grid-area: loser-button;
+    height: 1rem;
+    background: #ff471a;
+}
