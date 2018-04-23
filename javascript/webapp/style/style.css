@@ -83,6 +83,12 @@ th, td {
     color: #fff;
 }
 
+.table a
+{
+    display:block;
+    text-decoration:none;
+}
+
 .prediction {
     grid-row-start: 1;
     /*background-color: lightgoldenrodyellow;*/
@@ -114,6 +120,13 @@ footer {
     clear: both;
     word-wrap:break-word;
     font-family: "Titillium Web", serif;
+}
+
+hr {
+    height: 1px;
+    color: #123455;
+    background-color: #551c2e;
+    border: none;
 }
 
 
