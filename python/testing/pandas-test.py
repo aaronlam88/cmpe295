@@ -1,7 +1,7 @@
 # get config to connect to database
 import json
 
-data = json.load(open('../../javascript/server/ignore/db_config.json'))
+data = json.load(open('../../ignore/db_config.json'))
 
 import mysql.connector
 
