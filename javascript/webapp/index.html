@@ -1,102 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
+<meta charset="utf-8"/>
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="./style/style.css">
     <title>Stock Prediction</title>
 </head>
 
-<body>
-    <div class="header">Apply Machine Learning for Stock Price Prediction</div>
-    <div class="grid-container">
-        <div class="stockTable table100 ver1 m-b-110">
-            <table data-vertable="ver1">
-                <thead>
-                <tr class="row100 head">
-                    <th class="column100 column1" data-column="column1">Open</th>
-                    <th class="column100 column2" data-column="column2">Close</th>
-                    <th class="column100 column3" data-column="column3">High</th>
-                    <th class="column100 column4" data-column="column4">Low</th>
-                    <th class="column100 column5" data-column="column5">Volume</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="row100">
-                    <td class="column100 column1" data-column="column1">8:00 AM</td>
-                    <td class="column100 column2" data-column="column2">5:00 PM</td>
-                    <td class="column100 column3" data-column="column3">--</td>
-                    <td class="column100 column4" data-column="column4">--</td>
-                    <td class="column100 column5" data-column="column5">100</td>
-                </tr>
-                <tr class="row100">
-                    <td class="column100 column1" data-column="column1">8:00 AM</td>
-                    <td class="column100 column2" data-column="column2">5:00 PM</td>
-                    <td class="column100 column3" data-column="column3">--</td>
-                    <td class="column100 column4" data-column="column4">--</td>
-                    <td class="column100 column5" data-column="column5">100</td>
-                </tr>
-                <tr class="row100">
-                    <td class="column100 column1" data-column="column1">8:00 AM</td>
-                    <td class="column100 column2" data-column="column2">5:00 PM</td>
-                    <td class="column100 column3" data-column="column3">--</td>
-                    <td class="column100 column4" data-column="column4">--</td>
-                    <td class="column100 column5" data-column="column5">100</td>
-                </tr>
-                <tr class="row100">
-                    <td class="column100 column1" data-column="column1">8:00 AM</td>
-                    <td class="column100 column2" data-column="column2">5:00 PM</td>
-                    <td class="column100 column3" data-column="column3">--</td>
-                    <td class="column100 column4" data-column="column4">--</td>
-                    <td class="column100 column5" data-column="column5">100</td>
-                </tr>
-                <tr class="row100">
-                    <td class="column100 column1" data-column="column1">8:00 AM</td>
-                    <td class="column100 column2" data-column="column2">5:00 PM</td>
-                    <td class="column100 column3" data-column="column3">--</td>
-                    <td class="column100 column4" data-column="column4">--</td>
-                    <td class="column100 column5" data-column="column5">100</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="prediction">
-            <h3>Top 5 Gainers</h3>
-            <hr>
-            <table>
-                <tr>
-                    <th><a href="detail.html">Company AAA</a></th>
-                    <th>5.65</th>
-                    <th>+1.7%</th>
-                </tr>
-                <tr>
-                    <td>Company BBB</td>
-                    <td>3.22</td>
-                    <td>+1.23%</td>
-                </tr>
-                <tr>
-                    <td>Company CCC</td>
-                    <td>2.43</td>
-                    <td>+0.92%</td>
-                </tr>
-                <tr>
-                    <td>Company DDD</td>
-                    <td>1.37</td>
-                    <td>+0.33%</td>
-                </tr>
-                <tr>
-                    <td>Company EEE</td>
-                    <td>1.22</td>
-                    <td>+0.00%</td>
-                </tr>
-            </table>
-            <h3>Top 5 Losers</h3>
-        </div>
-
-        <div class="graph">graph</div>
-    </div>
-    <footer>Copyright © 2018 SJSU Apply Machine Learning for Stock Price Prediction Group. All rights reserved</footer>
-
+<body class="grid-container">
+    <header>HEADER</header>
+    <div id=app></div>
+    <footer>FOOTER</footer>
 </body>
+
+<script src="bundle.js"></script>
 </html>
