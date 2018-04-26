@@ -61,7 +61,7 @@ class Calendar extends React.Component {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-        return ( 
+        return (
             <div>
                 <hr/>
                 <span>{this.state.text}</span>
