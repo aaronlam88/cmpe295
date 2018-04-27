@@ -102,7 +102,7 @@ th, td {
     grid-column-start: 1;
     grid-column-end: 3;
     height:280px;
-    background-color: lightblue;
+    /*background-color: lightblue;*/
     text-align: center;
     padding: 20px 0;
     font-size: 15px;
