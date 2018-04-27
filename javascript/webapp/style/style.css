@@ -15,7 +15,8 @@
     color: #000000;
     line-height: 30px;
     box-sizing: border-box;
-    background: linear-gradient(to bottom right, #189ba3, #BCE59B);
+    /*background: linear-gradient(to bottom right, #189ba3, #BCE59B);*/
+    background: #e6e6e6;
     text-align: center;
     clear: both;
     word-wrap:break-word;
@@ -96,6 +97,14 @@ th, td {
     padding: 0 20px ;
     font-size: 15px;
     font-family: "Titillium Web", serif;
+}
+
+a:link {
+    color: #189ba3;
+}
+
+a:visited {
+    color: #137880;
 }
 
 .graph {
