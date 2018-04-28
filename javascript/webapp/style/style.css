@@ -107,9 +107,9 @@ a:link {
     color: #189ba3;
 }
 
-a:visited {
-    color: #137880;
-}
+/*a:visited {*/
+    /*color: #137880;*/
+/*}*/
 
 .prediction_gainer {
     background-color: #189ba3;
@@ -159,5 +159,7 @@ hr {
     background-color: #551c2e;
     border: none;
 }
+
+/*Detail Page CSS*/
 
 
