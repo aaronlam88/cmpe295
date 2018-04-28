@@ -1,3 +1,7 @@
+p {
+    font-family: "Titillium Web", serif;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: auto auto;
@@ -105,6 +109,24 @@ a:link {
 
 a:visited {
     color: #137880;
+}
+
+.prediction_gainer {
+    background-color: #189ba3;
+    color: #ffffff;
+    text-align: center;
+}
+
+.prediction_loser {
+    background-color: #ce7182;
+    color: #ffffff;
+    text-align: center;
+}
+
+.prediction_zero {
+    background-color: #28292B;
+    color: #ffffff;
+    text-align: center;
 }
 
 .graph {
