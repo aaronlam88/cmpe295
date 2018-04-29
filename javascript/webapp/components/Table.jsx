@@ -10,7 +10,7 @@ class Table extends React.Component {
         super(props);
         this.state = {
             text: props.text,
-            data: {}
+            data: {},
         };
 
         $.get(
@@ -74,9 +74,25 @@ class Table extends React.Component {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
+        let data = $.map(this.state.data, function(value, index) {
+            return [value];
+        });
+
         return ( 
-            <div className={this.props.className}>
-                {this.state.data.length}
+            <div>
+                <ReactTable
+                    data={data}
+                    columns={[
+                        {
+                            Header: "Date",
+                            accessor: "Date"
+                        },
+                        {
+                            Header: "Open",
+                            accessor: "Open"
+                        }
+                    ]}
+                />
             </div>);
     }
 }
