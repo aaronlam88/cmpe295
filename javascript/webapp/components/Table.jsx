@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import $ from 'jquery';
+import ReactTable from "react-table";
 
 class Table extends React.Component {
     // init setup, only call once when component is created
@@ -8,7 +10,18 @@ class Table extends React.Component {
         super(props);
         this.state = {
             text: props.text,
+            data: {},
         };
+
+        $.get(
+            "http://54.219.174.5:8081/Stocks/AAL/2009-01-02/2018-01-02",
+        ).done( (data) => {
+            this.setState({data: data});
+        }).fail(function (data) {
+            console.log('fail');
+        }).always(function (data) {
+            console.log(data);
+        });
     }
 
     // call before component is mounted to the dom
@@ -19,7 +32,7 @@ class Table extends React.Component {
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-
+        
     }
 
     // when a new props is passed down from parents, 
@@ -61,9 +74,25 @@ class Table extends React.Component {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
+        let data = $.map(this.state.data, function(value, index) {
+            return [value];
+        });
+
         return ( 
-            <div className={this.props.className}>
-                {this.state.text}
+            <div>
+                <ReactTable
+                    data={data}
+                    columns={[
+                        {
+                            Header: "Date",
+                            accessor: "Date"
+                        },
+                        {
+                            Header: "Open",
+                            accessor: "Open"
+                        }
+                    ]}
+                />
             </div>);
     }
 }
