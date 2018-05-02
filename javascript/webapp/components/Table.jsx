@@ -109,6 +109,7 @@ class Table extends React.Component {
                             accessor: "Volume"
                         }
                     ]}
+                    defaultPageSize={10}
                 />
             </div>);
     }

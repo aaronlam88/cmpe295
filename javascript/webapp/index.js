@@ -14,6 +14,9 @@ import style from './style/style.css';
 import Table from './components/Table.jsx';
 // import Graph from './components/Graph.jsx';
 
+var d = new Date();
+document.getElementById("currentDate").innerHTML = d;
+
 render(
     <div className='grid-main'>
         <Table className="grid-table" text='grid-table'/>
