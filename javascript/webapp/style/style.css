@@ -2,164 +2,33 @@ p {
     font-family: "Titillium Web", serif;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 10px;
-    /*background-color: #2196F3;*/
-    padding: 10px;
-}
-
-.header {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    height: 30px;
-    width: 100%;
-    font-size: 12px;
-    color: #000000;
-    line-height: 30px;
-    box-sizing: border-box;
-    /*background: linear-gradient(to bottom right, #189ba3, #BCE59B);*/
-    background: #e6e6e6;
-    text-align: center;
-    clear: both;
-    word-wrap:break-word;
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: DodgerBlue;
     font-family: "Titillium Web", serif;
 }
 
-.stockTable {
-    grid-row-start: 1;
-    height:300px;
+.flex-container > div {
+    margin: 10px;
+    text-align: center;
+}
+
+.headerFooter {
+    width: 100%;
+    line-height: 40px;
+    background-color: #28292B;
+    color: white;
+}
+
+.test2 {
+    width: 100%;
+    flex-flow: row wrap;
     background-color: white;
-    text-align: center;
-    /*padding: 20px 0;*/
-    font-size: 15px;
+    justify-content: center;
+    line-height: 20px;
 }
 
-table {
-    width: 100%;
-    background-color: #fff;
+.test3 {
+    width: 48%;
 }
-
-th, td {
-    font-weight: unset;
-}
-
-.row100.head th {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.row100 td {
-    padding-top: 8px;
-    padding-bottom: 8px;
-}
-
-.table100.ver1 td {
-    font-family: "Titillium Web", serif;
-    font-size: 14px;
-    color: #808080;
-    line-height: 1.4;
-}
-
-.table100.ver1 th {
-    font-family: "Titillium Web", serif;
-    font-size: 12px;
-    color: #fff;
-    line-height: 1.4;
-    text-transform: uppercase;
-    background-color: #105759;
-}
-
-.table100.ver1 .row100:hover {
-    background-color: #D7EFF1;
-}
-
-.table100.ver1 .hov-column-ver1 {
-    background-color: #D7EFF1;
-}
-
-.table100.ver1 .hov-column-head-ver1 {
-    background-color: #484848 !important;
-}
-
-.table100.ver1 .row100 td:hover {
-    background-color: #189ba3;
-    color: #fff;
-}
-
-.table a
-{
-    display:block;
-    text-decoration:none;
-}
-
-.prediction {
-    grid-row-start: 1;
-    /*background-color: lightgoldenrodyellow;*/
-    text-align: left;
-    padding: 0 20px ;
-    font-size: 15px;
-    font-family: "Titillium Web", serif;
-}
-
-a:link {
-    color: #189ba3;
-}
-
-/*a:visited {*/
-    /*color: #137880;*/
-/*}*/
-
-.prediction_gainer {
-    background-color: #189ba3;
-    color: #ffffff;
-    text-align: center;
-}
-
-.prediction_loser {
-    background-color: #ce7182;
-    color: #ffffff;
-    text-align: center;
-}
-
-.prediction_zero {
-    background-color: #28292B;
-    color: #ffffff;
-    text-align: center;
-}
-
-.graph {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    height:280px;
-    /*background-color: lightblue;*/
-    text-align: center;
-    padding: 20px 0;
-    font-size: 15px;
-}
-
-footer {
-    height: 30px;
-    width: 100%;
-    font-size: 12px;
-    color: #fff;
-    line-height: 30px;
-    box-sizing: border-box;
-    background-color: #28292B;
-    text-align: center;
-    clear: both;
-    word-wrap:break-word;
-    font-family: "Titillium Web", serif;
-}
-
-hr {
-    height: 1px;
-    color: #123455;
-    background-color: #551c2e;
-    border: none;
-}
-
-/*Detail Page CSS*/
-
-
