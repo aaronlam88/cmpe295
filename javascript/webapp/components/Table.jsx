@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 class Table extends React.Component {
     // init setup, only call once when component is created
@@ -14,7 +15,7 @@ class Table extends React.Component {
         };
 
         $.get(
-            "http://54.219.174.5:8081/Stocks/AAL/2009-01-02/2018-01-02",
+            "http://54.219.174.5:9081/Stocks/AMD/2009-01-02/2018-01-02",
         ).done( (data) => {
             this.setState({data: data});
         }).fail(function (data) {
@@ -90,6 +91,22 @@ class Table extends React.Component {
                         {
                             Header: "Open",
                             accessor: "Open"
+                        },
+                        {
+                            Header: "High",
+                            accessor: "High"
+                        },
+                        {
+                            Header: "Low",
+                            accessor: "Low"
+                        },
+                        {
+                            Header: "Close",
+                            accessor: "Close"
+                        },
+                        {
+                            Header: "Volume",
+                            accessor: "Volume"
                         }
                     ]}
                 />
