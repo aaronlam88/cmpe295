@@ -9,7 +9,7 @@ var $ = require('jquery')(window);
 console.log('==== benchmark get api ====');
 console.time('jquery');
 $.get(
-    "http://54.219.174.5:9081/Stocks/AAL/2009-01-02/2018-01-02",
+    "http://54.219.174.5:8081/Stocks/AAL/2009-01-02/2018-01-02",
 ).done(function (data) {
     console.log(data.length);
 }).fail(function (data) {
