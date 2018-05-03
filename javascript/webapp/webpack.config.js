@@ -5,63 +5,61 @@ module.exports = {
     // set up mode 
 
     entry: './index.js',// string | object | array
-    // here the application starts executing
+    // Here the application starts executing
     // and webpack starts bundling
-
+    
     output: {
         // options related to how webpack emits results
-        path: path.resolve(__dirname, 'build'), // string
+        path: path.resolve(__dirname,'build'), // string
         // the target directory for all output files
         // must be an absolute path (use the Node.js path module)
-
+        
         filename: "bundle.js", // string
         // the filename template for entry chunks
 
         publicPath: "/", // string
         // the url to the output directory resolved relative to the HTML page
+
     },
 
     module: {
         // configuration regarding modules
+
         rules: [
             // rules for modules (configure loaders, parser options, etc.)
             {
-                test: /\.js$/,
-                exclude: [/node_modules/],
-                loader: "babel-loader", // the loader which should be applied, it'll be resolved relative to the context
+                test: /\.jsx?$/,
+                exclude: [
+                    // path.resolve(__dirname, "app/demo-files")
+                    /node_modules/
+                ],
+                // these are matching conditions, each accepting a regular expression or string
+                // test and include have the same behavior, both must be matched
+                // exclude must not be matched (takes preferrence over test and include)
+                // Best practices:
+                // - Use RegExp only in test and for filename matching
+                // - Use arrays of absolute paths in include and exclude
+                // - Try to avoid exclude and prefer include
+                loader: "babel-loader",
+                // the loader which should be applied, it'll be resolved relative to the context
+
                 options: {
-                    // let webpack know that we are using es6 and react
                     presets: ["es2015", "react"]
                 },
                 // options for the loader
             },
-
-            // to load css files
             {
                 test: /\.css$/,
-                exclude: [/node_modules/],
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-
-                        loader: 'css-loader',
-                        options: {
-                            minimize: true
-                        }
-                    }
-                ]
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
 
-    // config for server
     devServer: {
-        compress: true, // enable gzip compression for everything served
-        inline: true, // toggle inline or iframe mode
-        contentBase: '.', // tell the server where to serve content from
+        compress: true,
+        inline: true,
+        contentBase: '.',
         host: '0.0.0.0',
-        port: 9080,
+        port: 8080,
     }
 }
