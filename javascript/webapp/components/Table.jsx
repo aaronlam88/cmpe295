@@ -94,9 +94,7 @@ class Table extends React.Component {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-        let data = $.map(this.state.data, function (value, index) {
-            return [value];
-        });
+        let data = Array.from(this.state.data);
 
         return (
             <div>
