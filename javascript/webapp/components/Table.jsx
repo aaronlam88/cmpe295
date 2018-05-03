@@ -1,7 +1,9 @@
 import React from 'react';
 import $ from 'jquery';
+import API_builder from './utilities/API_builder';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+
 
 class Table extends React.Component {
     // init setup, only call once when component is created
@@ -9,15 +11,26 @@ class Table extends React.Component {
     // component will change base on state
     constructor(props) {
         super(props);
+
+
+        // create state from props that pass down from parent
         this.state = {
-            text: props.text,
+            tableName: props.tableName,
+            startTime: props.startTime,
+            endTime: props.endTime,
             data: {},
         };
 
+        let url = API_builder.getURLFromPrams(this.state.tableName, 
+            this.state.startTime, 
+            this.state.endTime);
+        console.log(url);
+
         $.get(
-            "http://54.219.174.5:9081/Stocks/AMD/2009-01-02/2018-01-02",
-        ).done( (data) => {
-            this.setState({data: data});
+            url,
+        ).done((data) => {
+            this.setState({ data: data });
+            this.forceUpdate(); // need forceUpdate to by pass shouldUpdate
         }).fail(function (data) {
             console.log('fail');
         }).always(function (data) {
@@ -25,31 +38,37 @@ class Table extends React.Component {
         });
     }
 
+    // All componentWill* functions will be drop from React on v1.7
     // call before component is mounted to the dom
-    componentWillMount() {
+    // componentWillMount() {
 
+    // }
+
+    // when a new props is passed down from parents, 
+    // this function will be call first
+    // componentWillReceiveProps(nextProps) {
+
+    // }
+
+    // call before component update
+    // componentWillUpdate(nextProps, nextState) {
+
+    // }
+
+    // check if component should re-render
+    shouldComponentUpdate(nextProps, nextState) {
+        // if not a new tableName or new time range, should not update
+        if (nextProps.tableName === this.state.tableName &&
+            nextProps.startTime === this.state.startTime &&
+            nextProps.endTime === this.state.endTime) {
+            return false;
+        }
+        return true;
     }
 
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-        
-    }
-
-    // when a new props is passed down from parents, 
-    // this function will be call first
-    componentWillReceiveProps(nextProps) {
-
-    }
-
-    // check if component should re-render
-    // ignore from now
-    // shouldComponentUpdate(nextProps, nextState) {
-
-    // }
-
-    // call before component update
-    componentWillUpdate(nextProps, nextState) {
 
     }
 
@@ -75,11 +94,11 @@ class Table extends React.Component {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-        let data = $.map(this.state.data, function(value, index) {
+        let data = $.map(this.state.data, function (value, index) {
             return [value];
         });
 
-        return ( 
+        return (
             <div>
                 <ReactTable
                     data={data}
@@ -103,6 +122,10 @@ class Table extends React.Component {
                         {
                             Header: "Close",
                             accessor: "Close"
+                        },
+                        {
+                            Header: "Adj Close",
+                            accessor: "Adj Close"
                         },
                         {
                             Header: "Volume",

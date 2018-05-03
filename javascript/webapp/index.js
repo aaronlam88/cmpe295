@@ -19,6 +19,10 @@ document.getElementById("currentDate").innerHTML = d;
 
 render(
     <div className='grid-main'>
-        <Table className="grid-table" text='grid-table'/>
+        <Table className="grid-table"
+            tableName='GOOG'
+            startTime='2012-01-02'
+            endTime='2013-01-02'
+        />
     </div>, 
     document.getElementById('app'));
