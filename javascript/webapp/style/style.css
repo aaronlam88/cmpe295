@@ -30,8 +30,12 @@ p {
     line-height: 20px;
 }
 
-.half {
-    width: 48%;
+.table_area {
+    width: 58%;
+}
+
+.prediction_area {
+    width: 38%;
 }
 
 #currentDate {
