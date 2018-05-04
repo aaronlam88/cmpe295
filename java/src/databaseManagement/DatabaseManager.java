@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,13 +42,16 @@ public class DatabaseManager {
 			this.connection.setAutoCommit(false);
 			this.config = gson.fromJson(new FileReader(path_to_config_json), DatabaseConfig.class);
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.error("[DatabaseManager ERROR] ", e);
 		}
 	}
 
+	/**
+	 * getMetaData to know which table should be update (distributed system)
+	 */
 	public ArrayList<Update> getMetaData() {
 		try {
-			String query = "SELECT * FROM StockDatabase.metaData WHERE lastUpdate < CURDATE() - 1;";
+			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() - 1 ORDER BY Symbol DESC;";
 			Statement stmt = connection.createStatement();
 			stmt.executeQuery(query);
 			ResultSet result = stmt.getResultSet();
@@ -71,8 +75,7 @@ public class DatabaseManager {
 			}
 			return list;
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info(e.getMessage());
+			logger.error("[getMetaData ERROR] ", e);
 		}
 		return null;
 	}
@@ -80,13 +83,13 @@ public class DatabaseManager {
 	public void updateMetaDataTable(String table) {
 		try {
 			Timestamp time = new Timestamp(currentDate * 1000);
-			String query = "UPDATE `StockDatabase`.`metaData` SET `lastUpdate`='" + time + "', `updateStatus`='" + 1
+			String query = "UPDATE `4update` SET `lastUpdate`='" + time + "', `updateStatus`='" + 1
 					+ "', `updateDate`='" + time + "' WHERE `Symbol`='" + table + "';\n";
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate(query);
 			connection.commit();
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.error("[updateMetaDataTable ERROR] ", e);
 		}
 	}
 
@@ -101,7 +104,7 @@ public class DatabaseManager {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(query);
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.error("[createTable ERROR] ", e);
 		}
 		logger.info("Table " + tablename + " created");
 	}
@@ -113,6 +116,12 @@ public class DatabaseManager {
 	 * @param br
 	 */
 	public void insert(String tablename, BufferedReader br) {
+		// if we reach the API limit, we may get br == null, nothing we can do here
+		if (br == null) {
+			logger.error("NULL BufferedReader");
+			return;
+		}
+
 		logger.info("Start insert data...");
 		String line = null;
 		try {
@@ -122,11 +131,14 @@ public class DatabaseManager {
 			int batchSize = 10000;
 
 			br.readLine();// ignore first line
-			Date lastDate = null;
+			Date lastDate = null; // lastDate use to avoid duplicated Date -> dup key error
+			// read file line by line
 			while ((line = br.readLine()) != null) {
 				boolean error = false;
 				ps.clearParameters();
+				// split the line into 7 fields
 				String tokens[] = line.split(",");
+				// error check
 				if (tokens.length != 7) {
 					continue;
 				}
@@ -138,7 +150,9 @@ public class DatabaseManager {
 					lastDate = date;
 				}
 				ps.setDate(1, date);
+				// covert other fields to double
 				for (int i = 1; i < tokens.length; ++i) {
+					// check for error in each field
 					if (tokens[i] == null || tokens[i].isEmpty() || tokens[i].compareTo("null") == 0
 							|| tokens[i].compareTo("0") == 0) {
 						error = true;
@@ -147,11 +161,13 @@ public class DatabaseManager {
 						ps.setDouble(i + 1, Double.parseDouble(tokens[i]));
 					}
 				}
+				// do not add insert statement with error to batch
 				if (error) {
 					continue;
 				}
 				ps.addBatch();
 				--batchSize;
+				// execute batch if the we have enough
 				if (batchSize <= 0) {
 					ps.executeBatch();
 					batchSize = 10000;
@@ -162,7 +178,7 @@ public class DatabaseManager {
 			ps.close();
 			connection.commit();
 		} catch (Exception e) {
-			logger.info(e.getMessage());
+			logger.error("insert ERROR", e);
 		}
 		
 		logger.info("Done insert for table " + tablename);
@@ -205,7 +221,7 @@ public class DatabaseManager {
 				manager.insert(update.symbol, br);
 			}
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.error("[main ERROR] " , e);
 		}
 		logger.info("End DatabaseManager");
 	}
@@ -228,6 +244,10 @@ public class DatabaseManager {
 		public boolean shouldUpdate() {
 			int day = 24 * 60 * 60; // (day in second)
 			return (updateStatus == false || (updateStatus == true && updateDate + day < currentDate));
+		}
+
+		public String toString() {
+			return symbol + "|" + lastUpdate + "|" + updateStatus + "|" + updateDate;
 		}
 	}
 }
