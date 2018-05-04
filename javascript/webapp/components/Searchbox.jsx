@@ -68,6 +68,7 @@ class Searchbox extends React.Component {
                     <div class="searchArea">
                         <input type="text"
                                placeholder="Search for..."
+                               alt="inputVal"
                                ref={input => this.search = input}
                                onchange={this.handleInputChange}
                         />
