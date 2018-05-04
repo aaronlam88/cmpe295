@@ -56,7 +56,7 @@
             <classpath refid="java.classpath"/>
         </junit>
     </target>
-    <target name="DatabaseConnectionTest (1)">
+    <target name="DatabaseConnectionTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
@@ -65,7 +65,7 @@
             <classpath refid="java.classpath"/>
         </junit>
     </target>
-    <target name="DatabaseManager (1)">
+    <target name="DatabaseManager">
         <java classname="databaseManagement.DatabaseManager" failonerror="true" fork="yes">
             <classpath refid="java.classpath"/>
         </java>
