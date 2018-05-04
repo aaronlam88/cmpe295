@@ -1,3 +1,5 @@
+/*index page starts here*/
+
 p {
     font-family: "Titillium Web", serif;
 }
@@ -32,10 +34,14 @@ p {
 
 .table_area {
     width: 58%;
+    flex: 1 1 680px;
+    order: 2;
 }
 
 .prediction_area {
     width: 38%;
+    flex: 1 1 300px;
+    order: 1;
 }
 
 #currentDate {
@@ -126,3 +132,43 @@ h3 {
     color: white;
     font-size: 12px;
 }
+
+/*Search box starts here*/
+
+.flex_search {
+    display: flex;
+}
+
+.flex_search .searchArea {
+    flex: 1;
+}
+
+.flex_search .searchBtn {
+    flex: 0;
+    margin: 0 0 0 1rem;
+}
+
+.searchBtn {
+    background-color: #249ba2;
+    color: white;
+    /*border: 2px solid #249ba2;*/
+    opacity: 0.6;
+}
+
+.searchBtn:hover {
+    /*background-color: #249ba2;*/
+    /*color: green;*/
+    opacity: 1
+}
+
+.flex_search div input {
+    padding: .5em 1em;
+    width: 98%;
+}
+
+.flex_search div button {
+    padding: .5em 1em;
+    white-space: nowrap;
+    font-family: "Titillium Web", serif;
+}
+
