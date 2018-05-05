@@ -1,4 +1,4 @@
-/*index page starts here*/
+/* ----------index page starts here ----------*/
 
 p {
     font-family: "Titillium Web", serif;
@@ -133,7 +133,7 @@ h3 {
     font-size: 12px;
 }
 
-/*Search box starts here*/
+/*---------- Search box.jsx starts here ----------*/
 
 .flex_search {
     display: flex;
@@ -175,3 +175,31 @@ h3 {
     font-family: "Titillium Web", serif;
 }
 
+/*---------- Calendar.jsx starts here ----------*/
+
+.flex_calendar {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #f0f8ff !important;
+    color: #249ba2;
+}
+.InputFromTo .DayPicker-Day {
+    border-radius: 0 !important;
+}
+.InputFromTo .DayPicker-Day--start {
+    border-top-left-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+}
+.InputFromTo .DayPicker-Day--end {
+    border-top-right-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+}
+.InputFromTo .DayPickerInput-Overlay {
+    width: 550px;
+}
+.InputFromTo-to .DayPickerInput-Overlay {
+    margin-left: -198px;
+}
