@@ -8,7 +8,7 @@ import style from './style/style.css';
 
 // components
 // import Button from './components/Button.jsx';
-// import Calendar from './components/Calendar.jsx';
+import Calendar from './components/Calendar.jsx';
 // import Layout from './components/Layout.jsx';
 import Searchbox from './components/Searchbox.jsx';
 import Table from './components/Table.jsx';
@@ -21,10 +21,11 @@ document.getElementById("currentDate").innerHTML = s + d;
 render(
     <div className='grid-main'>
         <Searchbox />
+        <Calendar />
         <Table className="grid-table"
             tableName='GOOG'
             startTime='2012-01-02'
             endTime='2013-01-02'
-        />,
+        />
     </div>,
     document.getElementById('app'));
