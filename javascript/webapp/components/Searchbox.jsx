@@ -62,8 +62,7 @@ class Searchbox extends React.Component {
     // should return a single component
     render() {
         return ( 
-            <div className={this.props.className}>
-                {this.state.text}
+            <div class="mySearch">
                 <section class="flex_search">
                     <div class="searchArea">
                         <input type="text"

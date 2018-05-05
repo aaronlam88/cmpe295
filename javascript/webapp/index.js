@@ -20,8 +20,10 @@ document.getElementById("currentDate").innerHTML = s + d;
 
 render(
     <div className='grid-main'>
-        <Searchbox />
-        <Calendar />
+        <div className="sear_calen">
+            <Searchbox />
+            <Calendar />
+        </div>
         <Table className="grid-table"
             tableName='GOOG'
             startTime='2012-01-02'
