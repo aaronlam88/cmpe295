@@ -8,21 +8,26 @@ import style from './style/style.css';
 
 // components
 // import Button from './components/Button.jsx';
-// import Calendar from './components/Calendar.jsx';
+import Calendar from './components/Calendar.jsx';
 // import Layout from './components/Layout.jsx';
-// import Searchbox from './components/Searchbox.jsx';
+import Searchbox from './components/Searchbox.jsx';
 import Table from './components/Table.jsx';
 // import Graph from './components/Graph.jsx';
 
 var d = new Date();
-document.getElementById("currentDate").innerHTML = d;
+var s = "Today is ";
+document.getElementById("currentDate").innerHTML = s + d;
 
 render(
     <div className='grid-main'>
+        <div className="sear_calen">
+            <Calendar />
+            <Searchbox />
+        </div>
         <Table className="grid-table"
             tableName='GOOG'
             startTime='2012-01-02'
             endTime='2013-01-02'
         />
-    </div>, 
+    </div>,
     document.getElementById('app'));
