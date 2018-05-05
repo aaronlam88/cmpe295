@@ -158,11 +158,11 @@ h3 {
 .searchArea {
     /*flex: 1;*/
     flex: 1 1 450px;
-    text-align: left;
+    text-align: right;
 }
 
 .flex_search {
-    width: 80%;
+    width: 100%;
 }
 
 .flex_search .searchBtn {

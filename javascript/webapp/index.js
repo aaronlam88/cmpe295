@@ -21,8 +21,8 @@ document.getElementById("currentDate").innerHTML = s + d;
 render(
     <div className='grid-main'>
         <div className="sear_calen">
-            <Searchbox />
             <Calendar />
+            <Searchbox />
         </div>
         <Table className="grid-table"
             tableName='GOOG'
