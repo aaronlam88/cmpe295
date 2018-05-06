@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ public class DatabaseManager {
 	private static int maxRun = 100;
 	private static long currentDate = startOfDay();
 
-	private static String createTableStmt = "CREATE TABLE `StockDatabase`.`#TABLE` (\n"
+	private static String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n"
 			+ "  `Date` DATETIME NOT NULL,\n" + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n"
 			+ "  `Low` DOUBLE NULL,\n" + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n"
 			+ "  `Volume` DOUBLE NULL,\n" + "  PRIMARY KEY (`Date`));";
@@ -41,7 +42,7 @@ public class DatabaseManager {
 			this.connection.setAutoCommit(false);
 			this.config = gson.fromJson(new FileReader(path_to_config_json), DatabaseConfig.class);
 		} catch (Exception e) {
-			logger.info("[DatabaseManager ERROR] ", e);
+			logger.error("[DatabaseManager ERROR] ", e);
 		}
 	}
 
@@ -50,7 +51,7 @@ public class DatabaseManager {
 	 */
 	public ArrayList<Update> getMetaData() {
 		try {
-			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() - 1 ORDER BY Symbol DESC;";
+			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY Symbol DESC;";
 			Statement stmt = connection.createStatement();
 			stmt.executeQuery(query);
 			ResultSet result = stmt.getResultSet();
@@ -59,7 +60,7 @@ public class DatabaseManager {
 				String tablename = result.getString(1);
 				long lastUpdate = result.getLong(2);
 				if (lastUpdate != 0) {
-					lastUpdate = result.getDate(2).getTime()/1000;
+					lastUpdate = result.getDate(2).getTime()/1000 + 86400; // add a day
 				}
 				boolean updateStatus = result.getBoolean(3);
 				long updateDate = result.getLong(4);
@@ -74,7 +75,7 @@ public class DatabaseManager {
 			}
 			return list;
 		} catch (Exception e) {
-			logger.info("[getMetaData ERROR] ", e);
+			logger.error("[getMetaData ERROR] ", e);
 		}
 		return null;
 	}
@@ -88,7 +89,7 @@ public class DatabaseManager {
 			stmt.executeUpdate(query);
 			connection.commit();
 		} catch (Exception e) {
-			logger.info("[updateMetaDataTable ERROR] ", e);
+			logger.error("[updateMetaDataTable ERROR] ", e);
 		}
 	}
 
@@ -103,7 +104,7 @@ public class DatabaseManager {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(query);
 		} catch (Exception e) {
-			logger.info("[createTable ERROR] ", e);
+			logger.error("[createTable ERROR] ", e);
 		}
 		logger.info("Table " + tablename + " created");
 	}
@@ -117,7 +118,7 @@ public class DatabaseManager {
 	public void insert(String tablename, BufferedReader br) {
 		// if we reach the API limit, we may get br == null, nothing we can do here
 		if (br == null) {
-			logger.info("NULL BufferedReader");
+			logger.error("NULL BufferedReader");
 			return;
 		}
 
@@ -177,7 +178,7 @@ public class DatabaseManager {
 			ps.close();
 			connection.commit();
 		} catch (Exception e) {
-			logger.info("insert ERROR", e);
+			logger.error("insert ERROR", e);
 		}
 		
 		logger.info("Done insert for table " + tablename);
@@ -220,7 +221,7 @@ public class DatabaseManager {
 				manager.insert(update.symbol, br);
 			}
 		} catch (Exception e) {
-			logger.info("[main ERROR] " , e);
+			logger.error("[main ERROR] " , e);
 		}
 		logger.info("End DatabaseManager");
 	}
@@ -241,12 +242,11 @@ public class DatabaseManager {
 		}
 
 		public boolean shouldUpdate() {
-			int day = 24 * 60 * 60; // (day in second)
-			return (updateStatus == false || (updateStatus == true && updateDate + day < currentDate));
+			return updateStatus == false;
 		}
 
 		public String toString() {
-			return symbol + "|" + lastUpdate + "|" + updateStatus + "|" + updateDate;
+			return symbol + " | " + lastUpdate + " | " + updateStatus + " | " + updateDate + "\n";
 		}
 	}
 }
