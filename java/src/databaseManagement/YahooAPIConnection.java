@@ -31,7 +31,7 @@ public class YahooAPIConnection {
 			BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
 			return in;
 		} catch (Exception e) {
-			logger.debug("Cannot get data for [" + tableName + "] with error" + e.getMessage());
+			logger.info("Cannot get data for [" + tableName + "] with error" + e.getMessage());
 		}
 		return null;
 	}

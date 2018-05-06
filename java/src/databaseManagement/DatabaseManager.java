@@ -23,7 +23,7 @@ public class DatabaseManager {
 	private static int maxRun = 100;
 	private static long currentDate = startOfDay();
 
-	private static String createTableStmt = "CREATE TABLE `StockDatabase`.`#TABLE` (\n"
+	private static String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n"
 			+ "  `Date` DATETIME NOT NULL,\n" + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n"
 			+ "  `Low` DOUBLE NULL,\n" + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n"
 			+ "  `Volume` DOUBLE NULL,\n" + "  PRIMARY KEY (`Date`));";
@@ -51,7 +51,7 @@ public class DatabaseManager {
 	 */
 	public ArrayList<Update> getMetaData() {
 		try {
-			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() - 1 ORDER BY Symbol DESC;";
+			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY Symbol DESC;";
 			Statement stmt = connection.createStatement();
 			stmt.executeQuery(query);
 			ResultSet result = stmt.getResultSet();
@@ -60,12 +60,12 @@ public class DatabaseManager {
 				String tablename = result.getString(1);
 				long lastUpdate = result.getLong(2);
 				if (lastUpdate != 0) {
-					lastUpdate = result.getDate(2).getTime();
+					lastUpdate = result.getDate(2).getTime()/1000 + 86400; // add a day
 				}
 				boolean updateStatus = result.getBoolean(3);
 				long updateDate = result.getLong(4);
 				if (updateDate != 0) {
-					updateDate = result.getDate(4).getTime() + 86400; // 86400 = 24 hours in seconds
+					updateDate = result.getDate(4).getTime()/1000;
 				}
 				Update update = new Update(tablename, lastUpdate, updateStatus, updateDate);
 				if (update.shouldUpdate()) {
@@ -242,12 +242,11 @@ public class DatabaseManager {
 		}
 
 		public boolean shouldUpdate() {
-			int day = 24 * 60 * 60; // (day in second)
-			return (updateStatus == false || (updateStatus == true && updateDate + day < currentDate));
+			return updateStatus == false;
 		}
 
 		public String toString() {
-			return symbol + "|" + lastUpdate + "|" + updateStatus + "|" + updateDate;
+			return symbol + " | " + lastUpdate + " | " + updateStatus + " | " + updateDate + "\n";
 		}
 	}
 }
