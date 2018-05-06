@@ -16,7 +16,7 @@ config = {
 cnx = mysql.connector.connect(**config)
 cursor = cnx.cursor()
 
-table = 'SP500.AAP'
+table = 'AAP'
 end_date = '2018-02-08' 
 start_date = '2018-02-01'
 

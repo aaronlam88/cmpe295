@@ -1,3 +1,5 @@
+/* ----------index page starts here ----------*/
+
 p {
     font-family: "Titillium Web", serif;
 }
@@ -30,8 +32,16 @@ p {
     line-height: 20px;
 }
 
-.half {
-    width: 48%;
+.table_area {
+    width: 58%;
+    flex: 1 1 680px;
+    order: 2;
+}
+
+.prediction_area {
+    width: 38%;
+    flex: 1 1 300px;
+    order: 1;
 }
 
 #currentDate {
@@ -121,4 +131,103 @@ h3 {
     background-color: #28292B;
     color: white;
     font-size: 12px;
+}
+
+.sear_calen {
+    display: flex;
+    flex-direction: row;
+}
+
+/*---------- Search box.jsx starts here ----------*/
+
+.flex_search {
+    display: flex;
+    margin-bottom: 5px;
+    text-align: right;
+}
+
+.mySearch {
+    width:100%;
+    margin-bottom: 5px;
+}
+
+/*.flex_search .searchArea {*/
+    /*!*flex: 1;*!*/
+    /*flex: 1 1 450px;*/
+/*}*/
+.searchArea {
+    /*flex: 1;*/
+    flex: 1 1 450px;
+    text-align: right;
+}
+
+.flex_search {
+    width: 100%;
+}
+
+.flex_search .searchBtn {
+    flex: 0;
+    margin: 0 0 0 1rem;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.searchBtn {
+    background-color: #249ba2;
+    color: white;
+    /*border: 2px solid #249ba2;*/
+    opacity: 0.6;
+}
+
+.searchBtn:hover {
+    /*background-color: #249ba2;*/
+    /*color: green;*/
+    opacity: 1
+}
+
+.flex_search div input {
+    padding: .5em 1em;
+    width: 90%;
+}
+
+.flex_search div button {
+    padding: .5em 1em;
+    white-space: nowrap;
+    font-family: "Titillium Web", serif;
+}
+
+/*---------- Calendar.jsx starts here ----------*/
+
+.flex_calendar {
+    display: flex;
+    margin-bottom: 5px;
+    text-align: right;
+    /*flex: 1 1 450px;*/
+}
+
+.InputFromTo {
+    display: flex;
+    flex: 1 1 450px;
+}
+
+.InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #f0f8ff !important;
+    color: #249ba2;
+}
+.InputFromTo .DayPicker-Day {
+    border-radius: 0 !important;
+}
+.InputFromTo .DayPicker-Day--start {
+    border-top-left-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+}
+.InputFromTo .DayPicker-Day--end {
+    border-top-right-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+}
+.InputFromTo .DayPickerInput-Overlay {
+    width: 550px;
+}
+.InputFromTo-to .DayPickerInput-Overlay {
+    margin-left: -198px;
 }
