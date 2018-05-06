@@ -59,12 +59,12 @@ public class DatabaseManager {
 				String tablename = result.getString(1);
 				long lastUpdate = result.getLong(2);
 				if (lastUpdate != 0) {
-					lastUpdate = result.getDate(2).getTime();
+					lastUpdate = result.getDate(2).getTime()/1000;
 				}
 				boolean updateStatus = result.getBoolean(3);
 				long updateDate = result.getLong(4);
 				if (updateDate != 0) {
-					updateDate = result.getDate(4).getTime() + 86400; // 86400 = 24 hours in seconds
+					updateDate = result.getDate(4).getTime()/1000;
 				}
 				Update update = new Update(tablename, lastUpdate, updateStatus, updateDate);
 				if (update.shouldUpdate()) {
