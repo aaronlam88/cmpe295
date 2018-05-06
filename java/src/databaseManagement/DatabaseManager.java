@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +41,7 @@ public class DatabaseManager {
 			this.connection.setAutoCommit(false);
 			this.config = gson.fromJson(new FileReader(path_to_config_json), DatabaseConfig.class);
 		} catch (Exception e) {
-			logger.error("[DatabaseManager ERROR] ", e);
+			logger.info("[DatabaseManager ERROR] ", e);
 		}
 	}
 
@@ -75,7 +74,7 @@ public class DatabaseManager {
 			}
 			return list;
 		} catch (Exception e) {
-			logger.error("[getMetaData ERROR] ", e);
+			logger.info("[getMetaData ERROR] ", e);
 		}
 		return null;
 	}
@@ -89,7 +88,7 @@ public class DatabaseManager {
 			stmt.executeUpdate(query);
 			connection.commit();
 		} catch (Exception e) {
-			logger.error("[updateMetaDataTable ERROR] ", e);
+			logger.info("[updateMetaDataTable ERROR] ", e);
 		}
 	}
 
@@ -104,7 +103,7 @@ public class DatabaseManager {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(query);
 		} catch (Exception e) {
-			logger.error("[createTable ERROR] ", e);
+			logger.info("[createTable ERROR] ", e);
 		}
 		logger.info("Table " + tablename + " created");
 	}
@@ -118,7 +117,7 @@ public class DatabaseManager {
 	public void insert(String tablename, BufferedReader br) {
 		// if we reach the API limit, we may get br == null, nothing we can do here
 		if (br == null) {
-			logger.error("NULL BufferedReader");
+			logger.info("NULL BufferedReader");
 			return;
 		}
 
@@ -178,7 +177,7 @@ public class DatabaseManager {
 			ps.close();
 			connection.commit();
 		} catch (Exception e) {
-			logger.error("insert ERROR", e);
+			logger.info("insert ERROR", e);
 		}
 		
 		logger.info("Done insert for table " + tablename);
@@ -221,7 +220,7 @@ public class DatabaseManager {
 				manager.insert(update.symbol, br);
 			}
 		} catch (Exception e) {
-			logger.error("[main ERROR] " , e);
+			logger.info("[main ERROR] " , e);
 		}
 		logger.info("End DatabaseManager");
 	}
