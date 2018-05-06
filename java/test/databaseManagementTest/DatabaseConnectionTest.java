@@ -32,20 +32,11 @@ public class DatabaseConnectionTest {
 	}
 	
 	@Test
-	public void testCloseConnection() {
-		DatabaseConnection.closeDatabaseConnection();
-		DatabaseConnection.getDatabaseConnection("../ignore/db_config.json");
-		DatabaseConnection.closeDatabaseConnection();
-	}
-	
-	@Test
 	public void testQuery() throws Exception {
 		Connection connection = DatabaseConnection.getDatabaseConnection("../ignore/db_config.json");
 		Statement stm = connection.createStatement();
-		stm.executeQuery("SELECT * FROM `SP500`.`4update`;");
+		stm.executeQuery("SELECT * FROM `4update`;");
 		ResultSet resultSet = stm.getResultSet();
-		while (resultSet.next()) {
-			System.out.println(resultSet.getString(1) + "," + resultSet.getDate(2).getTime()/1000);
-		}
+		Assert.assertNotNull(resultSet);
 	}
 }
