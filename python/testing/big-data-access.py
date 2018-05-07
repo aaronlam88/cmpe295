@@ -3,7 +3,6 @@ import json
 import mysql.connector
 
 import sys
-import pprint
 
 data = json.load(open('../../ignore/db_config.json'))
 
@@ -31,19 +30,14 @@ try:
 except:
     print('Error: unable to fecth data')
 
-# then get all data in our database, will need at least 510MB of memory!
-database = {}
-count = 0
+# get test data
+testData = {}
 for table in allTable:
-    count = count + 1
-    if count > 5:
-        break
-    database[table] = []
-    query="""SELECT * FROM `%s` ORDER BY Date;""" % table
+    testData[table] = []
+    query="""SELECT * FROM `%s` WHERE Date >= "2017-01-01" AND Date <= "2018-01-01" ORDER BY Date;""" % table
     cursor.execute(query)
     try:
         result = cursor.fetchall()
-        count = cursor.rowcount
         for row in result:
             tempRow = {}
             tempRow['Date'] = row[0].strftime('%Y-%m-%d')
@@ -52,11 +46,32 @@ for table in allTable:
             tempRow['Close_Low'] = row[4] - row[3]
             tempRow['Close_Adj'] = row[4] - row[5]
             tempRow['Volume'] = row[6]
-            database[table].append(tempRow)
+            testData[table].append(tempRow)
     except:
         print('Error: something wrong')
+
+# get learn date
+learnData = {}
+for table in allTable:
+    learnData[table] = []
+    query="""SELECT * FROM `%s` WHERE Date >= "2013-01-01" AND Date <= "2017-01-01" ORDER BY Date;""" % table
+    cursor.execute(query)
+    try:
+        result = cursor.fetchall()
+        for row in result:
+            tempRow = {}
+            tempRow['Date'] = row[0].strftime('%Y-%m-%d')
+            tempRow['Close_Open'] = row[4] - row[1]
+            tempRow['Close_High'] = row[4] - row[2]
+            tempRow['Close_Low'] = row[4] - row[3]
+            tempRow['Close_Adj'] = row[4] - row[5]
+            tempRow['Volume'] = row[6]
+            learnData[table].append(tempRow)
+    except:
+        print('Error: something wrong')
+
 # send we get all the data, we can close the cursor now
 cursor.close()
 
-pp = pprint.PrettyPrinter(indent=4)
-pp.pprint(database)
+print(testData)
+print(learnData)
