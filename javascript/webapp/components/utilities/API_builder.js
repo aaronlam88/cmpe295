@@ -2,7 +2,7 @@ import moment from 'moment';
 
 const API_builder = {
     getURLFromPrams(tableName, startTime, endTime) {
-        let host = 'http://54.219.174.5';
+        let host = window.location.hostname;
         let port = '9081';
         let resource = 'Stocks'
         let format = 'YYYY-MM-DD';
