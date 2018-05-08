@@ -24,8 +24,8 @@ appl = []
 amzn = []
 fb = []
 
-query = ("SELECT * FROM StockDatabase.AAPL WHERE Date >= %s and Date <= %s;")
-stocks = ['SP500.AAPL', 'SP500.GOOGL', 'SP500.AMZN', 'SP500.FB']
+query = ("SELECT * FROM AAPL WHERE Date >= %s and Date <= %s;")
+stocks = ['AAPL', 'GOOGL', 'AMZN', 'FB']
 start_date = '2017-01-01' 
 end_date = '2018-01-01'
 
@@ -45,7 +45,7 @@ except:
     print('Error: unable to fecth data')
 
 
-query = ("SELECT * FROM StockDatabase.GOOGL WHERE Date >= %s and Date <= %s;")
+query = ("SELECT * FROM GOOGL WHERE Date >= %s and Date <= %s;")
 try:
     cursor.execute(query, (start_date, end_date))
     results = cursor.fetchall()
@@ -61,7 +61,7 @@ try:
 except:
     print('Error: unable to fecth data')
 
-query = ("SELECT * FROM StockDatabase.AMZN WHERE Date >= %s and Date <= %s;")
+query = ("SELECT * FROM AMZN WHERE Date >= %s and Date <= %s;")
 
 try:
     cursor.execute(query, (start_date, end_date))
@@ -79,7 +79,7 @@ except:
     print('Error: unable to fecth data')
 
 
-query = ("SELECT * FROM StockDatabase.FB WHERE Date >= %s and Date <= %s;")
+query = ("SELECT * FROM FB WHERE Date >= %s and Date <= %s;")
 
 try:
     cursor.execute(query, (start_date, end_date))
