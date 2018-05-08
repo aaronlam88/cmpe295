@@ -41,7 +41,7 @@ except Exception as e:
             allTables.append(row[0])
     except:
         print('Error: unable to fecth data', file=sys.stderr)
-        
+
     dateCount = 0
     first = True
     # get learn date
@@ -86,7 +86,7 @@ except Exception as e:
           str(sys.getsizeof(features)), file=sys.stderr)
 
     # building labels
-    index = allTables.index('AAPL')  # get Facebook label
+    index = allTables.index('AAPL')  # get Apple label
     labels = []
     for data in features:
         labels.append(data[index])
