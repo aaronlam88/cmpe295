@@ -15,6 +15,6 @@
     "mysql": "^2.15.0"
   },
   "dependencies": {
-    "lru-cache": "^4.1.2"
+    "lru-cache": "^4.1.3"
   }
 }
