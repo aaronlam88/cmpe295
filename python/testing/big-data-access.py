@@ -101,7 +101,7 @@ except Exception as e:
     pickle.dump(features, open("features.save", "wb"))
     pickle.dump(labels, open("labels.save", "wb"))
 
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
     features, labels, test_size=.4)
 
