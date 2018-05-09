@@ -1,4 +1,4 @@
-var LRU = require("lru-cache");
+var LRU = require('lru-cache');
 var options = {
     max: 100,
     length: function (n, key) {
