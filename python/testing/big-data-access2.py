@@ -109,6 +109,9 @@ from sklearn import tree
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
+# use this to save the results
+results = open('results.txt', 'w')
+
 for table in allTables:
     # build the labels for current table
     labels = allLabels[table]
@@ -127,5 +130,5 @@ for table in allTables:
     print("%s: %3.2f%%" %
           (table, accuracy_score(y_test, predictions)*100), file=sys.stderr)
     # print to file
-    print("%s: %3.2f%%\n" %
-          (table, accuracy_score(y_test, predictions)*100), file=open('predictions.txt', 'w'))
+    print("%s: %3.2f%%" %
+          (table, accuracy_score(y_test, predictions)*100), file=results)
