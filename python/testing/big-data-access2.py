@@ -11,11 +11,11 @@ import pickle
 dateCount = 1000
 
 try:
-    print('Trying to load data', file=sys.stderr)
+    print('[INFO] Trying to load data', file=sys.stderr)
     data = pickle.load(open('data.save', 'rb'))
 except Exception as e:
-    print(e)
-    print('Unable to load data, getting data from database', file=sys.stderr)
+    print('[ERROR] Unable to load data, getting data from database', file=sys.stderr)
+    print(e, file=sys.stderr)
 
     configData = json.load(open('../../ignore/db_config.json'))
     config = {
@@ -40,8 +40,9 @@ except Exception as e:
         result = cursor.fetchall()
         for row in result:
             allTables.append(row[0])
-    except:
-        print('Error: unable to fecth data', file=sys.stderr)
+    except Exception as e:
+        print('[ERROR] unable to fecth data', file=sys.stderr)
+        print(e, file=sys.stderr)
 
     # get learn date
     data = {}
@@ -65,13 +66,16 @@ except Exception as e:
                 tempRow.append(1 if row[5] - row[1] > 0 else 0)  # Adj_Open
                 data[table].append(tempRow)
         except:
-            print('Error: something wrong')
+            print('[ERROR] Something wrong', file=sys.stderr)
+            print(e, file=sys.stderr)
+
     print('          ', end='\r', file=sys.stderr)
     print('\n[DONE] get data: ' + str(len(data)), file=sys.stderr)
 
     # send we get all the data, we can close the cursor now
     cursor.close()
 
+    # save all the data we get to local storage
     pickle.dump(data, open("data.save", "wb"))
 
 ##########################
@@ -127,8 +131,8 @@ for table in allTables:
     # do prediction
     predictions = my_classifier.predict(X_test)
     # print the result
-    print("%s: %3.2f%%" %
+    print("[INFO] %s: %3.2f%%" %
           (table, accuracy_score(y_test, predictions)*100), file=sys.stderr)
     # print to file
-    print("%s: %3.2f%%" %
-          (table, accuracy_score(y_test, predictions)*100), file=results)
+    print("%3.2f%% %s" %
+          (accuracy_score(y_test, predictions)*100, table), file=results)
