@@ -59,10 +59,10 @@ except Exception as e:
             i = 0
             for row in result:
                 tempRow = []
+                # tempRow.append(1 if row[2] - row[1] > 0 else 0) # High_Open
+                # tempRow.append(1 if row[3] - row[1] > 0 else 0) # Low_Open
                 # tempRow.append(1 if row[4] - row[1] > 0 else 0)  # Close_Open
-                # tempRow.append(1 if row[4] - row[2] > 0 else 0) # Close_High
-                # tempRow.append(1 if row[4] - row[3] > 0 else 0) # Close_Low
-                tempRow.append(1 if row[4] - row[5] > 0 else 0)  # Close_Adj
+                tempRow.append(1 if row[5] - row[1] > 0 else 0)  # Adj_Open
                 learnData[table].append(tempRow)
                 if first:
                     dateCount = dateCount + 1
@@ -101,7 +101,7 @@ except Exception as e:
     pickle.dump(features, open("features.save", "wb"))
     pickle.dump(labels, open("labels.save", "wb"))
 
-from sklearn.model_selection import train_test_split
+from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
     features, labels, test_size=.4)
 
