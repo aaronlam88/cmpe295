@@ -49,7 +49,7 @@ export default class Calendar extends React.Component {
         const modifiers = { start: from, end: to };
         return (
             <div className="InputFromTo">
-                <section class="flex_calendar">
+                <section className="flex_calendar">
                 <DayPickerInput
                     value={from}
                     placeholder="Date From"
