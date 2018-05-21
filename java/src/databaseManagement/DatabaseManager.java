@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,12 +20,12 @@ public class DatabaseManager {
 	protected static Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
 
 	private static int maxRun = 100;
-	private static long currentDate = startOfDay();
+	private static java.util.Date currentDate = new java.util.Date();
 
-	private static String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n"
-			+ "  `Date` DATETIME NOT NULL,\n" + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n"
-			+ "  `Low` DOUBLE NULL,\n" + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n"
-			+ "  `Volume` DOUBLE NULL,\n" + "  PRIMARY KEY (`Date`));";
+	private static String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n" + "  `Date` DATETIME NOT NULL,\n"
+			+ "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n" + "  `Low` DOUBLE NULL,\n"
+			+ "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n" + "  `Volume` DOUBLE NULL,\n"
+			+ "  PRIMARY KEY (`Date`));";
 
 	private static String insertStmt = "INSERT INTO `#DATABASE`.`#TABLE` VALUES (?, ?, ?, ?, ?, ?, ?);";
 
@@ -51,7 +50,7 @@ public class DatabaseManager {
 	 */
 	public ArrayList<Update> getMetaData() {
 		try {
-			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY Symbol DESC;";
+			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY lastUpdate DESC;";
 			Statement stmt = connection.createStatement();
 			stmt.executeQuery(query);
 			ResultSet result = stmt.getResultSet();
@@ -60,14 +59,10 @@ public class DatabaseManager {
 				String tablename = result.getString(1);
 				long lastUpdate = result.getLong(2);
 				if (lastUpdate != 0) {
-					lastUpdate = result.getDate(2).getTime()/1000 + 86400; // add a day
+					lastUpdate = result.getDate(2).getTime();
 				}
 				boolean updateStatus = result.getBoolean(3);
-				long updateDate = result.getLong(4);
-				if (updateDate != 0) {
-					updateDate = result.getDate(4).getTime()/1000;
-				}
-				Update update = new Update(tablename, lastUpdate, updateStatus, updateDate);
+				Update update = new Update(tablename, lastUpdate, updateStatus);
 				if (update.shouldUpdate()) {
 					list.add(update);
 					--maxRun;
@@ -82,9 +77,9 @@ public class DatabaseManager {
 
 	public void updateMetaDataTable(String table) {
 		try {
-			Timestamp time = new Timestamp(currentDate * 1000);
-			String query = "UPDATE `4update` SET `lastUpdate`='" + time + "', `updateStatus`='" + 1
-					+ "', `updateDate`='" + time + "' WHERE `Symbol`='" + table + "';\n";
+			Timestamp time = new Timestamp(currentDate.getTime());
+			String query = "UPDATE `4update` SET `lastUpdate`='" + time + "', `updateStatus`='1' WHERE `Symbol`='"
+					+ table + "';\n";
 			Statement stmt = connection.createStatement();
 			stmt.executeUpdate(query);
 			connection.commit();
@@ -180,17 +175,8 @@ public class DatabaseManager {
 		} catch (Exception e) {
 			logger.error("insert ERROR", e);
 		}
-		
-		logger.info("Done insert for table " + tablename);
-	}
 
-	/**
-	 * get today start of the day epoch time in second
-	 * 
-	 * @return today start of the day in second
-	 */
-	public static long startOfDay() {
-		return Instant.now().toEpochMilli() / 1000;
+		logger.info("Done insert for table " + tablename);
 	}
 
 	public static void main(String[] args) {
@@ -217,11 +203,12 @@ public class DatabaseManager {
 			}
 			for (Update update : list) {
 				manager.createTable(update.symbol);
-				BufferedReader br = yahooAPI.getData(update.symbol, update.lastUpdate, currentDate);
+				BufferedReader br = yahooAPI.getData(update.symbol, update.lastUpdate / 1000,
+						currentDate.getTime() / 1000);
 				manager.insert(update.symbol, br);
 			}
 		} catch (Exception e) {
-			logger.error("[main ERROR] " , e);
+			logger.error("[main ERROR] ", e);
 		}
 		logger.info("End DatabaseManager");
 	}
@@ -230,23 +217,21 @@ public class DatabaseManager {
 		public String symbol;
 		public long lastUpdate;
 		public boolean updateStatus;
-		public long updateDate;
 		public long currentDate;
 
-		public Update(String symbol, long lastUpdate, boolean updateStatus, long updateDate) {
+		public Update(String symbol, long lastUpdate, boolean updateStatus) {
 			this.symbol = symbol;
-			this.lastUpdate = lastUpdate;
+			this.lastUpdate = lastUpdate + 24 * 60 * 60 * 1000;
 			this.updateStatus = updateStatus;
-			this.updateDate = updateDate;
-			this.currentDate = Instant.now().toEpochMilli() / 1000;
+			this.currentDate = new java.util.Date().getTime();
 		}
 
 		public boolean shouldUpdate() {
-			return updateStatus == false;
+			return updateStatus == false && currentDate > lastUpdate + 24 * 60 * 60 * 1000; // 2 day gray period
 		}
 
 		public String toString() {
-			return symbol + " | " + lastUpdate + " | " + updateStatus + " | " + updateDate + "\n";
+			return symbol + " | " + lastUpdate + " | " + updateStatus + "\n";
 		}
 	}
 }

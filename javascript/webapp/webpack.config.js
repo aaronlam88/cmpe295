@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'production', // development | production
+    mode: 'development', // development | production
     // set up mode 
 
     entry: './index.js',// string | object | array
@@ -60,6 +60,6 @@ module.exports = {
         inline: true,
         contentBase: '.',
         host: '0.0.0.0',
-        port: 8080,
+        port: 9080,
     }
 }
