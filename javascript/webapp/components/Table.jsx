@@ -1,9 +1,9 @@
 import React from 'react';
-import $ from 'jquery';
-import API_builder from './utilities/API_builder';
+import API from './utilities/API.js';
 import ReactTable from "react-table";
-import "react-table/react-table.css";
 
+// import css for react-table
+import "react-table/react-table.css";
 
 class Table extends React.Component {
     // init setup, only call once when component is created
@@ -18,42 +18,11 @@ class Table extends React.Component {
             tableName: props.tableName,
             startTime: props.startTime,
             endTime: props.endTime,
+            url: API.getURLFromPrams(props.tableName, props.startTime, props.endTime),
             data: {},
         };
-
-        let url = API_builder.getURLFromPrams(this.state.tableName, 
-            this.state.startTime, 
-            this.state.endTime);
-        console.log(url);
-
-        $.get(
-            url,
-        ).done((data) => {
-            this.setState({ data: data });
-            this.forceUpdate(); // need forceUpdate to by pass shouldUpdate
-        }).fail(function (data) {
-            console.log('fail');
-        }).always(function (data) {
-            console.log(data);
-        });
+        API.getData(this.state.url);
     }
-
-    // All componentWill* functions will be drop from React on v1.7
-    // call before component is mounted to the dom
-    // componentWillMount() {
-
-    // }
-
-    // when a new props is passed down from parents, 
-    // this function will be call first
-    // componentWillReceiveProps(nextProps) {
-
-    // }
-
-    // call before component update
-    // componentWillUpdate(nextProps, nextState) {
-
-    // }
 
     // check if component should re-render
     shouldComponentUpdate(nextProps, nextState) {
@@ -69,18 +38,11 @@ class Table extends React.Component {
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-
+        window.addEventListener(this.state.url, (event) => this.dataIsReady(event));
     }
 
     // call after component update
     componentDidUpdate(prevProps, prevState) {
-
-    }
-
-    // call before component is removed from dom
-    // similar to destructor in c++
-    // clean up before you leave to avoid memory leak (ex: remove listenner)
-    componentWillUnmount() {
 
     }
 
@@ -91,15 +53,23 @@ class Table extends React.Component {
 
     // }
 
+    dataIsReady(event) {
+        this.setState({
+            data: event.data
+        });
+        this.forceUpdate();
+    }
+
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-        let data = Array.from(this.state.data);
+        let data = this.state.data ? Array.from(this.state.data) : [];
 
         return (
             <div>
                 <ReactTable
                     data={data}
+                    noDataText='Loading Data ...'
                     columns={[
                         {
                             Header: "Date",
