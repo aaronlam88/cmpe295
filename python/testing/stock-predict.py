@@ -7,7 +7,9 @@ import mysql.connector
 
 from sklearn import tree
 
-
+################################################
+# Connect to database and generate the cursor #
+################################################
 config = {
   'user': data['username'],
   'password': data['password'],
@@ -19,19 +21,28 @@ config = {
 cnx = mysql.connector.connect(**config)
 cursor = cnx.cursor()
 
+################################################
+# Get data from data database #
+################################################
+# tables stores some stock labels. We will use them to predict a specific stock
 tables = ['StockDatabase.AAPL', 'StockDatabase.GOOGL', 'StockDatabase.AMZN']
-start_date = '2016-01-01' 
+
+# set up start date and end date. Collect stock data between these two dates
+start_date = '2016-01-01'
 end_date = '2018-01-01'
 
 results = []
 index = 0
+
+# use for loop to get the data of the stocks in tables
+# the result will be saved in results array
 for table in tables:
     query ="""SELECT * FROM %s WHERE Date >= %%s and Date <= %%s;""" % (table)
     tmp = []
     try:
         cursor.execute(query,(start_date, end_date))
         result = cursor.fetchall()
-        
+
         for row in result:
             Date = row[0]
             Open = row[1]
@@ -49,13 +60,14 @@ for table in tables:
 
 
 fb = []
-
+# use for loop to get the data of the stock we want to predict. Here we select fb
+# the result will be saved in fb array
 query = ("SELECT * FROM StockDatabase.FB WHERE Date >= %s and Date <= %s;")
 
 try:
     cursor.execute(query, (start_date, end_date))
     result = cursor.fetchall()
-    
+
     for row in result:
         Date = row[0]
         Open = row[1]
@@ -72,6 +84,7 @@ except:
 
 stocks = list(zip(*results))
 
+# generate classifier using decision tree algorithm
 clf = tree.DecisionTreeClassifier()
 
 
@@ -80,10 +93,12 @@ fb_a = fb[1:401]
 stocks_b = stocks[401:430]
 fb_b = fb[402:431]
 
+# train the model
 clf = clf.fit(stocks_a, fb_a)
 
 count = 0
 
+# check the accuracy
 for idx, val in enumerate(stocks_b):
 
     if fb_b[idx] == clf.predict([val]):
