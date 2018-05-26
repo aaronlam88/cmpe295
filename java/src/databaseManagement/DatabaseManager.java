@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +51,7 @@ public class DatabaseManager {
 	 */
 	public ArrayList<Update> getMetaData() {
 		try {
-			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY lastUpdate DESC;";
+			String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY lastUpdate ASC;";
 			Statement stmt = connection.createStatement();
 			stmt.executeQuery(query);
 			ResultSet result = stmt.getResultSet();
@@ -203,8 +204,9 @@ public class DatabaseManager {
 			}
 			for (Update update : list) {
 				manager.createTable(update.symbol);
-				BufferedReader br = yahooAPI.getData(update.symbol, update.lastUpdate / 1000,
+				BufferedReader br = yahooAPI.getData(update.symbol, (update.lastUpdate + update.DATEMILLISECOND) / 1000,
 						currentDate.getTime() / 1000);
+				logger.info("get data from " + update.lastUpdate);
 				manager.insert(update.symbol, br);
 			}
 		} catch (Exception e) {
@@ -214,6 +216,7 @@ public class DatabaseManager {
 	}
 
 	class Update {
+		public long DATEMILLISECOND = 24 * 60 * 60 * 1000; // 1 days in millisecond
 		public String symbol;
 		public long lastUpdate;
 		public boolean updateStatus;
@@ -221,13 +224,31 @@ public class DatabaseManager {
 
 		public Update(String symbol, long lastUpdate, boolean updateStatus) {
 			this.symbol = symbol;
-			this.lastUpdate = lastUpdate + 24 * 60 * 60 * 1000;
+			this.lastUpdate = lastUpdate;
 			this.updateStatus = updateStatus;
 			this.currentDate = new java.util.Date().getTime();
 		}
 
 		public boolean shouldUpdate() {
-			return updateStatus == false && currentDate > lastUpdate + 24 * 60 * 60 * 1000; // 2 day gray period
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new java.util.Date(lastUpdate));
+			int lastUpdateDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+			calendar.setTime(new java.util.Date());
+			int currentDateDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+			long dateGap = currentDate - lastUpdate;
+			if (lastUpdateDayOfWeek == Calendar.FRIDAY && (currentDateDayOfWeek == Calendar.SATURDAY || currentDateDayOfWeek == Calendar.SUNDAY)) {
+				if (dateGap > 2 * DATEMILLISECOND) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				if (updateStatus == false) {
+					return true;
+				} else {
+					return dateGap > 2 * DATEMILLISECOND;
+				}
+			}
 		}
 
 		public String toString() {
