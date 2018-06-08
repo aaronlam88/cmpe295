@@ -111,7 +111,7 @@ public class DatabaseManager {
 	 * @param tablename
 	 * @param br
 	 */
-	public void insert(String tablename, BufferedReader br) {
+	public void insert(String tablename, BufferedReader br, long lastUpdate) {
 		// if we reach the API limit, we may get br == null, nothing we can do here
 		if (br == null) {
 			logger.error("NULL BufferedReader");
@@ -127,7 +127,7 @@ public class DatabaseManager {
 			int batchSize = 10000;
 
 			br.readLine();// ignore first line
-			Date lastDate = null; // lastDate use to avoid duplicated Date -> dup key error
+			Date lastDate = new Date(lastUpdate); // lastDate use to avoid duplicated Date -> dup key error
 			// read file line by line
 			while ((line = br.readLine()) != null) {
 				boolean error = false;
@@ -206,8 +206,7 @@ public class DatabaseManager {
 				manager.createTable(update.symbol);
 				BufferedReader br = yahooAPI.getData(update.symbol, (update.lastUpdate + update.DATEMILLISECOND) / 1000,
 						currentDate.getTime() / 1000);
-				logger.info("get data from " + update.lastUpdate);
-				manager.insert(update.symbol, br);
+				manager.insert(update.symbol, br, update.lastUpdate);
 			}
 		} catch (Exception e) {
 			logger.error("[main ERROR] ", e);
