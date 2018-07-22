@@ -64,7 +64,3 @@ package-lock.json
 .idea/
 .vscode/
 .settings/
-
-build.gradle
-gradlew.bat
-settings.gradle
