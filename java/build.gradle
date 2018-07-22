@@ -11,6 +11,9 @@ repositories {
     mavenCentral()
 }
 
+apply plugin:'application'
+mainClassName = "database.management.DatabaseManager"
+
 dependencies {
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
