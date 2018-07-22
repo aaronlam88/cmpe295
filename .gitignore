@@ -25,6 +25,7 @@ Thumbs.db
 bin/
 ignore/
 node_modules/
+out/
 
 ################
 # ignore files #
@@ -52,3 +53,18 @@ package-lock.json
 *.rar
 *.tar
 *.zip
+
+########################
+# Intellij and VSCode  #
+########################
+.classpath
+.project
+
+.gradle/
+.idea/
+.vscode/
+.settings/
+
+build.gradle
+gradlew.bat
+settings.gradle

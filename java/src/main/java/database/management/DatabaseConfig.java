@@ -1,4 +1,4 @@
-package databaseManagement;
+package database.management;
 
 public class DatabaseConfig {	
 	public String username;
