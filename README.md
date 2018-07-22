@@ -15,6 +15,7 @@ path should be (./ignore/db_config.json)
 	"api": "****",
 	"cookies": "****",
 }
+# Java Database Manager
 ```
 # Webapp
 To run webapp, you will need node and npm installed
