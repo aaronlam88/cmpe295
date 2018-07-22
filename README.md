@@ -16,6 +16,15 @@ path should be (./ignore/db_config.json)
 	"cookies": "****",
 }
 ```
+# Java Database Manager
+To build
+```
+gradle build
+```
+To run
+```
+gradle run
+```
 # Webapp
 To run webapp, you will need node and npm installed
 ```
