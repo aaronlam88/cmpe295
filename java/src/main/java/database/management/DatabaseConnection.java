@@ -1,4 +1,4 @@
-package databaseManagement;
+package database.management;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,7 +20,7 @@ import com.google.gson.Gson;
  * @since 2018-03-26
  */
 public class DatabaseConnection {
-	protected static Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
+	private static Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
 	private static Connection connection = null;
 
 	/**
@@ -106,7 +106,6 @@ public class DatabaseConnection {
 	/**
 	 * This function will close the singleton connection
 	 * 
-	 * @param none
 	 * @return void
 	 * 
 	 * @author aaronlam
