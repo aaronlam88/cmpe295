@@ -1,4 +1,4 @@
-package databaseManagement;
+package database.management;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
