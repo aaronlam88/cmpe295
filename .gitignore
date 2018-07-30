@@ -26,6 +26,8 @@ bin/
 ignore/
 node_modules/
 out/
+build/
+junit/
 
 ################
 # ignore files #
