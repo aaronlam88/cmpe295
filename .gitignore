@@ -66,3 +66,13 @@ package-lock.json
 .idea/
 .vscode/
 .settings/
+
+########################
+# python cache folder  #
+########################
+__pycache__/
+
+########################
+# computed data files  #
+########################
+*.save
