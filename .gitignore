@@ -71,3 +71,8 @@ package-lock.json
 # python cache folder  #
 ########################
 __pycache__/
+
+########################
+# computed data files  #
+########################
+*.save
