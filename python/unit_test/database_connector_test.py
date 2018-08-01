@@ -1,8 +1,8 @@
 import sys
 sys.path.insert(0, '../ultilities')
-from MySQLConnector import MySQLConnector
+from database_connector import MySQLConnector
 
-connector =  MySQLConnector()
+connector =  MySQLConnector('../../ignore/db_config.json')
 connect = connector.connect
 cursor = connect.cursor()
 
