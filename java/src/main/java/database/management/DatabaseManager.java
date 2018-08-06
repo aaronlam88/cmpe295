@@ -53,7 +53,7 @@ public class DatabaseManager {
 
     public static void main(String[] args) {
         //check if market is currently in session, DO NOT UPDATE, reason: incompleted
-        if (!YahooAPIConnection.isMarketOpen()) {
+        if (YahooAPIConnection.isMarketOpen()) {
             logger.info("STOP: market is open, I don't want to get incompleted data");
             return;
         }
