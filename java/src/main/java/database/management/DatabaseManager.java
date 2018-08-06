@@ -284,7 +284,7 @@ public class DatabaseManager {
         boolean shouldUpdate() {
             // no node take care of this symbol yet, this node should update it
             if(updateStatus == false) {
-                logger.debug("UPDATE: updateStatus")
+                logger.debug("UPDATE: updateStatus");
                 return true;
             }
             // check date gap
