@@ -13,6 +13,9 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class contain functions to interact with Yahoo Finance API
+ */
 public class YahooAPIConnection {
 	protected static Logger logger = LoggerFactory.getLogger(YahooAPIConnection.class);
 
@@ -52,6 +55,10 @@ public class YahooAPIConnection {
 		return null;
 	}
 
+	/**
+	 * Check to see if the US stock market is currently open
+	 * @return true/false [US markets is open/close]
+	 */
 	public static boolean isMarketOpen() {
 		try {
 			Document doc = Jsoup.connect("https://finance.yahoo.com/").get();
