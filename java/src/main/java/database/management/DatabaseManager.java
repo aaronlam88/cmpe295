@@ -282,9 +282,14 @@ public class DatabaseManager {
          * else if weekday, update; if weekend, only update if lastUpdate is not Friday
          */
         boolean shouldUpdate() {
+            // no node take care of this symbol yet, this node should update it
+            if(updateStatus == false) {
+                logger.debug("UPDATE: updateStatus")
+                return true;
+            }
             // check date gap
             if(isBigDayGap()) {
-                logger.debug("shouldUpdate: isBigDayGap");
+                logger.debug("UPDATE: isBigDayGap");
                 return true;
             }
             
@@ -295,13 +300,19 @@ public class DatabaseManager {
             calendar.setTime(new java.util.Date());
             int currentDateDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
+            // if lastUpdate is today, no need to update
+            if(lastUpdateDayOfWeek == currentDateDayOfWeek) {
+                logger.debug("NO UPDATE: has the lastest data");
+                return false;
+            }
+
             // if last update was on LAST Friday AND NOW is WEEKEND, do no update, reason: market closed during weekend
             if (lastUpdateDayOfWeek == Calendar.FRIDAY
                     && (currentDateDayOfWeek == Calendar.SATURDAY || currentDateDayOfWeek == Calendar.SUNDAY)) {
                 logger.debug("NO UPDATE: weekend - lastUpdate on Friday");
                 return false;
             }
-            logger.debug("shouldUpdate: weekday");
+            logger.debug("UPDATE: weekday");
             return true;
         }
 
