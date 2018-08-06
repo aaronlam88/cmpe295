@@ -1,5 +1,8 @@
 package database.management;
 
+/**
+ * mapping class for db_config.json to Java Object
+ */
 public class DatabaseConfig {	
 	public String username;
 	public String password;
