@@ -1,14 +1,26 @@
 package database.management;
 
-import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.sql.*;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DatabaseManager {
     private static Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
@@ -22,52 +34,65 @@ public class DatabaseManager {
     private DatabaseConfig config;
 
     private DatabaseManager(String path_to_config_json, String schema) {
-        connection = null;
         this.connection = DatabaseConnection.getDatabaseConnection(path_to_config_json, schema);
 
         Gson gson = new Gson();
-        config = null;
         try {
             this.connection.setAutoCommit(false);
             this.config = gson.fromJson(new FileReader(path_to_config_json), DatabaseConfig.class);
-        } catch (Exception e) {
-            logger.error("[DatabaseManager ERROR] ", e);
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getLocalizedMessage());
+        } catch (JsonSyntaxException e) {
+            logger.error("JsonSyntaxException " + e.getLocalizedMessage());
+        } catch (JsonIOException e) {
+            logger.error("JsonIOException " + e.getLocalizedMessage());
+        } catch (FileNotFoundException e) {
+            logger.error("FileNotFoundException " + e.getLocalizedMessage());
         }
     }
 
     public static void main(String[] args) {
+        //check if market is currently in session, DO NOT UPDATE, reason: incompleted
+        if (YahooAPIConnection.isMarketOpen()) {
+            logger.info("STOP: market is open, I don't want to get incompleted data");
+            return;
+        }
+
         logger.info("Start DatabaseManager");
         String schema = "StockDatabase"; // default schema
-        String path_to_config_json = "../ignore/db_config.json";
+        String path_to_config_json = "../ignore/db_config.json"; // default db_config.json path
 
-        // if a schema and config path is supply by user, use them
+        // if a schema or config path are supplied by user, use them
         if (args.length >= 1) {
             schema = args[0];
         }
         if (args.length >= 2) {
             path_to_config_json = args[1];
         }
-
+        // create insert statement according to schema
         insertStmt = insertStmt.replace("#DATABASE", schema);
 
+        // create needed objects
         DatabaseManager manager = new DatabaseManager(path_to_config_json, schema);
         YahooAPIConnection yahooAPI = new YahooAPIConnection(manager.config.api, manager.config.cookies);
+
         try {
             ArrayList<Update> list = manager.getMetaData();
             if (list == null) {
-                throw new AssertionError();
+                logger.debug("Update list is NULL");
             }
             for (Update update : list) {
                 manager.updateMetaDataTable(update.symbol);
             }
             for (Update update : list) {
                 manager.createTable(update.symbol);
-                BufferedReader br = yahooAPI.getData(update.symbol, (update.lastUpdate + update.DATEMILLISECOND) / 1000,
+                BufferedReader bufferedReader = yahooAPI.getData(update.symbol, (update.lastUpdate + update.milliSecondInADay) / 1000,
                         currentDate.getTime() / 1000);
-                manager.insert(update.symbol, br, update.lastUpdate);
+                manager.insert(update.symbol, bufferedReader, update.lastUpdate);
             }
-        } catch (Exception e) {
-            logger.error("[main ERROR] ", e);
+            manager.connection.close();
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getLocalizedMessage());
         }
         logger.info("End DatabaseManager");
     }
@@ -77,27 +102,27 @@ public class DatabaseManager {
      */
     private ArrayList<Update> getMetaData() {
         try {
-            String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY lastUpdate ASC;";
+            String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 OR updateStatus = 0 ORDER BY lastUpdate ASC;";
             Statement stmt = connection.createStatement();
             stmt.executeQuery(query);
             ResultSet result = stmt.getResultSet();
             ArrayList<Update> list = new ArrayList<>(maxRun);
             while (result.next() && maxRun > 0) {
-                String tablename = result.getString(1);
+                String tableName = result.getString(1);
                 long lastUpdate = result.getLong(2);
                 if (lastUpdate != 0) {
                     lastUpdate = result.getDate(2).getTime();
                 }
                 boolean updateStatus = result.getBoolean(3);
-                Update update = new Update(tablename, lastUpdate, updateStatus);
+                Update update = new Update(tableName, lastUpdate, updateStatus);
                 if (update.shouldUpdate()) {
                     list.add(update);
                     --maxRun;
                 }
             }
             return list;
-        } catch (Exception e) {
-            logger.error("[getMetaData ERROR] ", e);
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getLocalizedMessage());
         }
         return null;
     }
@@ -110,137 +135,199 @@ public class DatabaseManager {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(query);
             connection.commit();
-        } catch (Exception e) {
-            logger.error("[updateMetaDataTable ERROR] ", e);
+        } catch (SQLException e) {
+            logger.error("SQLException" + e.getLocalizedMessage());
         }
     }
 
     /**
      * create a table with table name
      *
-     * @param tablename
+     * @param tableName
      */
-    private void createTable(String tablename) {
+    private void createTable(String tableName) {
         try {
-            String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n" + "  `Date` DATETIME NOT NULL,\n" + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n" + "  `Low` DOUBLE NULL,\n" + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n" + "  `Volume` DOUBLE NULL,\n" + "  PRIMARY KEY (`Date`));";
-            String query = createTableStmt.replace("#TABLE", tablename);
+            String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n" + "  `Date` DATETIME NOT NULL,\n"
+                    + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n" + "  `Low` DOUBLE NULL,\n"
+                    + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n" + "  `Volume` DOUBLE NULL,\n"
+                    + "  PRIMARY KEY (`Date`));";
+            String query = createTableStmt.replace("#TABLE", tableName);
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
-        } catch (Exception e) {
-            logger.error("[createTable ERROR] ", e);
+        } catch (SQLException e) {
+            logger.error("SQLException " + e.getLocalizedMessage());
         }
-        logger.info("Table " + tablename + " created");
+        logger.info("Table " + tableName + " created");
     }
 
     /**
-     * insert data in BufferedRead br into table id by tablename
-     *
-     * @param tablename, br, lastUpdate
+     * validate all fields before add to batch insert
      */
-    private void insert(String tablename, BufferedReader br, long lastUpdate) {
-        // if we reach the API limit, we may get br == null, nothing we can do here
-        if (br == null) {
-            logger.error("NULL BufferedReader");
+    private boolean isValidateTokens(String tokens[]) {
+        // if not enough field
+        if (tokens.length != 7) {
+            return false;
+        }
+        // if a field is empty
+        for (String token : tokens) {
+            if (token == null || token.isEmpty() || token.compareTo("null") == 0 || token.compareTo("0") == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * insert data in BufferedRead bufferedReader into table id by tableName
+     *
+     * @param tableName name of table where the data should be inserted
+     * @param bufferedReader where data can be read line by line
+     * @param lastUpdate the current max date in table tableName (max key)
+     */
+    private void insert(String tableName, BufferedReader bufferedReader, long lastUpdate) {
+        // if we reach the API limit, we may get bufferedReader == null, nothing we can do here
+        if (bufferedReader == null) {
+            logger.error("BufferedReader == NULL");
             return;
         }
 
-        logger.info("Start insert data...");
-        String line;
+        logger.info("Start insert data ...");
         try {
-            String query = insertStmt.replace("#TABLE", tablename);
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setFetchSize(10000);
+            String query = insertStmt.replace("#TABLE", tableName);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setFetchSize(10000);
             int batchSize = 10000;
 
-            br.readLine();// ignore first line
+            bufferedReader.readLine();// ignore first line
             Date lastDate = new Date(lastUpdate); // lastDate use to avoid duplicated Date -> dup key error
             // read file line by line
-            while ((line = br.readLine()) != null) {
-                boolean error = false;
-                ps.clearParameters();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                // make sure the preparedStatement parameters are clear out
+                preparedStatement.clearParameters();
+
                 // split the line into 7 fields
                 String tokens[] = line.split(",");
-                // error check
-                if (tokens.length != 7) {
+
+                // error checking, if not valid tokens, skip
+                if (!isValidateTokens(tokens)) {
                     continue;
                 }
-                // convert string into sql date
+
+                // try to convert string into sql date
                 Date date = Date.valueOf(tokens[0]);
                 if (date == null || date.equals(lastDate)) {
+                    // wrong data format
                     continue;
                 } else {
+                    // duplicated date
                     lastDate = date;
                 }
-                ps.setDate(1, date);
+                preparedStatement.setDate(1, date);
+
                 // covert other fields to double
                 for (int i = 1; i < tokens.length; ++i) {
-                    // check for error in each field
-                    if (tokens[i] == null || tokens[i].isEmpty() || tokens[i].compareTo("null") == 0
-                            || tokens[i].compareTo("0") == 0) {
-                        error = true;
-                        break;
-                    } else {
-                        ps.setDouble(i + 1, Double.parseDouble(tokens[i]));
-                    }
+                    preparedStatement.setDouble(i + 1, Double.parseDouble(tokens[i]));
                 }
-                // do not add insert statement with error to batch
-                if (error) {
-                    continue;
-                }
-                ps.addBatch();
+
+                // add preparedStatement to batch, waiting to execute and commit
+                preparedStatement.addBatch();
                 --batchSize;
+
                 // execute batch if the we have enough
                 if (batchSize <= 0) {
-                    ps.executeBatch();
+                    preparedStatement.executeBatch();
+                    // reset batchSize
                     batchSize = 10000;
                 }
             }
-            br.close();
-            ps.executeBatch();
-            ps.close();
-            connection.commit();
-        } catch (Exception e) {
-            logger.error("insert ERROR", e);
-        }
+            // done reading data
 
-        logger.info("Done insert for table " + tablename);
+            // execute the last batch
+            preparedStatement.executeBatch();
+            // commit all before leaving
+            connection.commit();
+
+            // do clean up
+            bufferedReader.close();
+            preparedStatement.close();
+        } catch (IOException e) {
+            logger.error("IOException " + e.getLocalizedMessage());
+        } catch (SQLException e) {
+			logger.error("SQLException " + e.getLocalizedMessage());
+		}
+
+        logger.info("Done insert for " + tableName);
     }
 
     class Update {
-        long DATEMILLISECOND = 24 * 60 * 60 * 1000; // 1 days in millisecond
         String symbol;
         long lastUpdate;
         boolean updateStatus;
-        long currentDate;
+
+        int milliSecondInADay = 24 * 60 * 60 * 1000;
+        // calender object to be used to get datetime info
+        Calendar calendar = Calendar.getInstance();
+        // if the is a gap between current date and lastUpdate date >= maxDateGap, should try to update
+        int maxDateGap = 2;
 
         Update(String symbol, long lastUpdate, boolean updateStatus) {
             this.symbol = symbol;
             this.lastUpdate = lastUpdate;
             this.updateStatus = updateStatus;
-            this.currentDate = new java.util.Date().getTime();
         }
 
+        /**
+         * if isBigDayGap update (more than maxDateGap days)
+         * else if weekday, update; if weekend, only update if lastUpdate is not Friday
+         */
         boolean shouldUpdate() {
-            Calendar calendar = Calendar.getInstance();
+            // no node take care of this symbol yet, this node should update it
+            if(updateStatus == false) {
+                logger.debug("UPDATE: updateStatus");
+                return true;
+            }
+            // check date gap
+            if(isBigDayGap()) {
+                logger.debug("UPDATE: isBigDayGap");
+                return true;
+            }
+            
+            // get lastUpdateDayOfWeek
             calendar.setTime(new java.util.Date(lastUpdate));
             int lastUpdateDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            // get currentDateDayOfWeek
             calendar.setTime(new java.util.Date());
             int currentDateDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            long dateGap = currentDate - lastUpdate;
-            if (lastUpdateDayOfWeek == Calendar.FRIDAY && (currentDateDayOfWeek == Calendar.SATURDAY || currentDateDayOfWeek == Calendar.SUNDAY)) {
-                return dateGap > 2 * DATEMILLISECOND;
-            } else {
-                if (!updateStatus) {
-                    return true;
-                } else {
-                    return dateGap > 2 * DATEMILLISECOND;
-                }
+
+            // if lastUpdate is today, no need to update
+            if(lastUpdateDayOfWeek == currentDateDayOfWeek) {
+                logger.debug("NO UPDATE: has the lastest data");
+                return false;
             }
+
+            // if last update was on LAST Friday AND NOW is WEEKEND, do no update, reason: market closed during weekend
+            if (lastUpdateDayOfWeek == Calendar.FRIDAY
+                    && (currentDateDayOfWeek == Calendar.SATURDAY || currentDateDayOfWeek == Calendar.SUNDAY)) {
+                logger.debug("NO UPDATE: weekend - lastUpdate on Friday");
+                return false;
+            }
+            logger.debug("UPDATE: weekday");
+            return true;
         }
 
         @Override
         public String toString() {
             return symbol + " | " + lastUpdate + " | " + updateStatus + "\n";
+        }
+
+        private boolean isBigDayGap() {
+            int dateGap = (int) ((LocalDate.now().toEpochDay() - lastUpdate) / milliSecondInADay);
+            if (dateGap > maxDateGap) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
