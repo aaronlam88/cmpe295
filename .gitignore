@@ -23,6 +23,8 @@ Thumbs.db
 # ignore folders #
 ##################
 bin/
+lib/
+install/
 ignore/
 node_modules/
 out/

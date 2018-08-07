@@ -1,8 +1,16 @@
-## Requirements
+# Requirements
 This program run on python3.
-Please use python3 to run all the script, and use pip3 to install all the packages
-## Install
-Run
-```
-pip3 install -r requirements.txt
-```
+Use `which python3` to verify that you have python3 installed
+# Install
+## With virtualenv (recommended)
+In this directory, do the following:
+    Install virtualenv `pip install virtualenv`
+    Get python3 path `export PYTHON3_PATH=$(which python3)`
+    Create virtualenv `virtualenv -p PYTHON3_PATH install`
+    To use (activate) virtualenv  `source install/bin/activate`
+    Install dependences `pip install -r requirements.txt`
+    To run any python script, you can use `python script-name.py` or `python3 script-name.py`
+    To end (deactivate) virtualenv `deactivate`
+## Without using virtualenv (not recommended)
+    Install dependences `pip3 install -r requirements.txt`
+    To run any python script `python3 script-name.py`
