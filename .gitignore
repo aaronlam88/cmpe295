@@ -28,6 +28,7 @@ node_modules/
 out/
 build/
 junit/
+install/
 
 ################
 # ignore files #
