@@ -11,6 +11,9 @@ repositories {
     mavenCentral()
 }
 
+apply plugin:'application'
+mainClassName = "database.management.DatabaseManager"
+
 dependencies {
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
@@ -20,6 +23,9 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
+    // jsoup HTML parser library @ https://jsoup.org/
+    compile 'org.jsoup:jsoup:1.11.3'
 
+    // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

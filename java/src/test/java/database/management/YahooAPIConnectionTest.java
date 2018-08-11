@@ -24,4 +24,9 @@ public class YahooAPIConnectionTest {
 		BufferedReader in = connection.getData("FB", 1519676503, 1522092103);
 		Assert.assertNotNull(in);
 	}
+
+	@Test
+	public void testIsMarketOpen() {
+		YahooAPIConnection.isMarketOpen();
+	}
 }
