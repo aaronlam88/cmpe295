@@ -16,15 +16,15 @@ import com.google.gson.Gson;
  * This is a singleton class use to get connection with database
  * 
  * @author aaronlam
- * @version 0.0.1
- * @since 2018-03-26
+ * @version 0.1.0
+ * @since 2018-08-02
  */
 public class DatabaseConnection {
 	private static Logger logger = LoggerFactory.getLogger(DatabaseConnection.class);
 	private static Connection connection = null;
 
 	/**
-	 * This function will return the singleton connection Require a path to a json
+	 * This function will return the singleton connection. Require a path to a json
 	 * with values for key username, password, jdbc_prefix, host, port, database,
 	 * jdbc_setting. Checkout DatabaseConfig
 	 * 
@@ -33,8 +33,8 @@ public class DatabaseConnection {
 	 * @exception FileNotFoundException or SQLException
 	 * 
 	 * @author aaronlam
-	 * @version 0.0.1
-	 * @since 2018-03-26
+	 * @version 0.1.0
+	 * @since 2018-08-02
 	 */
 	public static Connection getDatabaseConnection(String path_to_config_json) {
 		if (connection == null) {
@@ -70,11 +70,12 @@ public class DatabaseConnection {
 	 * 
 	 * @param path_to_config_json: path to config.json file 
 	 * @return java.sql.Connection 
-	 * @exception FileNotFoundException or SQLException
+	 * @exception FileNotFoundException
+	 * @exception SQLException
 	 * 
 	 * @author aaronlam
-	 * @version 0.0.1
-	 * @since 2018-03-26
+	 * @version 0.1.0
+	 * @since 2018-08-02
 	 */
 	public static Connection getDatabaseConnection(String path_to_config_json, String schema) {
 		if (connection == null) {
@@ -109,8 +110,8 @@ public class DatabaseConnection {
 	 * @return void
 	 * 
 	 * @author aaronlam
-	 * @version 0.0.1
-	 * @since 2018-03-26
+	 * @version 0.1.0
+	 * @since 2018-08-02
 	 */
 	public static void closeDatabaseConnection() {
 		if (connection != null) {

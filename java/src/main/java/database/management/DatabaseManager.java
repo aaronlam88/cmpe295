@@ -14,9 +14,10 @@ public class DatabaseManager {
     private static Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
 
     private static int maxRun = 100;
+    private static int BATCHSIZE = 50 * 1000;
     private static java.util.Date currentDate = new java.util.Date();
 
-    private static String insertStmt = "INSERT INTO `#DATABASE`.`#TABLE` VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private static String insertStmt = "INSERT INTO `#DATABASE`.`#TABLE` VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `Open` = ?,`High` = ?, `Low` = ?, `Close` = ?,`Adj Close`=?,`Volume`=?;";
 
     private Connection connection;
     private DatabaseConfig config;
@@ -77,7 +78,7 @@ public class DatabaseManager {
      */
     private ArrayList<Update> getMetaData() {
         try {
-            String query = "SELECT * FROM `4update` WHERE lastUpdate < CURDATE() + 2 AND updateStatus = 0 ORDER BY lastUpdate ASC;";
+            String query = "SELECT * FROM `4update` WHERE lastUpdate <= CURDATE() AND updateStatus = 0 ORDER BY lastUpdate ASC;";
             Statement stmt = connection.createStatement();
             stmt.executeQuery(query);
             ResultSet result = stmt.getResultSet();
@@ -90,14 +91,12 @@ public class DatabaseManager {
                 }
                 boolean updateStatus = result.getBoolean(3);
                 Update update = new Update(tablename, lastUpdate, updateStatus);
-                if (update.shouldUpdate()) {
-                    list.add(update);
-                    --maxRun;
-                }
+                list.add(update);
+                --maxRun;
             }
             return list;
         } catch (Exception e) {
-            logger.error("[getMetaData ERROR] ", e);
+            logger.error("[getMetaData ERROR] ", e.getLocalizedMessage());
         }
         return null;
     }
@@ -122,7 +121,10 @@ public class DatabaseManager {
      */
     private void createTable(String tablename) {
         try {
-            String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n" + "  `Date` DATETIME NOT NULL,\n" + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n" + "  `Low` DOUBLE NULL,\n" + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n" + "  `Volume` DOUBLE NULL,\n" + "  PRIMARY KEY (`Date`));";
+            String createTableStmt = "CREATE TABLE IF NOT EXISTS `#TABLE` (\n" + "  `Date` DATETIME NOT NULL,\n"
+                    + "  `Open` DOUBLE NULL,\n" + "  `High` DOUBLE NULL,\n" + "  `Low` DOUBLE NULL,\n"
+                    + "  `Close` DOUBLE NULL,\n" + "  `Adj Close` DOUBLE NULL,\n" + "  `Volume` DOUBLE NULL,\n"
+                    + "  PRIMARY KEY (`Date`));";
             String query = createTableStmt.replace("#TABLE", tablename);
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
@@ -149,11 +151,10 @@ public class DatabaseManager {
         try {
             String query = insertStmt.replace("#TABLE", tablename);
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setFetchSize(10000);
-            int batchSize = 10000;
+            ps.setFetchSize(BATCHSIZE);
+            int batchSize = BATCHSIZE;
 
             br.readLine();// ignore first line
-            Date lastDate = new Date(lastUpdate); // lastDate use to avoid duplicated Date -> dup key error
             // read file line by line
             while ((line = br.readLine()) != null) {
                 boolean error = false;
@@ -166,10 +167,8 @@ public class DatabaseManager {
                 }
                 // convert string into sql date
                 Date date = Date.valueOf(tokens[0]);
-                if (date == null || date.equals(lastDate)) {
+                if (date == null) {
                     continue;
-                } else {
-                    lastDate = date;
                 }
                 ps.setDate(1, date);
                 // covert other fields to double
@@ -181,6 +180,7 @@ public class DatabaseManager {
                         break;
                     } else {
                         ps.setDouble(i + 1, Double.parseDouble(tokens[i]));
+                        ps.setDouble(i + 7, Double.parseDouble(tokens[i]));
                     }
                 }
                 // do not add insert statement with error to batch
@@ -192,12 +192,16 @@ public class DatabaseManager {
                 // execute batch if the we have enough
                 if (batchSize <= 0) {
                     ps.executeBatch();
-                    batchSize = 10000;
+                    batchSize = BATCHSIZE;
                 }
             }
+            // close buffered reader
             br.close();
+            // execute the last batch
             ps.executeBatch();
+            // close prepared statement
             ps.close();
+            // commit all the changes
             connection.commit();
         } catch (Exception e) {
             logger.error("insert ERROR", e);
@@ -218,24 +222,6 @@ public class DatabaseManager {
             this.lastUpdate = lastUpdate;
             this.updateStatus = updateStatus;
             this.currentDate = new java.util.Date().getTime();
-        }
-
-        boolean shouldUpdate() {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new java.util.Date(lastUpdate));
-            int lastUpdateDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            calendar.setTime(new java.util.Date());
-            int currentDateDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            long dateGap = currentDate - lastUpdate;
-            if (lastUpdateDayOfWeek == Calendar.FRIDAY && (currentDateDayOfWeek == Calendar.SATURDAY || currentDateDayOfWeek == Calendar.SUNDAY)) {
-                return dateGap > 2 * DATEMILLISECOND;
-            } else {
-                if (!updateStatus) {
-                    return true;
-                } else {
-                    return dateGap > 2 * DATEMILLISECOND;
-                }
-            }
         }
 
         @Override

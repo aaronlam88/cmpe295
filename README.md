@@ -15,7 +15,6 @@ path should be (./ignore/db_config.json)
 	"api": "****",
 	"cookies": "****",
 }
-# Java Database Manager
 ```
 # Java Database Manager
 To build
