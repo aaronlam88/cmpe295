@@ -77,3 +77,4 @@ __pycache__/
 # computed data files  #
 ########################
 *.save
+*.csv
