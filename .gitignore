@@ -30,6 +30,7 @@ node_modules/
 out/
 build/
 junit/
+install/
 
 ################
 # ignore files #
@@ -78,3 +79,4 @@ __pycache__/
 # computed data files  #
 ########################
 *.save
+*.csv
