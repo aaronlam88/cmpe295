@@ -1,3 +1,6 @@
+# system
+import sys
+
 # get config to connect to database
 import json
 import mysql.connector
@@ -5,23 +8,7 @@ import mysql.connector
 # use this to save data, so we don't have to keep getting data from database
 import pickle
 
-class GetData:
-    def __init__(self):
-        self._data = getData()
-    
-    @property
-    def data(self):
-        return self._data
-    
-    def getData(self):
-        
-    
-
-
-
-
 dataCount = 1000
-data
 
 try:
     print('[INFO] Trying to load data', file=sys.stderr)
@@ -87,3 +74,61 @@ except Exception as e:
     cursor.close()
     # save all the data we get to local storage
     pickle.dump(data, open("data.save", "wb"))
+
+from sklearn.linear_model import SGDClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+import copy
+
+# use this to save the results
+results = open('SGDClassifier-single-stock-result.csv', 'w')
+
+fields = ['Open', 'High', 'Low', 'Close', 'Adj_Close']
+accuracy = {}
+
+for symbol in data:
+    accuracy[symbol] = []
+    data[symbol].reverse()
+    ##########################
+    # Data processing for ML #
+    ##########################
+    # need to do deepcopy because python will do shallow copy for array/list
+    features = copy.deepcopy(data[symbol])
+    features.reverse()
+    features.pop()
+
+    for field in range(1, 5):
+        print('Making prediction for symbol: ' + symbol + ' on field: ' + fields[field-1])
+        labels = []
+        for i in range(1, dataCount):
+            if data[symbol][i][field] > data[symbol][i-1][field]:
+                labels.append(1)
+            else:
+                labels.append(0)
+        labels.reverse()
+
+        ########################
+        # now the real MA work #
+        ########################
+        # create train and test data set
+        X_test, X_train, y_test,  y_train = train_test_split(
+            features, labels, test_size=.5)
+        # create classifier
+        # max hinge+elasticnet
+        my_classifier = SGDClassifier(loss="log", penalty="elasticnet") 
+
+        # train the classifier
+        my_classifier.fit(X_train, y_train)
+        # do prediction
+        predictions = my_classifier.predict(X_test)
+
+        accuracy[symbol].append(str(round(accuracy_score(y_test, predictions)*100, 2))+'%')
+
+        # print the result
+        print("[INFO] %s: %3.2f%%" %
+            (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
+
+for k in accuracy:
+    print(k + ', ' + ', '.join(accuracy[k]), file=results)
+    
