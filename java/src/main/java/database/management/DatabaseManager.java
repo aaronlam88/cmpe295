@@ -1,14 +1,19 @@
 package database.management;
 
-import com.google.gson.Gson;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
+
+import com.google.gson.Gson;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DatabaseManager {
     private static Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
