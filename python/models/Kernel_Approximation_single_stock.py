@@ -32,22 +32,23 @@ for symbol in symbols:
         # now the real MA work #
         ########################
         # create train and test data set
-        X_test, X_train, y_test,  y_train = train_test_split(
-            features, labels, test_size=.5)
+        # X_test, X_train, y_test,  y_train = train_test_split(
+        #     features, labels, test_size=.5)
         
         # create classifier
-        my_classifier = RBFSampler(gamma=1, random_state=1)
-        X_features = rbf_feature.fit_transform(X_train)
+        rbf_feature = RBFSampler(gamma=1, random_state=1)
+        X_features = rbf_feature.fit_transform(features)
+        my_classifier = SGDClassifier()
 
         # train the classifier
-        my_classifier.fit(X_train, y_train)
+        my_classifier.fit(features, labels)
         # do prediction
-        predictions = my_classifier.predict(X_test)
+        predictions = my_classifier.score(features, labels)
 
-        accuracy[symbol].append(str(round(accuracy_score(y_test, predictions)*100, 2))+'%')
+        accuracy[symbol].append(str(predictions*100, 2)+'%')
 
         # print the result
         print("[INFO] %s: %3.2f%%" %
-            (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
+            (symbol, predictions*100), file=sys.stderr)
     print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)    
     
