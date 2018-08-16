@@ -1,10 +1,12 @@
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-from get_data import GetData
 
 import os
 import sys
+
+# save accuracy score
+results = open(os.path.basename(__file__)+'.csv', 'w')
 
 # get_data_block_start
 from get_data import GetData
@@ -30,6 +32,7 @@ for symbol in symbols:
         # create train and test data set
         X_test, X_train, y_test,  y_train = train_test_split(
             features, labels, test_size=.5)
+        
         # create classifier
         # max hinge+elasticnet
         my_classifier = SGDClassifier(loss="log", penalty="elasticnet") 
@@ -44,10 +47,5 @@ for symbol in symbols:
         # print the result
         print("[INFO] %s: %3.2f%%" %
             (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
-
-
-# save accuracy score
-results = open(os.path.basename(__file__)+'.csv', 'w')
-for symbol in accuracy:
     print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)
-    
+   

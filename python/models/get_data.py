@@ -15,9 +15,10 @@ logger = logging.getLogger(__name__)
 class GetData:
     _data = None
     _features = None
+    _featuresDiff = None
     _symbols = None
     
-    def __init__(self, dataCount=1001):
+    def __init__(self, dataCount=1002):
         self._dataCount = dataCount
         if self._data == None:
             self._data = self._getData()
@@ -26,10 +27,11 @@ class GetData:
         data = None
         try:
             logger.debug('Trying to load data')
-            with open('data.save', 'rb') as file:
-                data = pickle.load(file)
+            data_save = open('data.save', 'rb')
+            data = pickle.load(data_save)
+            data_save.close
         except Exception:
-            logger.debug('Unable to load data, getting data from database')
+            logger.debug('Getting data from database')
 
             configData = json.load(open('../../ignore/db_config.json'))
             config = {
@@ -78,14 +80,17 @@ class GetData:
                 except Exception:
                     logger.error('Unable to fectch row', exc_info=True)
 
+            # save all the data we get to local storage
+            data_save = open('data.save', 'wb')
+            pickle.dump(data, data_save)
+            data_save.close
             logger.debug('          ', end='\r')
             logger.debug('\n[DONE] get data: ' + str(len(data)))
 
             # since we get all the data, we can close the cursor now
             cursor.close()
-            # save all the data we get to local storage
-            pickle.dump(data, open("data.save", "wb"))
         finally:
+            logger.info('DONE')
             return data
 
     def getAllFeatures(self):
@@ -100,6 +105,19 @@ class GetData:
             features.pop()
             self._features = features
         return self._features
+    
+    def getAllFeaturesDiff(self):
+        if self._featuresDiff == None:
+            featuresDiff = []
+            for i in range (1, self._dataCount):
+                featuresDiff.append([])
+                for symbol in self._data.keys():
+                    for j in range (0, 6):
+                        featuresDiff[i-1].append(float(self._data[symbol][i][j]) - float(self._data[symbol][i-1][j]))
+            featuresDiff.pop()
+            featuresDiff.reverse()
+            self._featuresDiff = featuresDiff
+        return self._featuresDiff
 
     def getAllSymbols(self):
         if self._symbols == None:
@@ -123,4 +141,9 @@ class GetData:
             else:
                 labels.append(0)
         labels.reverse()
+        return labels
+
+    def getSymbolCLFLabelsDiff(self, symbol, field=0):
+        labels = self.getSymbolCLFLabels(symbol, field)
+        labels.pop()
         return labels

@@ -1,10 +1,12 @@
 from sklearn import tree
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-from get_data import GetData
 
 import os
 import sys
+
+# save accuracy score
+results = open(os.path.basename(__file__)+'.csv', 'w')
 
 # get_data_block_start
 from get_data import GetData
@@ -14,7 +16,7 @@ getData = GetData()
 fields = ['Open', 'High', 'Low', 'Close', 'Adj_Close']
 accuracy = {}
 
-features = getData.getAllFeatures()
+features = getData.getAllFeaturesDiff()
 symbols = getData.getAllSymbols()
 # get_data_block_end
 
@@ -44,9 +46,5 @@ for symbol in symbols:
         # print the result
         print("[INFO] %s: %3.2f%%" %
             (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
-
-# save accuracy score
-results = open(os.path.basename(__file__)+'.csv', 'w')
-for symbol in accuracy:
-    print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)
+    print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)    
     

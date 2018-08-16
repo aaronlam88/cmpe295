@@ -1,4 +1,6 @@
-from sklearn import tree
+from sklearn.kernel_approximation import RBFSampler
+from sklearn.linear_model import SGDClassifier
+
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
@@ -25,7 +27,7 @@ for symbol in symbols:
 
     for field in range(1, 5):
         labels = getData.getSymbolCLFLabels(symbol, field)
-            
+
         ########################
         # now the real MA work #
         ########################
@@ -34,7 +36,8 @@ for symbol in symbols:
             features, labels, test_size=.5)
         
         # create classifier
-        my_classifier = tree.DecisionTreeClassifier()
+        my_classifier = RBFSampler(gamma=1, random_state=1)
+        X_features = rbf_feature.fit_transform(X_train)
 
         # train the classifier
         my_classifier.fit(X_train, y_train)
