@@ -69,4 +69,3 @@ for symbol in symbols:
         print("[INFO] %s: %3.2f%%" %
             (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
     print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)    
-    
