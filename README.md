@@ -17,14 +17,8 @@ path should be (./ignore/db_config.json)
 }
 ```
 # Java Database Manager
-To build
-```
-gradle build
-```
-To run
-```
-gradle run
-```
+Read README.md in java folder
+
 # Webapp
 To run webapp, you will need node and npm installed
 ```
@@ -40,3 +34,9 @@ cd javascript/server
 npm install
 node app.js
 ```
+
+# Machine Learning
+Read README.md in python folder
+
+# Current Version
+v0.1.1
