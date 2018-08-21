@@ -1,4 +1,4 @@
-from sklearn import tree
+from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
@@ -25,7 +25,7 @@ for symbol in symbols:
 
     for field in range(1, 5):
         labels = getData.getSymbolCLFLabels(symbol, field)
-            
+
         ########################
         # now the real MA work #
         ########################
@@ -34,7 +34,8 @@ for symbol in symbols:
             features, labels, test_size=.5)
         
         # create classifier
-        my_classifier = tree.DecisionTreeClassifier()
+        # max hinge+elasticnet
+        my_classifier = SGDClassifier(loss="log", penalty="elasticnet") 
 
         # train the classifier
         my_classifier.fit(X_train, y_train)
@@ -46,5 +47,5 @@ for symbol in symbols:
         # print the result
         print("[INFO] %s: %3.2f%%" %
             (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
-    print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)    
-    
+    print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)
+   
