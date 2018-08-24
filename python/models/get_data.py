@@ -159,6 +159,7 @@ class GetData:
         return a single features[] for a stock symbol
         """
         features = copy.deepcopy(self._data[symbol])
+        features.pop()
         features.reverse()
         features.pop()
         return features
