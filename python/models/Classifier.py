@@ -59,7 +59,7 @@ for symbol in symbols:
         features = getData.getSymbolFeatures(symbol)
 
     for field in range(1, 5):
-        if len(sys.argv) == 3:
+        if len(sys.argv) == 4:
             labels = getData.getSymbolCLFLabelsDiff(symbol, field)
         else:
             labels = getData.getSymbolCLFLabels(symbol, field)
