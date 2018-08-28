@@ -34,7 +34,7 @@ if classifier == 'DTree':
 if classifier == 'SGD':
     from sklearn.linear_model import SGDClassifier
     # max hinge+elasticnet
-    my_classifier = SGDClassifier(loss="log", penalty="elasticnet")
+    my_classifier = SGDClassifier(loss="log", penalty="elasticnet", max_iter=20)
 
 if classifier == 'SVM':
     from sklearn import svm
