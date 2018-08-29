@@ -142,13 +142,22 @@ class GetData:
         return featuresDiff
     
     def getSymbolFeaturesDiff(self, symbol):
-        featuresDiff = []
+        features = []
         for i in range (self._dataCount-1, 1, -1):
             temp = []
             for j in range (0, 6):
                 temp.append(float(self._data[symbol][i][j]) - float(self._data[symbol][i-1][j]))
-            featuresDiff.append(temp)
-        return featuresDiff
+            features.append(temp)
+        return features
+
+    def getSymbolFeatures(self, symbol):
+        """
+        return a single features[] for a stock symbol
+        """
+        features = []
+        for i in range (self._dataCount-2, 0, -1):
+            features.append(self._data[symbol][i])
+        return features
 
     def getAllSymbols(self):
         """
@@ -159,21 +168,14 @@ class GetData:
             symbols.append(key)
         return symbols
     
-    def getSymbolFeatures(self, symbol):
-        """
-        return a single features[] for a stock symbol
-        """
-        features = copy.deepcopy(self._data[symbol])
-        features.pop()
-        features.reverse()
-        return features
+    
     
     def getSymbolCLFLabels(self, symbol, field=0):
         """
         return a single (Normal) Classifier labels[] for a stock symbol
         """
         labels = []
-        for i in range (self._dataCount-1, 0, -1):
+        for i in range (self._dataCount-1, 1, -1):
             if self._data[symbol][i][field] > self._data[symbol][i-1][field]:
                 labels.append(1)
             else:
