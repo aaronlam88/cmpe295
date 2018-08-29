@@ -122,37 +122,42 @@ class GetData:
         """
         return featuresDiff to be used with labelsDiff, use the diff between 2 days
         Should work as follow
-        Table A: 
+        Table A:
             2017-12-30, 5.1, 5.2, 5.3, 5.4, 5.5, 12345
             2017-12-31, 6.1, 6.2, 6.3, 6.4, 6.5, 23456
         Table B:
-            2017-12-30, 1.1, 1.2, 1.3, 1.4, 1.5, 34567
-            2017-12-31, 2.1, 2.2, 2.3, 2.4, 2.5, 45678
+            [0] 2017-12-29, 1.1, 1.2, 1.3, 1.4, 1.5, 34567
+            [1] 2017-12-30, 1.1, 1.2, 1.3, 1.4, 1.5, 34567
+            [2] 2017-12-31, 2.1, 2.2, 2.3, 2.4, 2.5, 45678
                         A[1] - A[0]              B[1] - B[0]
         feature = [ [1, 1, 1, 1, 1, 11111, 1, 1, 1, 1, 1, 11111] ]
         """
-        if self._featuresDiff == None:
-            featuresDiff = []
-            for i in range (1, self._dataCount):
-                featuresDiff.append([])
-                for symbol in self._data.keys():
-                    for j in range (0, 6):
-                        featuresDiff[i-1].append(float(self._data[symbol][i][j]) - float(self._data[symbol][i-1][j]))
-            featuresDiff.pop()
-            featuresDiff.reverse()
-            self._featuresDiff = featuresDiff
-        return self._featuresDiff
+        featuresDiff = []
+        for i in range (self._dataCount-1, 1, -1):
+            temp = []
+            for symbol in self._data.keys():
+                for j in range (0, 6):
+                    temp.append(float(self._data[symbol][i][j]) - float(self._data[symbol][i-1][j]))
+            featuresDiff.append(temp)
+        return featuresDiff
+    
+    def getSymbolFeaturesDiff(self, symbol):
+        featuresDiff = []
+        for i in range (self._dataCount-1, 1, -1):
+            temp = []
+            for j in range (0, 6):
+                temp.append(float(self._data[symbol][i][j]) - float(self._data[symbol][i-1][j]))
+            featuresDiff.append(temp)
+        return featuresDiff
 
     def getAllSymbols(self):
         """
         return all stock symbols that we cached locally
         """
-        if self._symbols == None:
-            symbols = []
-            for key in self._data.keys():
-                symbols.append(key)
-            self._symbols = symbols
-        return self._symbols
+        symbols = []
+        for key in self._data.keys():
+            symbols.append(key)
+        return symbols
     
     def getSymbolFeatures(self, symbol):
         """
@@ -161,7 +166,6 @@ class GetData:
         features = copy.deepcopy(self._data[symbol])
         features.pop()
         features.reverse()
-        features.pop()
         return features
     
     def getSymbolCLFLabels(self, symbol, field=0):
@@ -169,18 +173,21 @@ class GetData:
         return a single (Normal) Classifier labels[] for a stock symbol
         """
         labels = []
-        for i in range (1, self._dataCount):
+        for i in range (self._dataCount-1, 0, -1):
             if self._data[symbol][i][field] > self._data[symbol][i-1][field]:
                 labels.append(1)
             else:
                 labels.append(0)
-        labels.reverse()
         return labels
 
     def getSymbolCLFLabelsDiff(self, symbol, field=0):
         """
         return a single (Diff) Classifier labels[] for a stock symbol, this labels[] can be used with featureDiff
         """
-        labels = self.getSymbolCLFLabels(symbol, field)
-        labels.pop()
+        labels = []
+        for i in range (self._dataCount-2, 0, -1):
+            if self._data[symbol][i][field] > self._data[symbol][i-1][field]:
+                labels.append(1)
+            else:
+                labels.append(0)
         return labels

@@ -56,7 +56,10 @@ for symbol in symbols:
     
     # get feature if single
     if kind == 'Single':
-        features = getData.getSymbolFeatures(symbol)
+        if len(sys.argv) == 4:
+            features = getData.getSymbolFeaturesDiff(symbol)
+        else:
+            features = getData.getSymbolFeatures(symbol)
 
     for field in range(1, 5):
         if len(sys.argv) == 4:
