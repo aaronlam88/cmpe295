@@ -106,17 +106,15 @@ class GetData:
             2017-12-31, 2.1, 2.2, 2.3, 2.4, 2.5, 45678
         feature = [ [5.1, 5.2, 5.3, 5.4, 5.5, 12345, 1.1, 1.2, 1.3, 1.4, 1.5, 34567], [6.1, 6.2, 6.3, 6.4, 6.5, 23456, 2.1, 2.2, 2.3, 2.4, 2.5, 45678] ]
         """
-        if self._features == None:
-            features = []
-            for i in range(0, self._dataCount):
-                features.append([])
-                for symbol in self._data.keys():
-                    for value in self._data[symbol][i]:
-                        features[i].append(value)
-            features.reverse()
-            features.pop()
-            self._features = features
-        return self._features
+        features = []
+        for i in range(0, self._dataCount):
+            features.append([])
+            for symbol in self._data.keys():
+                for value in self._data[symbol][i]:
+                    features[i].append(value)
+        features.reverse()
+        features.pop()
+        return features
     
     def getAllFeaturesDiff(self):
         """
@@ -155,7 +153,7 @@ class GetData:
         return a single features[] for a stock symbol
         """
         features = []
-        for i in range (self._dataCount-2, 0, -1):
+        for i in range (self._dataCount-1, 0, -1):
             features.append(self._data[symbol][i])
         return features
 
@@ -175,7 +173,7 @@ class GetData:
         return a single (Normal) Classifier labels[] for a stock symbol
         """
         labels = []
-        for i in range (self._dataCount-1, 1, -1):
+        for i in range (self._dataCount-1, 0, -1):
             if self._data[symbol][i][field] > self._data[symbol][i-1][field]:
                 labels.append(1)
             else:

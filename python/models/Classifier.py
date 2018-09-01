@@ -18,7 +18,7 @@ if classifier == 'DTree':
 if classifier == 'SGD':
     from sklearn.linear_model import SGDClassifier
     # max hinge+elasticnet
-    my_classifier = SGDClassifier(loss="log", penalty="elasticnet")
+    my_classifier = SGDClassifier(loss="log", penalty="elasticnet", max_iter=1000)
 
 if classifier == 'SVM':
     from sklearn import svm
@@ -61,7 +61,7 @@ for symbol in symbols:
         else:
             features = getData.getSymbolFeatures(symbol)
 
-    for field in range(1, 5):
+    for field in range(1, 6):
         if len(sys.argv) == 4:
             labels = getData.getSymbolCLFLabelsDiff(symbol, field)
         else:
