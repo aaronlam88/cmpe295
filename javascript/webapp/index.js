@@ -7,12 +7,12 @@ import { render } from 'react-dom';
 import style from './style/style.css';
 
 // components
-// import Button from './components/Button.jsx';
-import Calendar from './components/Calendar.jsx';
-// import Layout from './components/Layout.jsx';
-import Searchbox from './components/Searchbox.jsx';
-import Table from './components/Table.jsx';
-// import Graph from './components/Graph.jsx';
+import Calendar     from './components/calendar/Calendar.jsx';
+import Searchbox    from './components/searchBox/SearchBox.jsx';
+import Table        from './components/table/Table.jsx';
+// import Graph from './components/graph/Graph.jsx';
+// import Button from './components/button/Button.jsx';
+
 
 var d = new Date();
 var s = "Today is ";

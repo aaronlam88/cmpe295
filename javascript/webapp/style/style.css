@@ -138,64 +138,6 @@ h3 {
     flex-direction: row;
 }
 
-/*---------- Search box.jsx starts here ----------*/
-
-.flex_search {
-    display: flex;
-    margin-bottom: 5px;
-    text-align: right;
-}
-
-.mySearch {
-    width:100%;
-    margin-bottom: 5px;
-}
-
-/*.flex_search .searchArea {*/
-    /*!*flex: 1;*!*/
-    /*flex: 1 1 450px;*/
-/*}*/
-.searchArea {
-    /*flex: 1;*/
-    flex: 1 1 450px;
-    text-align: right;
-}
-
-.flex_search {
-    width: 100%;
-}
-
-.flex_search .searchBtn {
-    flex: 0;
-    margin: 0 0 0 1rem;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-}
-
-.searchBtn {
-    background-color: #249ba2;
-    color: white;
-    /*border: 2px solid #249ba2;*/
-    opacity: 0.6;
-}
-
-.searchBtn:hover {
-    /*background-color: #249ba2;*/
-    /*color: green;*/
-    opacity: 1
-}
-
-.flex_search div input {
-    padding: .5em 1em;
-    width: 90%;
-}
-
-.flex_search div button {
-    padding: .5em 1em;
-    white-space: nowrap;
-    font-family: "Titillium Web", serif;
-}
-
 /*---------- Calendar.jsx starts here ----------*/
 
 .flex_calendar {

@@ -1,6 +1,9 @@
 import React from 'react'
 
-class Layout extends React.Component  {
+// import style
+import './SearchBox.scss';
+
+class SearchBox extends React.Component {
     // init setup, only call once when component is created
     // props is immutatable
     // component will change base on state
@@ -62,12 +65,23 @@ class Layout extends React.Component  {
     // should return a single component
     render() {
         return ( 
-            <div>
-                <hr/>
-                <span>{this.state.text}</span>
-                <hr/>
+            <div className="mySearch">
+                <section className="flex_search">
+                    <div className="searchArea">
+                        <input type="text"
+                               placeholder="Search for..."
+                               alt="inputVal"
+                               ref={input => this.search = input}
+                               onChange={this.handleInputChange}
+                        />
+                    </div>
+                    <div className="searchBtn">
+                        <button>Search</button>
+                    </div>
+                </section>
+
             </div>);
     }
 }
 
-export default Layout;
+export default SearchBox;

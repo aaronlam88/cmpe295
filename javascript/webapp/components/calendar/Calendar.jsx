@@ -1,10 +1,10 @@
 import React from 'react';
-import moment from 'moment';
+import  {moment, formatDate, parseDate } from 'moment';
 
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
 
-import { formatDate, parseDate } from 'react-day-picker/moment';
+// import style
+import './Calendar.scss';
 
 export default class Calendar extends React.Component {
     constructor(props) {
@@ -16,14 +16,17 @@ export default class Calendar extends React.Component {
             to: undefined,
         };
     }
+
     componentWillUnmount() {
         clearTimeout(this.timeout);
     }
+
     focusTo() {
         // Focus to `to` field. A timeout is required here because the overlays
         // already set timeouts to work well with input fields
         this.timeout = setTimeout(() => this.to.getInput().focus(), 0);
     }
+
     showFromMonth() {
         const { from, to } = this.state;
         if (!from) {
@@ -33,6 +36,7 @@ export default class Calendar extends React.Component {
             this.to.getDayPicker().showMonth(from);
         }
     }
+
     handleFromChange(from) {
         // Change the from date and focus the "to" input field
         this.setState({ from }, () => {
@@ -41,9 +45,11 @@ export default class Calendar extends React.Component {
             }
         });
     }
+
     handleToChange(to) {
         this.setState({ to }, this.showFromMonth);
     }
+
     render() {
         const { from, to } = this.state;
         const modifiers = { start: from, end: to };

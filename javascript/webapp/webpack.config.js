@@ -1,3 +1,8 @@
+require('@babel/preset-react');
+require('@babel/preset-env');
+
+require('node-sass') ;
+
 const path = require('path');
 
 module.exports = {
@@ -19,7 +24,6 @@ module.exports = {
 
         publicPath: "/", // string
         // the url to the output directory resolved relative to the HTML page
-
     },
 
     module: {
@@ -28,11 +32,9 @@ module.exports = {
         rules: [
             // rules for modules (configure loaders, parser options, etc.)
             {
-                test: /\.jsx?$/,
-                exclude: [
-                    // path.resolve(__dirname, "app/demo-files")
-                    /node_modules/
-                ],
+                test: /\.js.?$/,
+
+                exclude: [/node_modules/],
                 // these are matching conditions, each accepting a regular expression or string
                 // test and include have the same behavior, both must be matched
                 // exclude must not be matched (takes preferrence over test and include)
@@ -40,17 +42,24 @@ module.exports = {
                 // - Use RegExp only in test and for filename matching
                 // - Use arrays of absolute paths in include and exclude
                 // - Try to avoid exclude and prefer include
+
                 loader: "babel-loader",
                 // the loader which should be applied, it'll be resolved relative to the context
 
                 options: {
-                    presets: ["es2015", "react"]
+                    presets: ["@babel/preset-react"]
                 },
                 // options for the loader
             },
             {
                 test: /\.css$/,
+                exclude: [/node_modules/],
                 use: ['style-loader', 'css-loader']
+            },
+            {
+                test: /\.scss$/,
+                exclude: [/node_modules/],
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },
