@@ -35,6 +35,12 @@ const API = {
         if (host === 'localhost') {
             host = '54.176.230.26';
         }
+
+        // save params
+        this.tableName = tableName;
+        this.startTime = startTime;
+        this.endTime = endTime;
+
         return `http://${host}:${port}/${resource}/${tableName}/${startTime}/${endTime}`;
     },
 
@@ -53,16 +59,6 @@ const API = {
     },
 
     /**
-     * get data from backend server or local storage
-     * will call jQueryGet, will do window.dispatchEvent(url)
-     * to get the data, use window.addEventListener(url, (event) => (event.data))
-     * @param {string} url 
-     */
-    getData(url, eventID) {
-        this.jQueryGet(url, eventID)
-    },
-
-    /**
      * get data from backend server using jQuery get or local cache with localStorage
      * will call $.get, will do window.dispatchEvent(url)
      * to get the data, use window.addEventListener(url, (event) => (event.data))
@@ -72,11 +68,14 @@ const API = {
         $.get(
             url,
         ).done((data) => {
-            console.info('success')
+            console.debug('success')
         }).fail(() => {
             console.error('fail');
         }).always((data) => {
             let event = new Event(eventID);
+            event.tableName = this.tableName;
+            event.startTime = this.startTime;
+            event.endTime = this.endTime;
             event.data = data;
             window.dispatchEvent(event);
         });

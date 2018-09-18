@@ -1,45 +1,41 @@
-import React from 'react'
+import React from 'react';
+import API from '../utilities/API.js';
 
 // import style
 import './SearchBox.scss';
 
-class SearchBox extends React.Component {
+class SearchBox extends React.PureComponent {
     // init setup, only call once when component is created
     // props is immutatable
     // component will change base on state
     constructor(props) {
         super(props);
         this.state = {
-            text: props.text,
+            value: props.tableName,
+            startTime: props.startTime,
+            endTime: props.endTime
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // call before component is mounted to the dom
-    componentWillMount() {
+    static getDerivedStateFromProps(props, state) {
+        if (props.tableName !== state.tableName ||
+            props.startTime !== state.startTime ||
+            props.endTime !== state.endTime) {
 
+            API.getData(props.tableName, props.startTime, props.endTime, 'table');
+            return props;
+        } else {
+            return null;
+        }
     }
 
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-
-    }
-
-    // when a new props is passed down from parents, 
-    // this function will be call first
-    componentWillReceiveProps(nextProps) {
-
-    }
-
-    // check if component should re-render
-    // ignore from now
-    // shouldComponentUpdate(nextProps, nextState) {
-
-    // }
-
-    // call before component update
-    componentWillUpdate(nextProps, nextState) {
-
+        window.addEventListener('table', (event) => this.dataIsReady(event));
     }
 
     // call after component update
@@ -54,32 +50,46 @@ class SearchBox extends React.Component {
 
     }
 
+    dataIsReady(event) {
+        this.setState({
+            value: event.tableName,
+            startTime: event.startTime,
+            endTime: event.endTime
+        });
+    }
 
-    // will only catch error of children, not itself
-    // we can ignore this function for now
-    // componentDidCatch(error, info) {
+    handleChange(event) {
+        this.setState({
+            value: event.target.value
+        });
+    }
 
-    // }
+    handleSubmit(event) {
+        API.getData(this.state.value, this.state.startTime, this.state.endTime, 'table');
+        event.preventDefault();
+    }
 
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-        return ( 
+        return (
             <div className="mySearch">
-                <section className="flex_search">
-                    <div className="searchArea">
-                        <input type="text"
-                               placeholder="Search for..."
-                               alt="inputVal"
-                               ref={input => this.search = input}
-                               onChange={this.handleInputChange}
-                        />
-                    </div>
-                    <div className="searchBtn">
-                        <button>Search</button>
-                    </div>
-                </section>
-
+                <form onSubmit={this.handleSubmit}>
+                    <section className="flex_search">
+                        <div className="searchArea">
+                            <input type="text"
+                                placeholder="Search for..."
+                                alt="inputVal"
+                                ref={input => this.search = input}
+                                value={this.state.value}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className="searchBtn">
+                            <input type="submit" value="Search" />
+                        </div>
+                    </section>
+                </form>
             </div>);
     }
 }
