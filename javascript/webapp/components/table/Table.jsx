@@ -20,8 +20,7 @@ class Table extends React.PureComponent {
             
             data: {},
         };
-        let url = API.getURLFromPrams(props.tableName, props.startTime, props.endTime);
-        API.getData(url, 'table');
+        API.getData(props.tableName, props.startTime, props.endTime, 'table');
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -29,8 +28,7 @@ class Table extends React.PureComponent {
             props.startTime !== state.startTime ||
             props.endTime !== state.endTime) {
                 
-            let url = API.getURLFromPrams(props.tableName, props.startTime, props.endTime);
-            API.getData(url, 'table');
+            API.getData(props.tableName, props.startTime, props.endTime, 'table');
             return props;
         } else {
             return null;
