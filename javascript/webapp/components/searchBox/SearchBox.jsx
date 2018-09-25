@@ -77,7 +77,11 @@ class SearchBox extends React.PureComponent {
                 <form onSubmit={this.handleSubmit}>
                     <section className="flex_search">
                         <div className="searchArea">
-                            <input type="text"
+                            <label id="currStock" htmlFor="stockInput">GOOG</label>
+                            <input
+                                id="stockInput"
+                                name="stockInput"
+                                type="text"
                                 placeholder="Search for..."
                                 alt="inputVal"
                                 ref={input => this.search = input}
@@ -85,8 +89,8 @@ class SearchBox extends React.PureComponent {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <div className="searchBtn">
-                            <input type="submit" value="Search" />
+                        <div>
+                            <input type="submit" value="Search" className="searchBtn" />
                         </div>
                     </section>
                 </form>

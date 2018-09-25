@@ -188,13 +188,17 @@
 }
 
 .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-    background-color: #F0F8FF;
+    background-color: #B7DAFF;
 }
 
 /* DayPickerInput */
 
 .DayPickerInput {
     display: inline-block;
+}
+
+.DayPickerInput > input {
+  padding: 0.5em 1em;
 }
 
 .DayPickerInput-OverlayWrapper {
