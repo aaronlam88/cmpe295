@@ -1,7 +1,7 @@
 .flex_search {
     display: flex;
     margin-bottom: 5px;
-    text-align: right;
+    //text-align: right;
 }
 
 .mySearch {
@@ -52,11 +52,13 @@
 }
 
 input#stockInput {
-  width: 60%;
+  width: 40%;
 }
 
 label#currStock {
   text-align: left;
+  margin-right: 20px;
+  width: 100%;
 }
 
 .flex_search div button {

@@ -72,12 +72,13 @@ class SearchBox extends React.PureComponent {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
+
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
                     <section className="flex_search">
                         <div className="searchArea">
-                            <label id="currStock" htmlFor="stockInput">GOOG</label>
+                            <label id="currStock" htmlFor="stockInput">Current Stock: {this.state.value}</label>
                             <input
                                 id="stockInput"
                                 name="stockInput"
