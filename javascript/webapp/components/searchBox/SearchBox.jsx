@@ -72,12 +72,17 @@ class SearchBox extends React.PureComponent {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
+
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
                     <section className="flex_search">
                         <div className="searchArea">
-                            <input type="text"
+                            <label id="currStock" htmlFor="stockInput">Current Stock: {this.state.value}</label>
+                            <input
+                                id="stockInput"
+                                name="stockInput"
+                                type="text"
                                 placeholder="Search for..."
                                 alt="inputVal"
                                 ref={input => this.search = input}
@@ -85,8 +90,8 @@ class SearchBox extends React.PureComponent {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <div className="searchBtn">
-                            <input type="submit" value="Search" />
+                        <div>
+                            <input type="submit" value="Search" className="searchBtn" />
                         </div>
                     </section>
                 </form>

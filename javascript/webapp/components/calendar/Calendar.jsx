@@ -1,6 +1,7 @@
 import React from 'react';
 import  {moment, formatDate, parseDate } from 'moment';
 
+import DayPicker from "react-day-picker";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 // import style
@@ -53,18 +54,23 @@ export default class Calendar extends React.Component {
     render() {
         const { from, to } = this.state;
         const modifiers = { start: from, end: to };
+        const today = new Date();
         return (
             <div className="InputFromTo">
                 <section className="flex_calendar">
                 <DayPickerInput
                     value={from}
                     placeholder="Date From"
-                    format="LL"
+                    format="YYYY-MM-DD"
                     formatDate={formatDate}
                     parseDate={parseDate}
                     dayPickerProps={{
                         selectedDays: [from, { from, to }],
-                        disabledDays: { after: to },
+                        disabledDays: [
+                            { after: to },
+                            { before: new Date(2013, 9, 1)},
+                            { after: today},
+                            ],
                         toMonth: to,
                         modifiers,
                         numberOfMonths: 2,
@@ -77,12 +83,16 @@ export default class Calendar extends React.Component {
                       ref={el => (this.to = el)}
                       value={to}
                       placeholder="Date To"
-                      format="LL"
+                      format="YYYY-MM-DD"
                       formatDate={formatDate}
                       parseDate={parseDate}
                       dayPickerProps={{
                           selectedDays: [from, { from, to }],
-                          disabledDays: { before: from },
+                          disabledDays: [
+                              { after: to },
+                              { before: new Date(2013, 9, 1)},
+                              { after: today},
+                          ],
                           modifiers,
                           month: from,
                           fromMonth: from,
