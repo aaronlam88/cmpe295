@@ -1,4 +1,4 @@
-// require modules 
+// require modules
 import React from 'react';
 import { render } from 'react-dom';
 import moment from 'moment';
@@ -11,6 +11,7 @@ import './style/style.css';
 import Calendar from './components/calendar/Calendar.jsx';
 import Searchbox from './components/searchBox/SearchBox.jsx';
 import Table from './components/table/Table.jsx';
+import StockChart from './components/chart/StockChart.jsx'
 // import Graph from './components/graph/Graph.jsx';
 // import Button from './components/button/Button.jsx';
 
@@ -34,6 +35,9 @@ render(
             />
         </div>
         <Table className="grid-table"
+            {...defaultValue}
+        />
+        <StockChart className="line-chart"
             {...defaultValue}
         />
     </div>,
