@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/Stocks', Stocks);
+app.use('/getSymbols', Stocks);
 
 app.listen(port, function(){
   console.log("app started...");
