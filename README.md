@@ -40,3 +40,11 @@ Read README.md in python folder
 
 # Current Version
 v0.1.1
+
+# APIs
+To get the data we need, we have the APIs as following:
+
+1. Get all stock symbols:
+```
+$host:$port/getSymbols
+```
