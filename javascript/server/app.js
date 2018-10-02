@@ -3,6 +3,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var Stocks = require('./routes/Stocks');
+var getSymbols = require('./routes/GetSymbols');
 var app = express();
 
 var port = 9081;
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/Stocks', Stocks);
-app.use('/getSymbols', Stocks);
+app.use('/getSymbols', getSymbols);
 
 app.listen(port, function(){
   console.log("app started...");
