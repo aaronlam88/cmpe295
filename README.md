@@ -40,3 +40,10 @@ cd javascript/server
 npm install
 node app.js
 ```
+# API
+To get data, we have APIs as follows:
+
+1. get all stock symbols
+```
+$host\getSymbols
+```
