@@ -138,62 +138,13 @@ h3 {
     flex-direction: row;
 }
 
-/*---------- Search box.jsx starts here ----------*/
+@media only screen and (max-width: 650px) {
 
-.flex_search {
-    display: flex;
-    margin-bottom: 5px;
-    text-align: right;
-}
+    .sear_calen {
+        flex-direction: column;
+    }
 
-.mySearch {
-    width:100%;
-    margin-bottom: 5px;
-}
 
-/*.flex_search .searchArea {*/
-    /*!*flex: 1;*!*/
-    /*flex: 1 1 450px;*/
-/*}*/
-.searchArea {
-    /*flex: 1;*/
-    flex: 1 1 450px;
-    text-align: right;
-}
-
-.flex_search {
-    width: 100%;
-}
-
-.flex_search .searchBtn {
-    flex: 0;
-    margin: 0 0 0 1rem;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-}
-
-.searchBtn {
-    background-color: #249ba2;
-    color: white;
-    /*border: 2px solid #249ba2;*/
-    opacity: 0.6;
-}
-
-.searchBtn:hover {
-    /*background-color: #249ba2;*/
-    /*color: green;*/
-    opacity: 1
-}
-
-.flex_search div input {
-    padding: .5em 1em;
-    width: 90%;
-}
-
-.flex_search div button {
-    padding: .5em 1em;
-    white-space: nowrap;
-    font-family: "Titillium Web", serif;
 }
 
 /*---------- Calendar.jsx starts here ----------*/
@@ -207,7 +158,7 @@ h3 {
 
 .InputFromTo {
     display: flex;
-    flex: 1 1 450px;
+    flex: 1;
 }
 
 .InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
