@@ -1,10 +1,11 @@
 import React from 'react';
-import moment from 'moment';
+import  {moment, formatDate, parseDate } from 'moment';
 
+import DayPicker from "react-day-picker";
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
 
-import { formatDate, parseDate } from 'react-day-picker/moment';
+// import style
+import './Calendar.scss';
 
 export default class Calendar extends React.Component {
     constructor(props) {
@@ -16,14 +17,17 @@ export default class Calendar extends React.Component {
             to: undefined,
         };
     }
+
     componentWillUnmount() {
         clearTimeout(this.timeout);
     }
+
     focusTo() {
         // Focus to `to` field. A timeout is required here because the overlays
         // already set timeouts to work well with input fields
         this.timeout = setTimeout(() => this.to.getInput().focus(), 0);
     }
+
     showFromMonth() {
         const { from, to } = this.state;
         if (!from) {
@@ -33,6 +37,7 @@ export default class Calendar extends React.Component {
             this.to.getDayPicker().showMonth(from);
         }
     }
+
     handleFromChange(from) {
         // Change the from date and focus the "to" input field
         this.setState({ from }, () => {
@@ -41,24 +46,31 @@ export default class Calendar extends React.Component {
             }
         });
     }
+
     handleToChange(to) {
         this.setState({ to }, this.showFromMonth);
     }
+
     render() {
         const { from, to } = this.state;
         const modifiers = { start: from, end: to };
+        const today = new Date();
         return (
             <div className="InputFromTo">
                 <section className="flex_calendar">
                 <DayPickerInput
                     value={from}
                     placeholder="Date From"
-                    format="LL"
+                    format="YYYY-MM-DD"
                     formatDate={formatDate}
                     parseDate={parseDate}
                     dayPickerProps={{
                         selectedDays: [from, { from, to }],
-                        disabledDays: { after: to },
+                        disabledDays: [
+                            { after: to },
+                            { before: new Date(2013, 9, 1)},
+                            { after: today},
+                            ],
                         toMonth: to,
                         modifiers,
                         numberOfMonths: 2,
@@ -71,12 +83,16 @@ export default class Calendar extends React.Component {
                       ref={el => (this.to = el)}
                       value={to}
                       placeholder="Date To"
-                      format="LL"
+                      format="YYYY-MM-DD"
                       formatDate={formatDate}
                       parseDate={parseDate}
                       dayPickerProps={{
                           selectedDays: [from, { from, to }],
-                          disabledDays: { before: from },
+                          disabledDays: [
+                              { after: to },
+                              { before: new Date(2013, 9, 1)},
+                              { after: today},
+                          ],
                           modifiers,
                           month: from,
                           fromMonth: from,

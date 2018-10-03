@@ -35,6 +35,12 @@ const API = {
         if (host === 'localhost') {
             host = '54.176.230.26';
         }
+
+        // save params
+        this.tableName = tableName;
+        this.startTime = startTime;
+        this.endTime = endTime;
+
         return `http://${host}:${port}/${resource}/${tableName}/${startTime}/${endTime}`;
     },
 
@@ -42,23 +48,14 @@ const API = {
      * get data from backend server or local storage
      * will call jQueryGet, will do window.dispatchEvent(url)
      * to get the data, use window.addEventListener(url, (event) => (event.data))
-     * @param {string} tableName 
-     * @param {string} startTime 
-     * @param {string} endTime 
+     * @param {string} tableName name of the table (stock symbol)
+     * @param {string} startTime start time for this query
+     * @param {string} endTime   end time for this query
+     * @param {string} eventID   an ID will be emitted when got data
      */
-    getData(tableName, startTime, endTime) {
+    getData(tableName, startTime, endTime, eventID) {
         let url = this.getURLFromPrams(tableName, startTime, endTime);
-        this.jQueryGet(url)
-    },
-
-    /**
-     * get data from backend server or local storage
-     * will call jQueryGet, will do window.dispatchEvent(url)
-     * to get the data, use window.addEventListener(url, (event) => (event.data))
-     * @param {string} url 
-     */
-    getData(url) {
-        this.jQueryGet(url)
+        this.jQueryGet(url, eventID)
     },
 
     /**
@@ -67,15 +64,18 @@ const API = {
      * to get the data, use window.addEventListener(url, (event) => (event.data))
      * @param {string} url 
      */
-    jQueryGet(url) {
+    jQueryGet(url, eventID) {
         $.get(
             url,
         ).done((data) => {
-            console.info('success')
+            console.debug('success')
         }).fail(() => {
             console.error('fail');
         }).always((data) => {
-            let event = new Event(url);
+            let event = new Event(eventID);
+            event.tableName = this.tableName;
+            event.startTime = this.startTime;
+            event.endTime = this.endTime;
             event.data = data;
             window.dispatchEvent(event);
         });
