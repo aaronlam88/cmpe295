@@ -5,7 +5,7 @@ var options = {
         return n * 2 + key.length
     },
     dispose: function (key, n) {
-        delete n;
+        n.close();
     },
     maxAge: 1000 * 60 * 60
 };

@@ -17,14 +17,8 @@ path should be (./ignore/db_config.json)
 }
 ```
 # Java Database Manager
-To build
-```
-gradle build
-```
-To run
-```
-gradle run
-```
+Read README.md in java folder
+
 # Webapp
 To run webapp, you will need node and npm installed
 ```
@@ -39,4 +33,18 @@ To run server, you will need node and npm installed
 cd javascript/server
 npm install
 node app.js
+```
+
+# Machine Learning
+Read README.md in python folder
+
+# Current Version
+v0.1.1
+
+# APIs
+To get the data we need, we have the APIs as following:
+
+1. Get all stock symbols:
+```
+$host:$port/getSymbols
 ```
