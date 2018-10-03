@@ -3,7 +3,6 @@ import API from '../utilities/API.js';
 import { Chart, Axis, Series, Tooltip, Cursor, Line } from 'react-chartjs';
 
 // import style
-import './StockChart.scss';
 import colors from '../commonColor.js';
 
 class StockChart extends React.PureComponent {
@@ -67,35 +66,59 @@ class StockChart extends React.PureComponent {
 
     let chartData = {
       labels: labels,
+      responsive: true,
+
       datasets: [
         {
           label: "My First dataset",
-          // fillColor: "rgba(220,220,220,0.2)",
-          // strokeColor: "rgba(220,220,220,1)",
-          // pointColor: "rgba(220,220,220,1)",
-          // pointStrokeColor: "#fff",
-          // pointHighlightFill: "#fff",
-          // pointHighlightStroke: "rgba(220,220,220,1)",
-            fillColor: colors.fillColor,
-            strokeColor: colors.strokeColor,
-            pointColor: colors.pointColor,
-            pointStrokeColor: colors.white,
+            fillColor: colors.green30,
+            strokeColor: colors.green60,
+            pointColor: colors.green,
+            pointStrokeColor: colors.green,
             pointHighlightFill: colors.white,
-            pointHighlightStroke: colors.pointHighlightStroke,
+            pointHighlightStroke: colors.green30,
           data: dataset,
         }
       ]
     };
-
     return chartData
   }
 
-  render() {
+
+
+render() {
     let data = this.processData();
+
+    var chartOptions = {
+        responsive: true,
+        // showScale: true,
+        // pointDot: true,
+        // showLines: false,
+
+        title: {
+            display: true,
+            text: 'current stock',
+            fill: true,
+            backgroundColor: colors.green60,
+            borderColor: colors.green,
+        },
+
+        // legend: {
+        //     display: true,
+        //     labels: {
+        //         boxWidth: 50,
+        //         fontSize: 10,
+        //         fontColor: '#bbb',
+        //         padding: 5,
+        //     }
+        // },
+
+    };
+
     return (
       <div>
         <Line
-          data={data}
+          data={data} options={chartOptions} width="1300" height="250"
         />
       </div>
     );
