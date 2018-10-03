@@ -2,6 +2,10 @@ import React from 'react';
 import API from '../utilities/API.js';
 import { Chart, Axis, Series, Tooltip, Cursor, Line } from 'react-chartjs';
 
+// import style
+import './StockChart.scss';
+import colors from '../commonColor.js';
+
 class StockChart extends React.PureComponent {
   constructor(props) {
       super(props);
@@ -66,12 +70,18 @@ class StockChart extends React.PureComponent {
       datasets: [
         {
           label: "My First dataset",
-          fillColor: "rgba(220,220,220,0.2)",
-          strokeColor: "rgba(220,220,220,1)",
-          pointColor: "rgba(220,220,220,1)",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "rgba(220,220,220,1)",
+          // fillColor: "rgba(220,220,220,0.2)",
+          // strokeColor: "rgba(220,220,220,1)",
+          // pointColor: "rgba(220,220,220,1)",
+          // pointStrokeColor: "#fff",
+          // pointHighlightFill: "#fff",
+          // pointHighlightStroke: "rgba(220,220,220,1)",
+            fillColor: colors.fillColor,
+            strokeColor: colors.strokeColor,
+            pointColor: colors.pointColor,
+            pointStrokeColor: colors.white,
+            pointHighlightFill: colors.white,
+            pointHighlightStroke: colors.pointHighlightStroke,
           data: dataset,
         }
       ]
