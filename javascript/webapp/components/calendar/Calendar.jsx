@@ -46,9 +46,26 @@ export default class Calendar extends React.Component {
             }
         });
     }
+    //
+    // handleToChange = (event) => this.setState({ to }, this.showFromMonth);
 
     handleToChange(to) {
         this.setState({ to }, this.showFromMonth);
+
+        let newTo = this.formatDate(to);
+        console.log("Calendar to " + newTo)
+    }
+
+    formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 
     render() {
