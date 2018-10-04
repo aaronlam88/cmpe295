@@ -4,6 +4,11 @@ import API from '../utilities/API.js';
 // import style
 import './SearchBox.scss';
 
+// const ChildrenComponent = ({ value }) => (
+//     <div>Current Stock: {value}</div>
+// );
+
+
 class SearchBox extends React.PureComponent {
     // init setup, only call once when component is created
     // props is immutatable
@@ -13,7 +18,8 @@ class SearchBox extends React.PureComponent {
         this.state = {
             value: props.tableName,
             startTime: props.startTime,
-            endTime: props.endTime
+            endTime: props.endTime,
+            submittedValue: 'GOOG',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -60,25 +66,28 @@ class SearchBox extends React.PureComponent {
 
     handleChange(event) {
         this.setState({
-            value: event.target.value
+            value: event.target.value,
         });
     }
 
     handleSubmit(event) {
         API.getData(this.state.value, this.state.startTime, this.state.endTime, 'table');
         event.preventDefault();
+        this.setState({ submittedValue: this.state.value });
     }
+
 
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-
+        console.log(" to " + this.state.endTime);
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
                     <section className="flex_search">
                         <div className="searchArea">
-                            <label id="currStock" htmlFor="stockInput">Current Stock: {this.state.value}</label>
+                            <label id="currStock" htmlFor="stockInput">Current Stock: {this.state.submittedValue}</label>
+                            {/*<ChildrenComponent value={this.state.submittedValue} id="currStock"/>*/}
                             <input
                                 id="stockInput"
                                 name="stockInput"

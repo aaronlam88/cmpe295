@@ -15,7 +15,6 @@ import StockChart from './components/chart/StockChart.jsx'
 // import Graph from './components/graph/Graph.jsx';
 // import Button from './components/button/Button.jsx';
 
-
 let date = new Date();
 document.getElementById("currentDate").innerHTML = date;
 
@@ -26,19 +25,41 @@ let defaultValue = {
     startTime: moment().subtract(30, 'days').format('YYYY-MM-DD').toString()
 }
 
-render(
-    <div className='grid-main'>
-        <div className="sear_calen">
-            <Calendar />
-            <Searchbox
-                {...defaultValue}
+class TableComponent extends React.Component {
+    render() {
+        return (
+            <div className='grid-main'>
+                <div className="sear_calen">
+                    <Calendar />
+                    <Searchbox
+                        {...defaultValue}
+                    />
+                </div>
+                <Table className="grid-table"
+                       {...defaultValue}
+                />
+            </div>
+        );
+    }
+}
+
+
+class StockChartComponent extends React.Component {
+    render() {
+        return (
+            <StockChart className="line-chart"
+                        {...defaultValue}
             />
-        </div>
-        <Table className="grid-table"
-            {...defaultValue}
-        />
-        <StockChart className="line-chart"
-            {...defaultValue}
-        />
-    </div>,
-    document.getElementById('app'));
+    );
+    }
+}
+
+render(
+    <TableComponent />,
+    document.getElementById('app')
+);
+
+render(
+    <StockChartComponent />,
+    document.getElementById('stockChart')
+);
