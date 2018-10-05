@@ -1,6 +1,6 @@
 import React from 'react';
 import API from '../utilities/API.js';
-import { Chart, Axis, Series, Tooltip, Cursor, Line } from 'react-chartjs';
+import { Chart, Axis, Series, Tooltip, Cursor, Line } from 'react-chartjs-2';
 
 class StockChart extends React.PureComponent {
   constructor(props) {
@@ -65,7 +65,7 @@ class StockChart extends React.PureComponent {
       labels: labels,
       datasets: [
         {
-          label: "My First dataset",
+          label: this.state.tableName,
           fillColor: "rgba(220,220,220,0.2)",
           strokeColor: "rgba(220,220,220,1)",
           pointColor: "rgba(220,220,220,1)",
