@@ -20,6 +20,13 @@ app.use(compression())
 // NOTE: all files under static directory are public and can be viewed by anyone
 app.use(express.static(path.join(__dirname, 'public')));
 
+// allow cross origin
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(logger('dev')); // to support logging
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded({ extended: false })); // to support URL-encoded bodies
