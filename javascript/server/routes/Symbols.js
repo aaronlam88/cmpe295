@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var GetSymbol = require('../APIs/GetSymbols');
+var Symbol = require('../APIs/Symbols');
 
 router.get('/', function (req, res, next) {
-    GetSymbol.getAllSymbols(res);
+    Symbol.getAllSymbols(res);
 });
 
 module.exports = router;
