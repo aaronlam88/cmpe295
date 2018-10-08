@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chart.js": "^2.7.2",
     "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "react": "^16.5.2",
