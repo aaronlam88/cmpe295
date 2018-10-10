@@ -17,6 +17,7 @@ class SearchBox extends React.PureComponent {
         super(props);
         this.state = {
             value: props.tableName,
+            submittedValue: props.tableName
         };
 
         this._startTime = props.startTime;
@@ -24,23 +25,14 @@ class SearchBox extends React.PureComponent {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.tableName !== state.tableName ||
-            props.startTime !== state.startTime ||
-            props.endTime !== state.endTime) {
-            return props;
-        } else {
-            return null;
-        }
+        this.timeChange = this.timeChange.bind(this);
     }
 
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-        window.addEventListener('table', (event) => this.dataIsReady(event));
-        window.addEventListener('time', (event) => this.updateTime(event));
+        window.addEventListener('timeChange', this.timeChange);
     }
 
     // call after component update
@@ -52,19 +44,12 @@ class SearchBox extends React.PureComponent {
     // similar to destructor in c++
     // clean up before you leave to avoid memory leak (ex: remove listenner)
     componentWillUnmount() {
-
+        window.removeEventListener('timeChange', this.timeChange);
     }
 
-    dataIsReady(event) {
-        this.setState({
-            value: event.tableName,
-        });
-        event.preventDefault();
-    }
-
-    updateTime(event) {
-        this._startTime = event.startTime;
-        this._endTime = event.endTime;
+    timeChange(event) {
+        this._startTime = event.startTime || this._startTime;
+        this._endTime = event.endTime || this._endTime;
         event.preventDefault();
     }
 
@@ -72,12 +57,16 @@ class SearchBox extends React.PureComponent {
         this.setState({
             value: event.target.value,
         });
+        event.preventDefault();
     }
 
     handleSubmit(event) {
-        console.debug('SearchBox.handleSubmit');
-        API.getData(this.state.value, this._startTime, this._endTime, 'table');
         event.preventDefault();
+        let newEvent = new Event('symbolChange');
+        newEvent.startTime = this._startTime;
+        newEvent.endTime = this._endTime;
+        newEvent.tableName = this.state.value;
+        window.dispatchEvent(newEvent);
         this.setState({ submittedValue: this.state.value });
     }
 
@@ -85,7 +74,6 @@ class SearchBox extends React.PureComponent {
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-        console.log(" to " + this.state.endTime);
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
