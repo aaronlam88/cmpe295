@@ -48,7 +48,7 @@ export default class Calendar extends React.Component {
         let event = new Event('time');
         event.startTime = from.toISOString().substring(0, 10);
         window.dispatchEvent(event);
-        console.info(event.startTime);
+        console.debug(event.startTime);
     }
 
     handleToChange(to) {
@@ -61,7 +61,7 @@ export default class Calendar extends React.Component {
         let event = new Event('time');
         event.endTime = to.toISOString().substring(0, 10);
         window.dispatchEvent(event);
-        console.info(event.endTime);
+        console.debug(event.endTime);
     }
 
     render() {

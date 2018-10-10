@@ -70,7 +70,7 @@ class SearchBox extends React.PureComponent {
     }
 
     handleSubmit(event) {
-        console.log('SearchBox.handleSubmit');
+        console.debug('SearchBox.handleSubmit');
         API.getData(this.state.value, this._startTime, this._endTime, 'table');
         event.preventDefault();
     }
