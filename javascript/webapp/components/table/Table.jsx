@@ -17,7 +17,7 @@ class Table extends React.PureComponent {
             tableName: props.tableName,
             startTime: props.startTime,
             endTime: props.endTime,
-            
+
             data: {},
         };
         API.getData(props.tableName, props.startTime, props.endTime, 'table');
@@ -27,8 +27,6 @@ class Table extends React.PureComponent {
         if (props.tableName !== state.tableName ||
             props.startTime !== state.startTime ||
             props.endTime !== state.endTime) {
-                
-            API.getData(props.tableName, props.startTime, props.endTime, 'table');
             return props;
         } else {
             return null;
@@ -48,8 +46,12 @@ class Table extends React.PureComponent {
 
     dataIsReady(event) {
         this.setState({
-            data: event.data
+            data: event.data,
+            tableName: event.tableName,
+            startTime: event.startTime,
+            endTime: event.endTime
         });
+        event.preventDefault();
     }
 
     // render the React component or html component to the dom -> draw to browser

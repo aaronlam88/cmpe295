@@ -32,7 +32,7 @@ const API = {
         }
 
         // for dev
-        if (host === 'localhost') {
+        if (host === 'localhost' || host === '0.0.0.0') {
             host = '54.176.230.26';
         }
 
@@ -54,6 +54,20 @@ const API = {
      * @param {string} eventID   an ID will be emitted when got data
      */
     getData(tableName, startTime, endTime, eventID) {
+        // if query the cached data, return cache without calling get
+        // this is client side cache, so make cache simple and small--> cache size = 1
+        if (this.tableName && this.tableName === tableName &&
+            this.startTime && this.startTime === startTime &&
+            this.endTime && this.endTime === endTime && this.data) {
+            let event = new Event(eventID);
+            event.tableName = this.tableName;
+            event.startTime = this.startTime;
+            event.endTime = this.endTime;
+            event.data = this.data;
+            window.dispatchEvent(event);
+            console.log('hit cache');
+            return;
+        }
         let url = this.getURLFromPrams(tableName, startTime, endTime);
         this.jQueryGet(url, eventID)
     },
@@ -72,11 +86,13 @@ const API = {
         }).fail(() => {
             console.error('fail');
         }).always((data) => {
+            this.data = data; // cache data
             let event = new Event(eventID);
             event.tableName = this.tableName;
             event.startTime = this.startTime;
             event.endTime = this.endTime;
-            event.data = data;
+            event.data = this.data;
+            console.log('API: ', event);
             window.dispatchEvent(event);
         });
     }

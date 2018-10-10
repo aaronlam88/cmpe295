@@ -44,10 +44,24 @@ export default class Calendar extends React.Component {
                 this.focusTo();
             }
         });
+
+        let event = new Event('time');
+        event.startTime = from.toISOString().substring(0, 10);
+        window.dispatchEvent(event);
+        console.info(event.startTime);
     }
 
     handleToChange(to) {
-        this.setState({ to }, this.showFromMonth);
+        this.setState({ to }, () => {
+            if (!this.state.from) {
+                this.focusTo();
+            };
+        });
+
+        let event = new Event('time');
+        event.endTime = to.toISOString().substring(0, 10);
+        window.dispatchEvent(event);
+        console.info(event.endTime);
     }
 
     render() {
