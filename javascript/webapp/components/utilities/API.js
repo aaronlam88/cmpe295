@@ -77,14 +77,14 @@ const API = {
             console.debug('hit cache');
             return;
         }
+<<<<<<< HEAD
 
+=======
+        this.url = url;
+>>>>>>> 8b5a5ce56c3933323fe3a7ac92237d0c7447a117
         $.get(
             url,
         ).done((data) => {
-            console.debug('success')
-        }).fail(() => {
-            console.error('fail');
-        }).always((data) => {
             this.data = data; // cache data
             let event = new Event(eventID);
             event.tableName = this.tableName;
@@ -92,6 +92,11 @@ const API = {
             event.endTime = this.endTime;
             event.data = this.data;
             window.dispatchEvent(event);
+            console.debug('success')
+        }).fail(() => {
+            console.error('fail');
+        }).always(() => {
+            console.debug('jquery')
         });
     }
 }
