@@ -17,6 +17,7 @@ class SearchBox extends React.PureComponent {
         super(props);
         this.state = {
             value: props.tableName,
+            submittedValue: props.tableName
         };
 
         this._startTime = props.startTime;
@@ -60,26 +61,19 @@ class SearchBox extends React.PureComponent {
     }
 
     handleSubmit(event) {
-<<<<<<< HEAD
         event.preventDefault();
         let newEvent = new Event('symbolChange');
         newEvent.startTime = this._startTime;
         newEvent.endTime = this._endTime;
         newEvent.tableName = this.state.value;
         window.dispatchEvent(newEvent);
-=======
-        console.debug('SearchBox.handleSubmit');
-        API.getData(this.state.value, this._startTime, this._endTime, 'table');
-        event.preventDefault();
         this.setState({ submittedValue: this.state.value });
->>>>>>> 8b5a5ce56c3933323fe3a7ac92237d0c7447a117
     }
 
 
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
-        console.log(" to " + this.state.endTime);
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>

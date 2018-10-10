@@ -39,10 +39,6 @@ export default class Calendar extends React.PureComponent {
         let event = new Event('timeChange');
         event.startTime = from.toISOString().substring(0, 10);
         window.dispatchEvent(event);
-<<<<<<< HEAD
-=======
-        console.debug(event.startTime);
->>>>>>> 8b5a5ce56c3933323fe3a7ac92237d0c7447a117
     }
     //
     // handleToChange = (event) => this.setState({ to }, this.showFromMonth);
@@ -57,10 +53,6 @@ export default class Calendar extends React.PureComponent {
         let event = new Event('timeChange');
         event.endTime = to.toISOString().substring(0, 10);
         window.dispatchEvent(event);
-<<<<<<< HEAD
-=======
-        console.debug(event.endTime);
->>>>>>> 8b5a5ce56c3933323fe3a7ac92237d0c7447a117
     }
 
     render() {

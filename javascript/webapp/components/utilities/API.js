@@ -77,11 +77,7 @@ const API = {
             console.debug('hit cache');
             return;
         }
-<<<<<<< HEAD
-
-=======
         this.url = url;
->>>>>>> 8b5a5ce56c3933323fe3a7ac92237d0c7447a117
         $.get(
             url,
         ).done((data) => {

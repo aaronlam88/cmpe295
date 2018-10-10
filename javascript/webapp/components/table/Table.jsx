@@ -32,7 +32,7 @@ class Table extends React.PureComponent {
         window.addEventListener('dataIsReady', this.dataIsReady);
         window.addEventListener('symbolChange', this.symbolChange);
     }
-    
+
     // call before component is removed from dom
     // similar to destructor in c++
     // clean up before you leave to avoid memory leak (ex: remove listenner)
@@ -47,7 +47,9 @@ class Table extends React.PureComponent {
     }
 
     symbolChange(event) {
-        API.getData(event.tableName, event.startTime, event.endTime, 'dataIsReady');
+        // when stock symbol change, try to get new data with data fields inside event
+        // if any data field is missing from event, use current data fields from inside state
+        API.getData(event.tableName || this.state.tableName, event.startTime || this.state.startTime, event.endTime || this.state.endTime, 'dataIsReady');
     }
 
     dataIsReady(event) {
