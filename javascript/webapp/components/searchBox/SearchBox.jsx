@@ -4,6 +4,11 @@ import API from '../utilities/API.js';
 // import style
 import './SearchBox.scss';
 
+// const ChildrenComponent = ({ value }) => (
+//     <div>Current Stock: {value}</div>
+// );
+
+
 class SearchBox extends React.PureComponent {
     // init setup, only call once when component is created
     // props is immutatable
@@ -65,7 +70,7 @@ class SearchBox extends React.PureComponent {
 
     handleChange(event) {
         this.setState({
-            value: event.target.value
+            value: event.target.value,
         });
     }
 
@@ -73,17 +78,25 @@ class SearchBox extends React.PureComponent {
         console.debug('SearchBox.handleSubmit');
         API.getData(this.state.value, this._startTime, this._endTime, 'table');
         event.preventDefault();
+        this.setState({ submittedValue: this.state.value });
     }
+
 
     // render the React component or html component to the dom -> draw to browser
     // should return a single component
     render() {
+        console.log(" to " + this.state.endTime);
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
                     <section className="flex_search">
                         <div className="searchArea">
-                            <input type="text"
+                            <label id="currStock" htmlFor="stockInput">Current Stock: {this.state.submittedValue}</label>
+                            {/*<ChildrenComponent value={this.state.submittedValue} id="currStock"/>*/}
+                            <input
+                                id="stockInput"
+                                name="stockInput"
+                                type="text"
                                 placeholder="Search for..."
                                 alt="inputVal"
                                 ref={input => this.search = input}
@@ -91,8 +104,8 @@ class SearchBox extends React.PureComponent {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <div className="searchBtn">
-                            <input type="submit" value="Search" />
+                        <div>
+                            <input type="submit" value="Search" className="searchBtn" />
                         </div>
                     </section>
                 </form>
