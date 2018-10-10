@@ -17,10 +17,10 @@ class SearchBox extends React.PureComponent {
         super(props);
         this.state = {
             value: props.tableName,
-            startTime: props.startTime,
-            endTime: props.endTime,
-            submittedValue: 'GOOG',
         };
+
+        this._startTime = props.startTime;
+        this._endTime = props.endTime;
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,8 +30,6 @@ class SearchBox extends React.PureComponent {
         if (props.tableName !== state.tableName ||
             props.startTime !== state.startTime ||
             props.endTime !== state.endTime) {
-
-            API.getData(props.tableName, props.startTime, props.endTime, 'table');
             return props;
         } else {
             return null;
@@ -42,6 +40,7 @@ class SearchBox extends React.PureComponent {
     // add listenner here if needed
     componentDidMount() {
         window.addEventListener('table', (event) => this.dataIsReady(event));
+        window.addEventListener('time', (event) => this.updateTime(event));
     }
 
     // call after component update
@@ -59,9 +58,14 @@ class SearchBox extends React.PureComponent {
     dataIsReady(event) {
         this.setState({
             value: event.tableName,
-            startTime: event.startTime,
-            endTime: event.endTime
         });
+        event.preventDefault();
+    }
+
+    updateTime(event) {
+        this._startTime = event.startTime;
+        this._endTime = event.endTime;
+        event.preventDefault();
     }
 
     handleChange(event) {
@@ -71,7 +75,8 @@ class SearchBox extends React.PureComponent {
     }
 
     handleSubmit(event) {
-        API.getData(this.state.value, this.state.startTime, this.state.endTime, 'table');
+        console.debug('SearchBox.handleSubmit');
+        API.getData(this.state.value, this._startTime, this._endTime, 'table');
         event.preventDefault();
         this.setState({ submittedValue: this.state.value });
     }
