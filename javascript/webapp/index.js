@@ -12,6 +12,7 @@ import Calendar from './components/calendar/Calendar.jsx';
 import Searchbox from './components/searchBox/SearchBox.jsx';
 import Table from './components/table/Table.jsx';
 import StockChart from './components/chart/StockChart.jsx'
+import PredictResult from './components/predictResult/PredictResult.jsx'
 // import Graph from './components/graph/Graph.jsx';
 // import Button from './components/button/Button.jsx';
 
@@ -38,6 +39,9 @@ render(
             {...defaultValue}
         />
         <StockChart className="line-chart"
+            {...defaultValue}
+        />
+        <PredictResult className="result"
             {...defaultValue}
         />
     </div>,
