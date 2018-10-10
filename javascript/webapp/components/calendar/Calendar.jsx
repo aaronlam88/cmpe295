@@ -6,7 +6,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 // import style
 import './Calendar.scss';
 
-export default class Calendar extends React.Component {
+export default class Calendar extends React.PureComponent {
     constructor(props) {
         super(props);
         this.handleFromChange = this.handleFromChange.bind(this);
@@ -27,16 +27,6 @@ export default class Calendar extends React.Component {
         this.timeout = setTimeout(() => this.to.getInput().focus(), 0);
     }
 
-    showFromMonth() {
-        const { from, to } = this.state;
-        if (!from) {
-            return;
-        }
-        if (moment(to).diff(moment(from), 'months') < 2) {
-            this.to.getDayPicker().showMonth(from);
-        }
-    }
-
     handleFromChange(from) {
         // Change the from date and focus the "to" input field
         this.setState({ from }, () => {
@@ -45,10 +35,9 @@ export default class Calendar extends React.Component {
             }
         });
 
-        let event = new Event('time');
+        let event = new Event('timeChange');
         event.startTime = from.toISOString().substring(0, 10);
         window.dispatchEvent(event);
-        console.info(event.startTime);
     }
 
     handleToChange(to) {
@@ -58,10 +47,9 @@ export default class Calendar extends React.Component {
             };
         });
 
-        let event = new Event('time');
+        let event = new Event('timeChange');
         event.endTime = to.toISOString().substring(0, 10);
         window.dispatchEvent(event);
-        console.info(event.endTime);
     }
 
     render() {

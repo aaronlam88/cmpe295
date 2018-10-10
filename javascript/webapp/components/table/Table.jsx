@@ -20,28 +20,34 @@ class Table extends React.PureComponent {
 
             data: {},
         };
-        API.getData(props.tableName, props.startTime, props.endTime, 'table');
-    }
+        API.getData(props.tableName, props.startTime, props.endTime, 'dataIsReady');
 
-    static getDerivedStateFromProps(props, state) {
-        if (props.tableName !== state.tableName ||
-            props.startTime !== state.startTime ||
-            props.endTime !== state.endTime) {
-            return props;
-        } else {
-            return null;
-        }
+        this.dataIsReady = this.dataIsReady.bind(this);
+        this.symbolChange = this.symbolChange.bind(this);
     }
 
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-        window.addEventListener('table', (event) => this.dataIsReady(event));
+        window.addEventListener('dataIsReady', this.dataIsReady);
+        window.addEventListener('symbolChange', this.symbolChange);
+    }
+    
+    // call before component is removed from dom
+    // similar to destructor in c++
+    // clean up before you leave to avoid memory leak (ex: remove listenner)
+    componentWillUnmount() {
+        window.removeEventListener('dataIsReady', this.dataIsReady);
+        window.removeEventListener('symbolChange', this.symbolChange);
     }
 
     // call after component update
     componentDidUpdate(prevProps, prevState) {
 
+    }
+
+    symbolChange(event) {
+        API.getData(event.tableName, event.startTime, event.endTime, 'dataIsReady');
     }
 
     dataIsReady(event) {
