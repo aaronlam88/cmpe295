@@ -9,7 +9,7 @@ import sys
 import numpy as np
 
 # save accuracy score
-results = open(os.path.basename('SGDRegression_Score')+'.csv', 'w')
+results = open(os.path.basename('SGDRegression')+'.csv', 'w')
 
 # get_data_block_start
 from get_data import GetData
@@ -18,12 +18,16 @@ getData = GetData()
 
 fields = ['Open', 'High', 'Low', 'Close', 'Adj_Close']
 accuracy = {}
+meanSquaredError = {}
 
 symbols = getData.getAllSymbols()
 
 for symbol in symbols:
-    accuracy[symbol] = []
     allFeatures = getData.getSymbolFeaturesWithoutDate(symbol)
+
+    accuracy[symbol] = []
+    meanSquaredError[symbol] = []
+
     result = []
     features = []
 
@@ -31,17 +35,24 @@ for symbol in symbols:
         result.append(feature[3])
         features.append([feature[0], feature[3]])
 
-    # create train and test data set
+    # create train and test data set #
     X_train, X_test, y_train, y_test = train_test_split(features, result, test_size=.15)
 
     reg = SGDRegressor(max_iter=100000, loss='squared_loss', penalty='l2', shuffle=False, tol=1e-3, eta0=0.0001).fit(X_train, y_train)
     
-    # test train split #
+    # predict data #
     y_pred = reg.predict(X_test)
    
+    # accuracy score: returns the coefficient of determination R^2 of the prediction
+    # The best possible score is 1.0 and it can be negative (because the model can be arbitrarily worse)
     accuracy[symbol].append(str(round(reg.score(X_test, y_test)*100, 2))+'%')
+
+    # The square of the difference between the original values and the predicted values
+    # It gives us the measure of how far the predictions were from the actual output
+    meanSquaredError[symbol].append(str(round(mean_absolute_error(y_test, y_pred)))+'%')
     
     print("[INFO] %s: %3.2f%%" %
             (symbol, round(reg.score(X_test, y_test)*100, 2)), file=sys.stderr)
-
-    print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results) 
+    
+    print(symbol + ', ' + '(score accuracy)' + ', '.join(accuracy[symbol]), file=results)
+    print(symbol + ', ' + '(mean squared error)' + ', '.join(meanSquaredError[symbol]), file=results) 
