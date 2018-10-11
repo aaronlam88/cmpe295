@@ -18,12 +18,12 @@ class GetData:
     _features = None
     _featuresDiff = None
     _symbols = None
-    
+
     def __init__(self, dataCount=1002):
         self._dataCount = dataCount
         if self._data == None:
             self._data = self._getData()
-    
+
     def _getData(self):
         data = None
         try:
@@ -98,7 +98,7 @@ class GetData:
         """
         return features to be used with labels, use the original value
         Should work as follow
-        Table A: 
+        Table A:
             2017-12-30, 5.1, 5.2, 5.3, 5.4, 5.5, 12345
             2017-12-31, 6.1, 6.2, 6.3, 6.4, 6.5, 23456
         Table B:
@@ -115,7 +115,7 @@ class GetData:
         features.reverse()
         features.pop()
         return features
-    
+
     def getAllFeaturesDiff(self):
         """
         return featuresDiff to be used with labelsDiff, use the diff between 2 days
@@ -138,7 +138,7 @@ class GetData:
                     temp.append(float(self._data[symbol][i][j]) - float(self._data[symbol][i-1][j]))
             featuresDiff.append(temp)
         return featuresDiff
-    
+
     def getSymbolFeaturesDiff(self, symbol):
         features = []
         for i in range (self._dataCount-1, 1, -1):
@@ -165,9 +165,9 @@ class GetData:
         for key in self._data.keys():
             symbols.append(key)
         return symbols
-    
-    
-    
+
+
+
     def getSymbolCLFLabels(self, symbol, field=0):
         """
         return a single (Normal) Classifier labels[] for a stock symbol
@@ -191,3 +191,12 @@ class GetData:
             else:
                 labels.append(0)
         return labels
+
+    def getSymbolFeaturesWithoutDate(self, symbol):
+        """
+        return a single features[] for a stock symbol
+        """
+        features = []
+        for i in range (self._dataCount-1, 0, -1):
+            features.append(self._data[symbol][i][1:5])
+        return features
