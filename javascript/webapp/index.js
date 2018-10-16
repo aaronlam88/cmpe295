@@ -5,7 +5,7 @@ import moment from 'moment';
 // import { Router, Route, hashHistory } from 'react-router'
 
 // import style
-import './style/style.css';
+import './style/newStyle.css';
 
 // components
 import Calendar from './components/calendar/Calendar.jsx';
