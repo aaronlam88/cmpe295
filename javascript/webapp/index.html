@@ -10,101 +10,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
     <meta name="title" content="Stock Prediction">
+    <!--Logo-->
+    <link rel="shortcut icon" type="image/x-icon" href="../style/image/webLogo.ico" />
+    <!--css-->
+    <link rel="stylesheet" type="text/css" href="../style/newStyle.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <!-- Page Title -->
     <title>Stock Prediction</title>
 </head>
 
-<body>
-    <!--header-->
-    <div class="flex-container">
-        <div class="header">Apply Machine Learning for Stock Price Prediction\</div>
-    </div>
+<body class="mainBody">
+<!--header-->
+<header>
+    <nav class="navbar navbar-fixed-top" >
+        <div class="container">
+            <div class="row navbar-header">
+                <div id="indexLogoAll" class="col-lg-8 col-md-4 col-sm-12 col-xs-12 my-auto-vert indexLogo" onclick="location.href='index.html';">
+                    <img id="logo" src="../style/image/logo.png" alt="Stock Prediction logo" class="img-responsive center-block PredictionLogo" align="left">
+                    <h5 id="logoTextColor" class="logoText">The Stock Future</h5>
+                    <script>
+                        $(function () {
+                            $("#indexLogoAll").hover(
+                                function changeColor(){
+                                    var colors = ['#FF00A7','#60EFFF'],
+                                        randomNumber = Math.floor((Math.random() * colors.length)),
+                                        color = colors[randomNumber];
+                                    console.log("color = " + color);
+                                    if(color === '#FF00A7') {
+                                        $("#logo").attr ("src",'../style/image/logo_purple.png');
+                                    } else {
+                                        $("#logo").attr ("src",'../style/image/logo blue.png');
+                                    }
+                                    $("#logoTextColor").css('color', color);
+                                },
+                                function(){
+                                    $("#logoTextColor").css('color', '#FFF');
+                                    $("#logo").attr ("src",'../style/image/logo.png');
+                                }
+                            );
+                        });
+                    </script>
+                </div>
 
-    <!--table+prdiction-->
-    <div class="flex-container main">
+                <div class="col-lg-2 ol-md-4 col-sm-6 col-xs-6 my-auto-vert form-group">
+                    <button id="curr_btn" type="button" class="btn-blue float-right" onclick="location.href='current.html'">Current Stock</button>
+                </div>
+                <div class="col-lg-2 ol-md-4 col-sm-6 col-xs-6 my-auto-vert form-group">
+                    <button type="button" class="btn-purple float-right" onclick="location.href='prediction.html'">Our Prediction</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!--table+prdiction-->
+<div class="main container">
+    <div class="row">
         <!--tqble-->
         <div class="table_area">
             <div id=app></div>
         </div>
-        <!--prediction-->
-        <div class="prediction_area">
-            <p id="currentDate">Current Date</p>
-            <!--top 5 gainers-->
-            <div>
-                <h3>Top 5 Gainers <img class="prediction_icon" src="./style/image/top_icon.jpg" alt="top_icon" align="bottom"></h3>
-                <table id="gainer">
-                    <tr>
-                        <td><b>Company AAA</b></td>
-                        <td>5.65</td>
-                        <td class="prediction_gainer">+1.7%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company BBB</b></td>
-                        <td>3.22</td>
-                        <td class="prediction_gainer">+1.23%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company CCC</b></td>
-                        <td>2.43</td>
-                        <td class="prediction_gainer">+0.92%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company DDD</b></td>
-                        <td>1.37</td>
-                        <td class="prediction_gainer">+0.33%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company EEE</b></td>
-                        <td>1.22</td>
-                        <td class="prediction_zero">+0.00%</td>
-                    </tr>
-                </table>
-            </div>
-            <!--<hr>-->
-            <!--top 5 losers-->
-            <div>
-                <h3>Top 5 Losers <img class="prediction_icon" src="./style/image/down_icon.jpg" alt="down_icon" align="bottom"></h3>
-                <table id="loser">
-                    <tr>
-                        <td><b>Company VVV</b></td>
-                        <td>6.32</td>
-                        <td class="prediction_loser">-2.5%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company WWW</b></td>
-                        <td>4.17</td>
-                        <td class="prediction_loser">-1.4%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company XXX</b></td>
-                        <td>3.89</td>
-                        <td class="prediction_loser">-0.81%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company YYY</b></td>
-                        <td>1.96</td>
-                        <td class="prediction_loser">-0.25%</td>
-                    </tr>
-                    <tr>
-                        <td><b>Company ZZZ</b></td>
-                        <td>1.62</td>
-                        <td class="prediction_zero">-0.00%</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
     </div>
+        <p id="currentDate">Current Date</p>
+</div>
 
-    <!--stockChart-->
-    <div class="flex-container stockChart">
-        <div id="stockChart"></div>
-    </div>
+<!--stockChart-->
+<div class="stockChart">
+    <div id="stockChart"></div>
+</div>
 
-    <!--footer-->
-    <div class="flex-container">
-        <div class="footer">Copyright © 2018 SJSU Apply Machine Learning for Stock Price Prediction Group. All rights
-            reserved</div>
-    </div>
+<!--footer-->
+<footer class="myFooter navbar-fixed-bottom">
+    Copyright © 2018 SJSU Apply Machine Learning for Stock Price Prediction Group. All rights reserved.
+</footer>
 </body>
 
 <script src="bundle.js"></script>

@@ -81,7 +81,7 @@ export default class Calendar extends React.PureComponent {
                     }}
                     onDayChange={this.handleFromChange}
                 />
-                {' '} —{' '}
+                {' '} &nbsp;<span class="blueColor">—</span> &nbsp;{' '}
                 <span className="InputFromTo-to">
                   <DayPickerInput
                       ref={el => (this.to = el)}
