@@ -30,49 +30,59 @@ let defaultValue = {
     startTime: moment().subtract(30, 'days').format('YYYY-MM-DD').toString()
 };
 
-class TableComponent extends React.Component {
+class SearchBarComponent extends React.PureComponent {
     render() {
         return (
-            <div>
-                <Grid fluid>
-                    <Row>
-                        <Col sm={12} md={12} lg={5} className="customCalendar">
-                            <Calendar />
-                        </Col>
-                        <Col sm={12} md={12} lg={7} className="customSearch">
-                            <Searchbox
-                                {...defaultValue}
-                            />
-                        </Col>
-                    </Row>
-                </Grid>
-            </div>
+            <Grid fluid>
+                <Row>
+                    <Col sm={12} md={12} lg={5} className="customCalendar">
+                        <Calendar
+                            {...defaultValue}
+                        />
+                    </Col>
+                    <Col sm={12} md={12} lg={7} className="customSearch">
+                        <Searchbox
+                            {...defaultValue}
+                        />
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }
 
 
-class StockChartComponent extends React.Component {
+class StockChartComponent extends React.PureComponent {
     render() {
         return (
-            <div>
             <StockChart className="line-chart"
-                        {...defaultValue}
+                {...defaultValue}
             />
+        );
+    }
+}
+
+class StockTableComponent extends React.PureComponent {
+    render() {
+        return (
             <Table className="grid-table"
-                   {...defaultValue}
+                {...defaultValue}
             />
-            </div>
-    );
+        )
     }
 }
 
 render(
-    <TableComponent />,
-    document.getElementById('app')
+    <SearchBarComponent />,
+    document.getElementById('SearchBar')
 );
 
 render(
     <StockChartComponent />,
-    document.getElementById('stockChart')
+    document.getElementById('StockChart')
+);
+
+render(
+    <StockTableComponent />,
+    document.getElementById('StockTable')
 );

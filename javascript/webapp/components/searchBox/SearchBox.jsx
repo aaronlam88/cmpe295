@@ -1,18 +1,8 @@
 import React from 'react';
-import API from '../utilities/API.js';
+import { Grid, Row, Col, } from 'react-bootstrap';
 
 // import style
 import './SearchBox.scss';
-import {
-    Grid,
-    Row,
-    Col,
-} from 'react-bootstrap';
-
-// const ChildrenComponent = ({ value }) => (
-//     <div>Current Stock: {value}</div>
-// );
-
 
 class SearchBox extends React.PureComponent {
     // init setup, only call once when component is created
@@ -60,7 +50,7 @@ class SearchBox extends React.PureComponent {
 
     handleChange(event) {
         this.setState({
-            value: event.target.value,
+            value: event.target.value.toUpperCase(),
         });
         event.preventDefault();
     }
