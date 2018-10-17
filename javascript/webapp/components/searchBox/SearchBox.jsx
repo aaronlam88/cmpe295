@@ -6,14 +6,7 @@ import './SearchBox.scss';
 import {
     Grid,
     Row,
-    Button,
     Col,
-    Nav,
-    NavItem,
-    NavDropdown,
-    MenuItem,
-    Modal,
-    Table
 } from 'react-bootstrap';
 
 // const ChildrenComponent = ({ value }) => (
@@ -89,9 +82,9 @@ class SearchBox extends React.PureComponent {
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
-                    <Grid id="searchBar">
+                    <Grid id="searchBar" fluid>
                         <Row className="show-grid">
-                            <Col xs={12} md={6} className="centerItem singleCol">
+                            <Col xs={12} md={5} className="centerItem singleCol">
                                 <label id="currStock" htmlFor="stockInput">Current Stock: <span className="blueColor">{this.state.submittedValue}</span></label>
                             </Col>
                             <Col xs={12} md={4} className="singleCol">
@@ -106,7 +99,7 @@ class SearchBox extends React.PureComponent {
                                     onChange={this.handleChange}
                                 />
                             </Col>
-                            <Col xs={12} md={2} className="singleCol">
+                            <Col xs={12} md={3} className="singleCol">
                                 <input id="subBtn" type="submit" value="Search" className="searchBtn" />
                             </Col>
                         </Row>

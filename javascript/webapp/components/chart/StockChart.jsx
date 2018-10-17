@@ -5,6 +5,9 @@ import { Chart, Axis, Series, Tooltip, Cursor, Line } from 'react-chartjs';
 // import style
 import colors from '../commonColor.js';
 
+// import style
+import './StockChart.scss';
+
 class StockChart extends React.PureComponent {
   constructor(props) {
       super(props);
@@ -116,7 +119,7 @@ render() {
     };
 
     return (
-      <div>
+      <div className="currentChart">
         <Line
           data={data} options={chartOptions} width="1300" height="250"
         />

@@ -7,6 +7,7 @@ p {
 .table_area {
     color: white;
     width: 100%;
+    text-align: center;
 }
 
 .blueColor {
@@ -81,14 +82,21 @@ h3 {
     color: white;
 }
 
-.stockChart {
+.customCalendar {
+    padding: 40px 0;
+}
+
+.customSearch {
     width: 100%;
-    height: auto;
+    text-align: right;
+}
+
+.stockChart {
+    /*margin-top: 20px;*/
 }
 
 #stockChart {
-    width: 100%;
-    height: auto;
+    /*margin-top: 20px;*/
 }
 
 #img_all {
@@ -105,6 +113,14 @@ h3 {
     background-color: #28292B;
     color: white;
     font-size: 12px;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 
