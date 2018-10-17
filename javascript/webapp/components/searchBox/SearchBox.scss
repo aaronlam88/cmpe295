@@ -14,18 +14,9 @@
     text-align: center;
 }
 
-.flex_search {
-    width: 100%;
-}
-
-.flex_search .searchBtn {
-    //margin: 0 0 0 1rem;
-    margin-right: 0.5em;
+.searchBtn {
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
-}
-
-.searchBtn {
     background-color: #60EFFF;
     color: white;
     border-radius: 30px;
@@ -34,7 +25,9 @@
 }
 
 #subBtn {
-    padding: 5px 40px;
+    padding: 5px 0;
+    width: 100%;
+    margin-right: -40px;
 }
 
 .searchBtn:hover {
@@ -54,6 +47,7 @@ input#stockInput {
     background: #0f1e55;
     border: #60EFFF solid 1px;
     border-radius: 30px;
+    width: 100%;
 }
 
 label#currStock {
@@ -70,10 +64,18 @@ label#currStock {
     font-family: "Titillium Web", serif;
 }
 
-#searchBar {
+.centerItem{
     text-align: center;
 }
 
-#searchBar col {
+Col {
     background: #5a6a8b;
+    margin: 10px 0;
 }
+
+.singleCol {
+   margin: 10px 0;
+}
+
+
+

@@ -91,10 +91,10 @@ class SearchBox extends React.PureComponent {
                 <form onSubmit={this.handleSubmit}>
                     <Grid id="searchBar">
                         <Row className="show-grid">
-                            <Col xs={12} md={6}>
+                            <Col xs={12} md={6} className="centerItem singleCol">
                                 <label id="currStock" htmlFor="stockInput">Current Stock: <span className="blueColor">{this.state.submittedValue}</span></label>
                             </Col>
-                            <Col xs={12} md={4}>
+                            <Col xs={12} md={4} className="singleCol">
                                 <input
                                     id="stockInput"
                                     name="stockInput"
@@ -106,7 +106,7 @@ class SearchBox extends React.PureComponent {
                                     onChange={this.handleChange}
                                 />
                             </Col>
-                            <Col xs={12} md={2}>
+                            <Col xs={12} md={2} className="singleCol">
                                 <input id="subBtn" type="submit" value="Search" className="searchBtn" />
                             </Col>
                         </Row>

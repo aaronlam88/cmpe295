@@ -80,6 +80,7 @@
     //box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.15)
     border: 1px solid rgba(96, 239, 255, 0.5);
     color: #60EFFF;
+    font-size: 130%;
 }
 
 .ReactTable .rt-thead .rt-tr {
@@ -412,7 +413,8 @@
 
 .ReactTable .-pagination .-pageJump input {
     width: 70px;
-    text-align: center
+    text-align: center;
+    color: black;
 }
 
 .ReactTable .-pagination .-pageSizeOptions {
