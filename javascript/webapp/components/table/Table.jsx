@@ -68,58 +68,57 @@ class Table extends React.PureComponent {
         let data = this.state.data ? Array.from(this.state.data) : [];
 
         return (
-            <div>
-                <ReactTable
-                    data={data}
-                    noDataText='Loading Data ...'
-                    columns={[
-                        {
-                            "Header": "Date",
-                            "accessor": "Date"
-                        },
-                        {
-                            "Header": "Open",
-                            "id": "Open",
-                            "accessor": d => {
-                                return d.Open.toFixed(4);
-                            }
-                        },
-                        {
-                            "Header": "High",
-                            "id": "High",
-                            "accessor": d => {
-                                return d.High.toFixed(4);
-                            }
-                        },
-                        {
-                            "Header": "Low",
-                            "id": "Low",
-                            "accessor": d => {
-                                return d.Low.toFixed(4);
-                            }
-                        },
-                        {
-                            "Header": "Close",
-                            "id": "Close",
-                            "accessor": d => {
-                                return d.Close.toFixed(4);
-                            }
-                        },
-                        {
-                            "Header": "Adj Close",
-                            "id": "Adj Close",
-                            "accessor": d => {
-                                return d['Adj Close'].toFixed(4);
-                            }
-                        },
-                        {
-                            "Header": "Volume",
-                            "accessor": "Volume"
+            <ReactTable
+                data={data}
+                noDataText='Loading Data ...'
+                columns={[
+                    {
+                        "Header": "Date",
+                        "accessor": "Date"
+                    },
+                    {
+                        "Header": "Open",
+                        "id": "Open",
+                        "accessor": d => {
+                            return d.Open.toFixed(4);
                         }
-                    ]}
-                    defaultPageSize={10}
-                />
-            </div>);
+                    },
+                    {
+                        "Header": "High",
+                        "id": "High",
+                        "accessor": d => {
+                            return d.High.toFixed(4);
+                        }
+                    },
+                    {
+                        "Header": "Low",
+                        "id": "Low",
+                        "accessor": d => {
+                            return d.Low.toFixed(4);
+                        }
+                    },
+                    {
+                        "Header": "Close",
+                        "id": "Close",
+                        "accessor": d => {
+                            return d.Close.toFixed(4);
+                        }
+                    },
+                    {
+                        "Header": "Adj Close",
+                        "id": "Adj Close",
+                        "accessor": d => {
+                            return d['Adj Close'].toFixed(4);
+                        }
+                    },
+                    {
+                        "Header": "Volume",
+                        "accessor": "Volume"
+                    }
+                ]}
+                defaultPageSize={10}
+            />
+        );
     }
 }
 

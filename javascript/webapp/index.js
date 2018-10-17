@@ -2,10 +2,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import moment from 'moment';
+import {
+    Grid,
+    Row,
+    Col,
+} from 'react-bootstrap';
 // import { Router, Route, hashHistory } from 'react-router'
 
 // import style
-import './style/style.css';
+import './style/newStyle.css';
 
 // components
 import Calendar from './components/calendar/Calendar.jsx';
@@ -23,43 +28,61 @@ let defaultValue = {
     tableName: 'GOOG',
     endTime: moment().format('YYYY-MM-DD').toString(),
     startTime: moment().subtract(30, 'days').format('YYYY-MM-DD').toString()
-}
+};
 
-class TableComponent extends React.Component {
+class SearchBarComponent extends React.PureComponent {
     render() {
         return (
-            <div className='grid-main'>
-                <div className="sear_calen">
-                    <Calendar />
-                    <Searchbox
-                        {...defaultValue}
-                    />
-                </div>
-                <Table className="grid-table"
-                       {...defaultValue}
-                />
-            </div>
+            <Grid fluid>
+                <Row>
+                    <Col sm={12} md={12} lg={5} className="customCalendar">
+                        <Calendar
+                            {...defaultValue}
+                        />
+                    </Col>
+                    <Col sm={12} md={12} lg={7} className="customSearch">
+                        <Searchbox
+                            {...defaultValue}
+                        />
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }
 
 
-class StockChartComponent extends React.Component {
+class StockChartComponent extends React.PureComponent {
     render() {
         return (
             <StockChart className="line-chart"
-                        {...defaultValue}
+                {...defaultValue}
             />
-    );
+        );
+    }
+}
+
+class StockTableComponent extends React.PureComponent {
+    render() {
+        return (
+            <Table className="grid-table"
+                {...defaultValue}
+            />
+        )
     }
 }
 
 render(
-    <TableComponent />,
-    document.getElementById('app')
+    <SearchBarComponent />,
+    document.getElementById('SearchBar')
 );
 
 render(
     <StockChartComponent />,
-    document.getElementById('stockChart')
+    document.getElementById('StockChart')
+);
+
+render(
+    <StockTableComponent />,
+    document.getElementById('StockTable')
 );

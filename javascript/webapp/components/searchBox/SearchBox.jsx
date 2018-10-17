@@ -1,13 +1,8 @@
 import React from 'react';
-import API from '../utilities/API.js';
+import { Grid, Row, Col, } from 'react-bootstrap';
 
 // import style
 import './SearchBox.scss';
-
-// const ChildrenComponent = ({ value }) => (
-//     <div>Current Stock: {value}</div>
-// );
-
 
 class SearchBox extends React.PureComponent {
     // init setup, only call once when component is created
@@ -55,7 +50,7 @@ class SearchBox extends React.PureComponent {
 
     handleChange(event) {
         this.setState({
-            value: event.target.value,
+            value: event.target.value.toUpperCase(),
         });
         event.preventDefault();
     }
@@ -77,27 +72,31 @@ class SearchBox extends React.PureComponent {
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
-                    <section className="flex_search">
-                        <div className="searchArea">
-                            <label id="currStock" htmlFor="stockInput">Current Stock: {this.state.submittedValue}</label>
-                            {/*<ChildrenComponent value={this.state.submittedValue} id="currStock"/>*/}
-                            <input
-                                id="stockInput"
-                                name="stockInput"
-                                type="text"
-                                placeholder="Search for..."
-                                alt="inputVal"
-                                ref={input => this.search = input}
-                                value={this.state.value}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div>
-                            <input type="submit" value="Search" className="searchBtn" />
-                        </div>
-                    </section>
+                    <Grid id="searchBar" fluid>
+                        <Row className="show-grid">
+                            <Col xs={12} md={5} className="centerItem singleCol">
+                                <label id="currStock" htmlFor="stockInput">Current Stock: <span className="blueColor">{this.state.submittedValue}</span></label>
+                            </Col>
+                            <Col xs={12} md={4} className="singleCol">
+                                <input
+                                    id="stockInput"
+                                    name="stockInput"
+                                    type="text"
+                                    placeholder="Search for..."
+                                    alt="inputVal"
+                                    ref={input => this.search = input}
+                                    value={this.state.value}
+                                    onChange={this.handleChange}
+                                />
+                            </Col>
+                            <Col xs={12} md={3} className="singleCol">
+                                <input id="subBtn" type="submit" value="Search" className="searchBtn" />
+                            </Col>
+                        </Row>
+                    </Grid>
                 </form>
-            </div>);
+            </div>
+        );
     }
 }
 

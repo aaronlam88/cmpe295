@@ -4,44 +4,14 @@ p {
     font-family: "Titillium Web", serif;
 }
 
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    /*background-color: DodgerBlue;*/
-    font-family: "Titillium Web", serif;
-}
-
-.flex-container > div {
-    margin: 10px;
+.table_area {
+    color: white;
+    width: 100%;
     text-align: center;
 }
 
-.header {
-    width: 100%;
-    line-height: 30px;
-    background-color: #e6e6e6;
-    color: black;
-    font-size: 12px;
-}
-
-.main {
-    width: 100%;
-    flex-flow: row wrap;
-    background-color: white;
-    justify-content: center;
-    line-height: 20px;
-}
-
-.table_area {
-    width: 58%;
-    flex: 1 1 680px;
-    order: 2;
-}
-
-.prediction_area {
-    width: 38%;
-    flex: 1 1 300px;
-    order: 1;
+.blueColor {
+    color: #60EFFF;
 }
 
 #currentDate {
@@ -64,7 +34,7 @@ table {
 td {
     padding: 5px;
     border-bottom: 1px solid #f5f5f5;
-    width: 33%;
+    /*width: 33%;*/
 }
 
 #gainer tr:hover td {
@@ -112,14 +82,21 @@ h3 {
     color: white;
 }
 
-.stockChart {
+.customCalendar {
+    padding: 40px 0;
+}
+
+.customSearch {
     width: 100%;
-    height: auto;
+    text-align: right;
+}
+
+.stockChart {
+    /*margin-top: 20px;*/
 }
 
 #stockChart {
-    width: 100%;
-    height: auto;
+    /*margin-top: 20px;*/
 }
 
 #img_all {
@@ -138,52 +115,12 @@ h3 {
     font-size: 12px;
 }
 
-.sear_calen {
-    display: flex;
-    flex-direction: row;
+.container-fluid {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
 }
 
-@media only screen and (max-width: 650px) {
 
-    .sear_calen {
-        flex-direction: column;
-    }
-
-
-}
-
-/*---------- Calendar.jsx starts here ----------*/
-
-.flex_calendar {
-    display: flex;
-    margin-bottom: 5px;
-    text-align: right;
-    /*flex: 1 1 450px;*/
-}
-
-.InputFromTo {
-    display: flex;
-    flex: 1;
-}
-
-.InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-    background-color: #f0f8ff !important;
-    color: #249ba2;
-}
-.InputFromTo .DayPicker-Day {
-    border-radius: 0 !important;
-}
-.InputFromTo .DayPicker-Day--start {
-    border-top-left-radius: 50% !important;
-    border-bottom-left-radius: 50% !important;
-}
-.InputFromTo .DayPicker-Day--end {
-    border-top-right-radius: 50% !important;
-    border-bottom-right-radius: 50% !important;
-}
-.InputFromTo .DayPickerInput-Overlay {
-    width: 550px;
-}
-.InputFromTo-to .DayPickerInput-Overlay {
-    margin-left: -198px;
-}
