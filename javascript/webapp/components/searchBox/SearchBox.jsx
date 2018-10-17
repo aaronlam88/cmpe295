@@ -3,6 +3,18 @@ import API from '../utilities/API.js';
 
 // import style
 import './SearchBox.scss';
+import {
+    Grid,
+    Row,
+    Button,
+    Col,
+    Nav,
+    NavItem,
+    NavDropdown,
+    MenuItem,
+    Modal,
+    Table
+} from 'react-bootstrap';
 
 // const ChildrenComponent = ({ value }) => (
 //     <div>Current Stock: {value}</div>
@@ -77,27 +89,31 @@ class SearchBox extends React.PureComponent {
         return (
             <div className="mySearch">
                 <form onSubmit={this.handleSubmit}>
-                    <section className="flex_search">
-                        <div className="searchArea">
-                            <label id="currStock" htmlFor="stockInput">Current Stock: {this.state.submittedValue}</label>
-                            {/*<ChildrenComponent value={this.state.submittedValue} id="currStock"/>*/}
-                            <input
-                                id="stockInput"
-                                name="stockInput"
-                                type="text"
-                                placeholder="Search for..."
-                                alt="inputVal"
-                                ref={input => this.search = input}
-                                value={this.state.value}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div>
-                            <input type="submit" value="Search" className="searchBtn" />
-                        </div>
-                    </section>
+                    <Grid id="searchBar">
+                        <Row className="show-grid">
+                            <Col xs={12} md={6}>
+                                <label id="currStock" htmlFor="stockInput">Current Stock: <span className="blueColor">{this.state.submittedValue}</span></label>
+                            </Col>
+                            <Col xs={12} md={4}>
+                                <input
+                                    id="stockInput"
+                                    name="stockInput"
+                                    type="text"
+                                    placeholder="Search for..."
+                                    alt="inputVal"
+                                    ref={input => this.search = input}
+                                    value={this.state.value}
+                                    onChange={this.handleChange}
+                                />
+                            </Col>
+                            <Col xs={12} md={2}>
+                                <input id="subBtn" type="submit" value="Search" className="searchBtn" />
+                            </Col>
+                        </Row>
+                    </Grid>
                 </form>
-            </div>);
+            </div>
+        );
     }
 }
 

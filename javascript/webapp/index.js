@@ -28,7 +28,7 @@ let defaultValue = {
 class TableComponent extends React.Component {
     render() {
         return (
-            <div className=''>
+            <div className='myCalendar'>
                 <div className="sear_calen">
                     <Calendar />
                     <Searchbox

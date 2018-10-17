@@ -266,18 +266,17 @@ h5.logoText {
     padding: 20px 0;
 }
 
+#currTime {
+    padding-top: 20px;
+    text-align: center;
+}
+
 
 /* ----------current stock starts here ----------*/
 #curr_btn {
     background: #203353;
     border: #60EFFF 1px solid;
 }
-
-.table_area {
-    color: white;
-}
-
-
 
 /* ----------prediction stock starts here ----------*/
 #pre_btn {
