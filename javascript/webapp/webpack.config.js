@@ -69,6 +69,6 @@ module.exports = {
         inline: true,
         contentBase: '.',
         host: '0.0.0.0',
-        port: 9080,
+        port: 8080,
     }
 }

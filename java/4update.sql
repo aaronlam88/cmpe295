@@ -1,4 +1,5 @@
 SET SQL_SAFE_UPDATES = 0;
+
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`^BSESN`), `updateStatus` = 0 WHERE Symbol = "^BSESN";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`^DJI`), `updateStatus` = 0 WHERE Symbol = "^DJI";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`^FTSE`), `updateStatus` = 0 WHERE Symbol = "^FTSE";
@@ -75,6 +76,7 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`BHGE`), `updateStatus` = 0 WHERE Symbol = "BHGE";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`BIIB`), `updateStatus` = 0 WHERE Symbol = "BIIB";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`BK`), `updateStatus` = 0 WHERE Symbol = "BK";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`BKNG`), `updateStatus` = 0 WHERE Symbol = "BKNG";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`BLK`), `updateStatus` = 0 WHERE Symbol = "BLK";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`BLL`), `updateStatus` = 0 WHERE Symbol = "BLL";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`BMY`), `updateStatus` = 0 WHERE Symbol = "BMY";
@@ -144,7 +146,6 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`DLR`), `updateStatus` = 0 WHERE Symbol = "DLR";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`DLTR`), `updateStatus` = 0 WHERE Symbol = "DLTR";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`DOV`), `updateStatus` = 0 WHERE Symbol = "DOV";
-UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`DPS`), `updateStatus` = 0 WHERE Symbol = "DPS";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`DRE`), `updateStatus` = 0 WHERE Symbol = "DRE";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`DRI`), `updateStatus` = 0 WHERE Symbol = "DRI";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`DTE`), `updateStatus` = 0 WHERE Symbol = "DTE";
@@ -243,10 +244,12 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`IFF`), `updateStatus` = 0 WHERE Symbol = "IFF";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`ILMN`), `updateStatus` = 0 WHERE Symbol = "ILMN";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`INCY`), `updateStatus` = 0 WHERE Symbol = "INCY";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`INFO`), `updateStatus` = 0 WHERE Symbol = "INFO";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`INTC`), `updateStatus` = 0 WHERE Symbol = "INTC";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`INTU`), `updateStatus` = 0 WHERE Symbol = "INTU";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`IP`), `updateStatus` = 0 WHERE Symbol = "IP";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`IPG`), `updateStatus` = 0 WHERE Symbol = "IPG";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`IPGP`), `updateStatus` = 0 WHERE Symbol = "IPGP";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`IQV`), `updateStatus` = 0 WHERE Symbol = "IQV";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`IR`), `updateStatus` = 0 WHERE Symbol = "IR";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`IRM`), `updateStatus` = 0 WHERE Symbol = "IRM";
@@ -286,7 +289,6 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`LNT`), `updateStatus` = 0 WHERE Symbol = "LNT";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`LOW`), `updateStatus` = 0 WHERE Symbol = "LOW";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`LRCX`), `updateStatus` = 0 WHERE Symbol = "LRCX";
-UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`LUK`), `updateStatus` = 0 WHERE Symbol = "LUK";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`LUV`), `updateStatus` = 0 WHERE Symbol = "LUV";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`LYB`), `updateStatus` = 0 WHERE Symbol = "LYB";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`M`), `updateStatus` = 0 WHERE Symbol = "M";
@@ -311,7 +313,6 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MMM`), `updateStatus` = 0 WHERE Symbol = "MMM";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MNST`), `updateStatus` = 0 WHERE Symbol = "MNST";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MO`), `updateStatus` = 0 WHERE Symbol = "MO";
-UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MON`), `updateStatus` = 0 WHERE Symbol = "MON";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MOS`), `updateStatus` = 0 WHERE Symbol = "MOS";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MPC`), `updateStatus` = 0 WHERE Symbol = "MPC";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MRK`), `updateStatus` = 0 WHERE Symbol = "MRK";
@@ -323,6 +324,7 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MTD`), `updateStatus` = 0 WHERE Symbol = "MTD";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MU`), `updateStatus` = 0 WHERE Symbol = "MU";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`MYL`), `updateStatus` = 0 WHERE Symbol = "MYL";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NAVI`), `updateStatus` = 0 WHERE Symbol = "ZTS";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NBL`), `updateStatus` = 0 WHERE Symbol = "NBL";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NCLH`), `updateStatus` = 0 WHERE Symbol = "NCLH";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NDAQ`), `updateStatus` = 0 WHERE Symbol = "NDAQ";
@@ -332,6 +334,7 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NFX`), `updateStatus` = 0 WHERE Symbol = "NFX";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NI`), `updateStatus` = 0 WHERE Symbol = "NI";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NKE`), `updateStatus` = 0 WHERE Symbol = "NKE";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NKTR`), `updateStatus` = 0 WHERE Symbol = "NKTR";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NLSN`), `updateStatus` = 0 WHERE Symbol = "NLSN";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NOC`), `updateStatus` = 0 WHERE Symbol = "NOC";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`NOV`), `updateStatus` = 0 WHERE Symbol = "NOV";
@@ -404,6 +407,7 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SEE`), `updateStatus` = 0 WHERE Symbol = "SEE";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SHW`), `updateStatus` = 0 WHERE Symbol = "SHW";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SIG`), `updateStatus` = 0 WHERE Symbol = "SIG";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SIVB`), `updateStatus` = 0 WHERE Symbol = "ZTS";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SJM`), `updateStatus` = 0 WHERE Symbol = "SJM";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SLB`), `updateStatus` = 0 WHERE Symbol = "SLB";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SLG`), `updateStatus` = 0 WHERE Symbol = "SLG";
@@ -420,6 +424,7 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`STZ`), `updateStatus` = 0 WHERE Symbol = "STZ";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SWK`), `updateStatus` = 0 WHERE Symbol = "SWK";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SWKS`), `updateStatus` = 0 WHERE Symbol = "SWKS";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SYF`), `updateStatus` = 0 WHERE Symbol = "SYF";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SYK`), `updateStatus` = 0 WHERE Symbol = "SYK";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SYMC`), `updateStatus` = 0 WHERE Symbol = "SYMC";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`SYY`), `updateStatus` = 0 WHERE Symbol = "SYY";
@@ -439,7 +444,7 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`TSCO`), `updateStatus` = 0 WHERE Symbol = "TSCO";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`TSN`), `updateStatus` = 0 WHERE Symbol = "TSN";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`TSS`), `updateStatus` = 0 WHERE Symbol = "TSS";
-UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`TWX`), `updateStatus` = 0 WHERE Symbol = "TWX";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`TTWO`), `updateStatus` = 0 WHERE Symbol = "TTWO";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`TXN`), `updateStatus` = 0 WHERE Symbol = "TXN";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`TXT`), `updateStatus` = 0 WHERE Symbol = "TXT";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`UAA`), `updateStatus` = 0 WHERE Symbol = "UAA";
@@ -470,6 +475,7 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WBA`), `updateStatus` = 0 WHERE Symbol = "WBA";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WDC`), `updateStatus` = 0 WHERE Symbol = "WDC";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WEC`), `updateStatus` = 0 WHERE Symbol = "WEC";
+UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WELL`), `updateStatus` = 0 WHERE Symbol = "WELL";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WFC`), `updateStatus` = 0 WHERE Symbol = "WFC";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WHR`), `updateStatus` = 0 WHERE Symbol = "WHR";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WLTW`), `updateStatus` = 0 WHERE Symbol = "WLTW";
@@ -478,7 +484,6 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WMT`), `updateStatus` = 0 WHERE Symbol = "WMT";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WU`), `updateStatus` = 0 WHERE Symbol = "WU";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WY`), `updateStatus` = 0 WHERE Symbol = "WY";
-UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WYN`), `updateStatus` = 0 WHERE Symbol = "WYN";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`WYNN`), `updateStatus` = 0 WHERE Symbol = "WYNN";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`XEC`), `updateStatus` = 0 WHERE Symbol = "XEC";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`XEL`), `updateStatus` = 0 WHERE Symbol = "XEL";
@@ -492,4 +497,5 @@ UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `Stoc
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`ZBH`), `updateStatus` = 0 WHERE Symbol = "ZBH";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`ZION`), `updateStatus` = 0 WHERE Symbol = "ZION";
 UPDATE `StockDatabase`.`4update` SET `lastUpdate` = (SELECT MAX(Date) FROM `StockDatabase`.`ZTS`), `updateStatus` = 0 WHERE Symbol = "ZTS";
+
 SET SQL_SAFE_UPDATES = 1;

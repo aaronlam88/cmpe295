@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- For SEO -->
+    <meta name="description" content="Using the power of machine learning to do stock prices prediction. This is a tool to help small investors to make the right move">
+    <meta name="keywords" content="stock, prediction, future, price, market, machine learning, predict, up, down, wall-street, stock-market, news, breaking-news">
+    <meta name="author" content="aaronlam88, lq3297401, ShuzhongChen, littlesatellite">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="title" content="Stock Prediction">
+    <!-- Page Title -->
+    <title>Stock Prediction</title>
+</head>
+
+<body>
+    <!--header-->
+    <div class="flex-container">
+        <div class="header">Apply Machine Learning for Stock Price Prediction\</div>
+    </div>
+
+    <!--table+prdiction-->
+    <div class="flex-container main">
+        <!--tqble-->
+        <div class="table_area">
+            <div id=app></div>
+        </div>
+        <!--prediction-->
+        <div class="prediction_area">
+            <p id="currentDate">Current Date</p>
+            <!--top 5 gainers-->
+            <div>
+                <h3>Top 5 Gainers <img class="prediction_icon" src="./style/image/top_icon.jpg" alt="top_icon"></h3>
+                <table id="gainer">
+                    <tr>
+                        <td><b>Company AAA</b></td>
+                        <td>5.65</td>
+                        <td class="prediction_gainer">+1.7%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company BBB</b></td>
+                        <td>3.22</td>
+                        <td class="prediction_gainer">+1.23%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company CCC</b></td>
+                        <td>2.43</td>
+                        <td class="prediction_gainer">+0.92%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company DDD</b></td>
+                        <td>1.37</td>
+                        <td class="prediction_gainer">+0.33%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company EEE</b></td>
+                        <td>1.22</td>
+                        <td class="prediction_zero">+0.00%</td>
+                    </tr>
+                </table>
+            </div>
+            <!--<hr>-->
+            <!--top 5 losers-->
+            <div>
+                <h3>Top 5 Losers <img class="prediction_icon" src="./style/image/down_icon.jpg" alt="down_icon"></h3>
+                <table id="loser">
+                    <tr>
+                        <td><b>Company VVV</b></td>
+                        <td>6.32</td>
+                        <td class="prediction_loser">-2.5%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company WWW</b></td>
+                        <td>4.17</td>
+                        <td class="prediction_loser">-1.4%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company XXX</b></td>
+                        <td>3.89</td>
+                        <td class="prediction_loser">-0.81%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company YYY</b></td>
+                        <td>1.96</td>
+                        <td class="prediction_loser">-0.25%</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company ZZZ</b></td>
+                        <td>1.62</td>
+                        <td class="prediction_zero">-0.00%</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--style/image-->
+    <div class="flex-container">
+        <div class="graph">
+            <hr>
+            <img id="img_all" src="./style/image/all_img.jpg" alt="stock_all">
+        </div>
+    </div>
+
+    <!--footer-->
+    <div class="flex-container">
+        <div class="footer">Copyright © 2018 SJSU Apply Machine Learning for Stock Price Prediction Group. All rights
+            reserved</div>
+    </div>
+</body>
+
+<script src="bundle.js"></script>
+
+</html>

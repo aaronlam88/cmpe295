@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class DatabaseManager {
     private static Logger logger = LoggerFactory.getLogger(DatabaseManager.class);
 
-    private static int maxRun = 100;
+    private static int maxRun = 500;
     private static int BATCHSIZE = 50 * 1000;
     private static java.util.Date currentDate = new java.util.Date();
 
