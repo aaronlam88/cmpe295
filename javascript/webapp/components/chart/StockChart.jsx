@@ -63,7 +63,6 @@ class StockChart extends React.PureComponent {
 
 
         let line = {};
-
         // read more about line datasets here http://www.chartjs.org/docs/latest/charts/line.html
         line.data = {
             labels: labels,
@@ -86,7 +85,7 @@ class StockChart extends React.PureComponent {
 
                     // ==== points on the line ====
                     pointBackgroundColor: colors.green, // point inside color
-                    pointBorderColor: colors.white, // point outside color
+                    pointBorderColor: colors.green, // point outside color
                     pointHighlightFill: colors.white,
                     pointHighlightStroke: colors.green30,
                     pointRadius: 3,
@@ -101,17 +100,17 @@ class StockChart extends React.PureComponent {
 
                     // ==== the area under the line ===
                     fill: false, // should the area below the line be fill with color fillColor
-                    fillColor: colors.green30,
+                    fillColor: colors.purple,
 
                     // ==== the line ====
-                    borderColor: colors.green30, // line color
+                    borderColor: colors.purple30, // line color
                     borderWidth: 1, // width of the line
 
                     // ==== points on the line ====
-                    pointBackgroundColor: colors.green, // point inside color
-                    pointBorderColor: colors.white, // point outside color
+                    pointBackgroundColor: colors.purple, // point inside color
+                    pointBorderColor: colors.purple, // point outside color
                     pointHighlightFill: colors.white,
-                    pointHighlightStroke: colors.green30,
+                    pointHighlightStroke: colors.purple30,
                     pointRadius: 3,
                     pointStyle: 'circle', // 'circle', 'cross', 'crossRot', 'dash', 'line', 'rect', 'rectRounded', 'rectRot', 'star', 'triangle',
                 },
@@ -127,18 +126,46 @@ class StockChart extends React.PureComponent {
                 fill: true,
                 backgroundColor: colors.green60,
                 borderColor: colors.green,
+                fontSize: 25,
+                fontColor: colors.green,
+                fontFamily: "DIN Condensed",
             },
             legend: {
                 display: true,
                 position: 'top', // 'top','bottom', 'left', 'right'
                 labels: {
                     boxWidth: 50,
-                    fontSize: 10,
+                    boxHeight: 40,
+                    fontSize: 20,
                     fontColor: colors.white,
-                    padding: 5,
+                    padding: 15,
+                    fontFamily: "DIN Condensed",
                 }
             },
-        }
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        // display: false,
+                        color:colors.green5,
+                    },
+                    ticks: {
+                        // beginAtZero:true,
+                        fontColor: colors.green60,
+                        fontFamily: "DIN",
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        // display: false,
+                        color:colors.green5,
+                    },
+                    ticks: {
+                        fontColor: colors.green,
+                        fontFamily: "DIN",
+                    },
+                }]
+            }
+        };
         return line;
     }
 
