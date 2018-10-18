@@ -282,24 +282,14 @@ h5.logoText {
 
 #overlay img{
     z-index: -1;
-    width: 100%;
+    width: 1200px;
     height: auto;
     overflow: hidden;
-    position: relative;
+    position: absolute;
     display: block;
-    opacity: 0.5;
+    opacity: 0.2;
+    margin-top: 30%;
 }
-
-/*#overlay {*/
-    /*!*background-image: url("./image/index_back.png");*!*/
-    /*z-index: -1;*/
-    /*width: 60%;*/
-    /*height: auto;*/
-    /*!*overflow: hidden;*!*/
-    /*position: relative;*/
-    /*display: block;*/
-    /*opacity: 0.5;*/
-/*}*/
 
 /* ----------prediction stock starts here ----------*/
 #pre_btn {
