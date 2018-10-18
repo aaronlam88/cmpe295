@@ -1,5 +1,7 @@
 .InputFromTo {
-  text-align: center;
+  text-align: left;
+  padding: 40px 0;
+  color: white;
 }
 
 /* DayPicker styles */
@@ -7,6 +9,8 @@
 .DayPicker {
     display: inline-block;
     font-size: 1rem;
+    background: #0f1e55;
+    border: #60EFFF 1px solid;
 }
 
 .DayPicker-wrapper {
@@ -96,7 +100,7 @@
 .DayPicker-Weekday {
     display: table-cell;
     padding: 0.5em;
-    color: #8B9898;
+    color: #60EFFF;
     text-align: center;
     font-size: 0.875em;
 }
@@ -148,7 +152,7 @@
     background-color: transparent;
     background-image: none;
     box-shadow: none;
-    color: #4A90E2;
+    color: #60EFFF;
     font-size: 0.875em;
     cursor: pointer;
 }
@@ -156,8 +160,10 @@
 /* Default modifiers */
 
 .DayPicker-Day--today {
-    color: #D0021B;
+    color: #0f1e55;
     font-weight: 700;
+    font-size: 150%;
+    background: #60EFFF;
 }
 
 .DayPicker-Day--outside {
@@ -166,7 +172,7 @@
 }
 
 .DayPicker-Day--disabled {
-    color: #DCE0E0;
+    color: #5a6a8b;
     cursor: default;
     /* background-color: #eff1f1; */
 }
@@ -192,7 +198,7 @@
 }
 
 .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-    background-color: #B7DAFF;
+    background-color: rgba(96, 239, 255, 0.5);
 }
 
 /* DayPickerInput */
@@ -203,10 +209,18 @@
 
 .DayPickerInput > input {
   padding: 0.5em 1em;
+  background: transparent;
+  border: #60EFFF 1px solid;
+  border-radius: 20px;
+  width: 100%;
 }
 
 .DayPickerInput-OverlayWrapper {
     position: relative;
+}
+
+.blueColor {
+  color: #60EFFF;
 }
 
 .DayPickerInput-Overlay {
@@ -215,4 +229,30 @@
     z-index: 99;
     background: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+input {
+  outline: none !important;
+  color: white;
+}
+
+::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: rgba(255, 255, 255, 0.6);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 }

@@ -32,7 +32,7 @@ const API = {
         }
 
         // for dev
-        if (host === 'localhost') {
+        if (host === 'localhost' || host === '0.0.0.0') {
             host = '54.176.230.26';
         }
 
@@ -65,19 +65,34 @@ const API = {
      * @param {string} url 
      */
     jQueryGet(url, eventID) {
-        $.get(
-            url,
-        ).done((data) => {
-            console.debug('success')
-        }).fail(() => {
-            console.error('fail');
-        }).always((data) => {
+        // if query the cached data, return cache without calling get
+        // this is client side cache, so make cache simple and small--> cache size = 1
+        if (this.url && this.url === url && this.data) {
             let event = new Event(eventID);
             event.tableName = this.tableName;
             event.startTime = this.startTime;
             event.endTime = this.endTime;
-            event.data = data;
+            event.data = this.data;
             window.dispatchEvent(event);
+            console.debug('hit cache');
+            return;
+        }
+        this.url = url;
+        $.get(
+            url,
+        ).done((data) => {
+            this.data = data; // cache data
+            let event = new Event(eventID);
+            event.tableName = this.tableName;
+            event.startTime = this.startTime;
+            event.endTime = this.endTime;
+            event.data = this.data;
+            window.dispatchEvent(event);
+            console.debug('success')
+        }).fail(() => {
+            console.error('fail');
+        }).always(() => {
+            console.debug('jquery')
         });
     }
 }
