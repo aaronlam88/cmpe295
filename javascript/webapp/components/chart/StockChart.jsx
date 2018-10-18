@@ -33,6 +33,9 @@ class StockChart extends React.PureComponent {
 
     dataIsReady(event) {
         this.setState({
+            tableName: event.tableName,
+            startTime: event.startTime,
+            endTime: event.endTime,
             data: event.data
         });
     }
