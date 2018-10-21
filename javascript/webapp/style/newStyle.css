@@ -171,7 +171,15 @@ h5.logoText {
     margin-left: 60px;
     padding-top: 17px;
     font-size: 150%;
-    margin-top: -50px;
+    /*margin-top: -50px;*/
+    color: white;
+}
+
+h5#logoTextColor {
+    margin-left: 60px;
+    padding-top: 17px;
+    font-size: 170%;
+    margin-top: -55px;
     color: white;
 }
 
@@ -230,7 +238,7 @@ h5.logoText {
 
 /* ----index developer starts here ----*/
 .developer {
-    font-family: "2D-DIN Condensed Bold", serif;
+    font-family: "D-DIN Condensed", serif;
     text-align: center;
     margin-top: 50px;
 }
