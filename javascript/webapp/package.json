@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --inline --hot --content-base ."
+    "start": "webpack-dev-server --inline --hot --content-base .",
+    "build": "webpack && cp -R style index.html build/bundle.js ../server/public"
   },
   "author": "",
   "license": "ISC",
