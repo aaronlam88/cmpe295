@@ -1,4 +1,5 @@
 import React from 'react';
+import API from '../utilities/API.js';
 import { Grid, Row, Col, } from 'react-bootstrap';
 
 // import style
@@ -17,6 +18,8 @@ class SearchBox extends React.PureComponent {
 
         this._startTime = props.startTime;
         this._endTime = props.endTime;
+
+        API.getData(this.state.value, this._startTime, this._endTime, 'dataIsReady');
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,13 +59,9 @@ class SearchBox extends React.PureComponent {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
-        let newEvent = new Event('symbolChange');
-        newEvent.startTime = this._startTime;
-        newEvent.endTime = this._endTime;
-        newEvent.tableName = this.state.value;
-        window.dispatchEvent(newEvent);
+        API.getData(this.state.value, this._startTime, this._endTime, 'dataIsReady');
         this.setState({ submittedValue: this.state.value });
+        event.preventDefault();
     }
 
 
