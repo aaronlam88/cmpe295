@@ -1,5 +1,4 @@
 import React from 'react';
-import API from '../utilities/API.js';
 import ReactTable from 'react-table';
 
 // import css for react-table
@@ -20,17 +19,14 @@ class Table extends React.PureComponent {
 
             data: {},
         };
-        API.getData(props.tableName, props.startTime, props.endTime, 'dataIsReady');
 
         this.dataIsReady = this.dataIsReady.bind(this);
-        this.symbolChange = this.symbolChange.bind(this);
     }
 
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
         window.addEventListener('dataIsReady', this.dataIsReady);
-        window.addEventListener('symbolChange', this.symbolChange);
     }
 
     // call before component is removed from dom
@@ -38,20 +34,13 @@ class Table extends React.PureComponent {
     // clean up before you leave to avoid memory leak (ex: remove listenner)
     componentWillUnmount() {
         window.removeEventListener('dataIsReady', this.dataIsReady);
-        window.removeEventListener('symbolChange', this.symbolChange);
     }
 
     // call after component update
     componentDidUpdate(prevProps, prevState) {
 
     }
-
-    symbolChange(event) {
-        // when stock symbol change, try to get new data with data fields inside event
-        // if any data field is missing from event, use current data fields from inside state
-        API.getData(event.tableName || this.state.tableName, event.startTime || this.state.startTime, event.endTime || this.state.endTime, 'dataIsReady');
-    }
-
+    
     dataIsReady(event) {
         this.setState({
             data: event.data,
