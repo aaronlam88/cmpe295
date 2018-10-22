@@ -20,7 +20,8 @@
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     background-color: #60EFFF;
-    color: white;
+    //color: white;
+    color: #0f1e55;
     border-radius: 30px;
     opacity: 0.8;
     border: transparent;
@@ -30,6 +31,7 @@
     padding: 5px 0;
     width: 100%;
     margin-right: -40px;
+    cursor: pointer !important;
 }
 
 .searchBtn:hover {
