@@ -1,8 +1,8 @@
 var db = require('../library/dbconnection'); //reference of dbconnection.js
 var cache = require('../library/cache');
 
-var Symbols = {
-    getAllSymbols: function (res) {
+var Symbols = (function () {
+    function getAllSymbols(res) {
         let table = '4update';
         let q = `SELECT Symbol FROM ${table};`
         console.log("query: ", q);
@@ -19,7 +19,13 @@ var Symbols = {
                 }
             });
         }
-    },
-};
+    }
+
+    // expose functions or variables in the return
+    // ==> make functions or variables in the return public
+    return {
+        getAllSymbols: getAllSymbols,
+    }
+})();
 
 module.exports = Symbols;

@@ -10,6 +10,8 @@ var logger = require('morgan');
 
 var Stocks = require('./routes/Stocks');
 var Symbols = require('./routes/Symbols');
+var Predict = require('./routes/Predict');
+
 
 var app = express();
 
@@ -41,6 +43,7 @@ app.use(session({
 // route --> page
 app.use('/Stocks', Stocks);
 app.use('/Symbols', Symbols);
+app.use('/Predict', Predict);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
