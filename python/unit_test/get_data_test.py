@@ -10,13 +10,18 @@ class TestGetData(unittest.TestCase):
         getData = GetData()
         features = getData.getAllFeatures()
         self.assertIsNotNone(features)
-        self.assertEqual(len(features), 1000)
 
     def test_getAllFeatures2(self):
         getData = GetData(101)
         features = getData.getAllFeatures()
         self.assertIsNotNone(features)
         self.assertEqual(len(features), 100)
+    
+    def test_getAllFeatures3(self):
+        getData = GetData(5)
+        features = getData.getAllFeatures('open', 'close')
+        self.assertIsNotNone(features)
+        self.assertEqual(len(features[0][0]), 2)
 
 if __name__ == '__main__':
     unittest.main()
