@@ -1,33 +1,88 @@
-// require modules 
+// require modules
 import React from 'react';
 import { render } from 'react-dom';
+import moment from 'moment';
+import {
+    Grid,
+    Row,
+    Col,
+} from 'react-bootstrap';
 // import { Router, Route, hashHistory } from 'react-router'
 
 // import style
-import style from './style/style.css';
+import './style/newStyle.css';
 
 // components
-// import Button from './components/Button.jsx';
-import Calendar from './components/Calendar.jsx';
-// import Layout from './components/Layout.jsx';
-import Searchbox from './components/Searchbox.jsx';
-import Table from './components/Table.jsx';
-// import Graph from './components/Graph.jsx';
+import Calendar from './components/calendar/Calendar.jsx';
+import Searchbox from './components/searchBox/SearchBox.jsx';
+import Table from './components/table/Table.jsx';
+import StockChart from './components/chart/StockChart.jsx'
+// import Graph from './components/graph/Graph.jsx';
+// import Button from './components/button/Button.jsx';
 
-var d = new Date();
-var s = "Today is ";
-document.getElementById("currentDate").innerHTML = s + d;
+let date = new Date();
+document.getElementById("currentDate").innerHTML = date;
+
+// default: when start, get the last 30 days of data, and tableName=GOOG
+let defaultValue = {
+    tableName: 'GOOG',
+    endTime: moment().format('YYYY-MM-DD').toString(),
+    startTime: moment().subtract(30, 'days').format('YYYY-MM-DD').toString()
+};
+
+class SearchBarComponent extends React.PureComponent {
+    render() {
+        return (
+            <Grid fluid>
+                <Row>
+                    <Col sm={12} md={12} lg={5} className="customCalendar">
+                        <Calendar
+                            {...defaultValue}
+                        />
+                    </Col>
+                    <Col sm={12} md={12} lg={7} className="customSearch">
+                        <Searchbox
+                            {...defaultValue}
+                        />
+                    </Col>
+                </Row>
+            </Grid>
+        );
+    }
+}
+
+
+class StockChartComponent extends React.PureComponent {
+    render() {
+        return (
+            <StockChart className="line-chart"
+                {...defaultValue}
+            />
+        );
+    }
+}
+
+class StockTableComponent extends React.PureComponent {
+    render() {
+        return (
+            <Table className="grid-table"
+                {...defaultValue}
+            />
+        )
+    }
+}
 
 render(
-    <div className='grid-main'>
-        <div className="sear_calen">
-            <Calendar />
-            <Searchbox />
-        </div>
-        <Table className="grid-table"
-            tableName='GOOG'
-            startTime='2012-01-02'
-            endTime='2013-01-02'
-        />
-    </div>,
-    document.getElementById('app'));
+    <SearchBarComponent />,
+    document.getElementById('SearchBar')
+);
+
+render(
+    <StockChartComponent />,
+    document.getElementById('StockChart')
+);
+
+render(
+    <StockTableComponent />,
+    document.getElementById('StockTable')
+);

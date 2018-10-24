@@ -18,6 +18,7 @@ class GetData:
     _features = None
     _featuresDiff = None
     _symbols = None
+    _map = {'date': 0, 'open': 1, 'high': 2, 'low': 3, 'close': 4, 'adjClose': 5, 'volume': 6}
 
     def __init__(self, dataCount=1002):
         self._dataCount = dataCount
@@ -94,7 +95,7 @@ class GetData:
             logger.info('DONE')
             return data
 
-    def getAllFeatures(self):
+    def getAllFeatures(self, *args):
         """
         return features to be used with labels, use the original value
         Should work as follow
@@ -110,8 +111,14 @@ class GetData:
         for i in range(0, self._dataCount):
             features.append([])
             for symbol in self._data.keys():
-                for value in self._data[symbol][i]:
-                    features[i].append(value)
+                if(len(args) == 0):
+                    for value in self._data[symbol][i]:
+                        features[i].append(value)
+                else:
+                    temp = []
+                    for arg in args:
+                        temp.append(self._data[symbol][i][self._map.get(arg)])
+                    features[i].append(temp)
         features.reverse()
         features.pop()
         return features

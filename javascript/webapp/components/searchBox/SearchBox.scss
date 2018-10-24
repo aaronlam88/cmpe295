@@ -1,0 +1,91 @@
+.flex_search {
+    //display: flex;
+    margin-bottom: 5px;
+    //text-align: right;
+}
+
+.mySearch {
+    width:100%;
+    //margin-bottom: 5px;
+    padding: 32px 0;
+    text-align: right;
+}
+
+.searchArea {
+    //flex: 1 1 450px;
+    text-align: center;
+}
+
+.searchBtn {
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    background-color: #60EFFF;
+    color: white;
+    border-radius: 30px;
+    opacity: 0.8;
+    border: transparent;
+}
+
+#subBtn {
+    padding: 5px 0;
+    width: 100%;
+    margin-right: -40px;
+}
+
+.searchBtn:hover {
+    opacity: 1;
+}
+
+.flex_search div input {
+    padding: .5em 1em;
+    width: 100%;
+}
+
+input#stockInput {
+    //padding-left: 5px;
+    padding: 5px 10px 5px 20px;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.7);
+    background: #0f1e55;
+    border: #60EFFF solid 1px;
+    border-radius: 30px;
+    width: 100%;
+}
+
+label#currStock {
+  text-align: left;
+  margin-right: 20px;
+  width: 100%;
+  font-size: 150%;
+  padding-top: 7px;
+}
+
+.flex_search div button {
+    padding: .5em 1em;
+    white-space: nowrap;
+    font-family: "Titillium Web", serif;
+}
+
+.centerItem{
+    text-align: center;
+}
+
+Col {
+    background: #5a6a8b;
+    margin: 10px 0;
+}
+
+.singleCol {
+   margin: 10px 0;
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+
+
