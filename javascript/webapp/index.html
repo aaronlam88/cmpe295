@@ -59,16 +59,25 @@
                                     }
                                 );
                             });
+
+                            function showPredictPage() {
+                                document.getElementById("currentPage").style.display = "none";
+                                console.log("here");
+                            }
+
+                            function showCurrentPage() {
+                                document.getElementById("currentPage").style.display = null;
+                            }
                         </script>
                     </div>
                 </span>
                 <span class='tab_buttons'>
                     <div class="d-inline">
-                        <button id="curr_btn" type="button" class="btn-blue" onclick="location.href='current.html'">Current
+                        <button id="curr_btn" type="button" class="btn-blue" onclick="showCurrentPage()">Current
                             Stock</button>
                     </div>
                     <div class="d-inline">
-                        <button type="button" class="btn-purple" onclick="location.href='prediction.html'">Our
+                        <button type="button" class="btn-purple" onclick="showPredictPage()">Our
                             Prediction</button>
                     </div>
                 </span>
@@ -81,7 +90,7 @@
     </div>
 
     <!--table + chart-->
-    <div class="container">
+    <div id="currentPage" class="container">
         <div id="SearchBar"></div>
         <div id="StockChart" class="currentChart"></div>
         <div id="StockTable"></div>
