@@ -14,78 +14,83 @@
     <link rel="shortcut icon" type="image/x-icon" href="../style/image/webLogo.ico" />
     <!--css-->
     <link rel="stylesheet" type="text/css" href="../style/newStyle.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
     <!-- Page Title -->
     <title>Stock Prediction</title>
 </head>
 
 <body class="mainBody">
-<!--header-->
-<header>
-    <nav class="navbar navbar-fixed-top" >
-        <div class="container">
-            <div class="row navbar-header">
-                <div id="indexLogoAll" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 my-auto-vert indexLogo" onclick="location.href='index.html';">
-                    <img id="logo" src="../style/image/logo.png" alt="Stock Prediction logo" class="img-responsive center-block PredictionLogo">
-                    <h5 id="logoTextColor" class="logoText">The Stock Future</h5>
-                    <script>
-                        $(function () {
-                            $("#indexLogoAll").hover(
-                                function changeColor(){
-                                    var colors = ['#FF00A7','#60EFFF'],
-                                        randomNumber = Math.floor((Math.random() * colors.length)),
-                                        color = colors[randomNumber];
-                                    console.log("color = " + color);
-                                    if(color === '#FF00A7') {
-                                        $("#logo").attr ("src",'../style/image/logo_purple.png');
-                                    } else {
-                                        $("#logo").attr ("src",'../style/image/logo blue.png');
+    <!--header-->
+    <header>
+        <nav class="navbar navbar-fixed-top">
+            <div class="container">
+                <span class="navbar-header">
+                    <!-- <div id="overlay">-->
+                    <!-- <img src="style/image/index_back.png"> -->
+                    <!-- </div>  -->
+                    <div id="indexLogoAll" class="my-auto-vert" onclick="location.href='index.html';">
+                        <img id="logo" src="../style/image/logo.png" alt="Stock Prediction logo" class="d-inline img-responsive PredictionLogo">
+                        <h5 id="logoTextColor" class="d-inline logoText">The Stock Future</h5>
+                        <script>
+                            $(function () {
+                                $("#indexLogoAll").hover(
+                                    function changeColor() {
+                                        var colors = ['#FF00A7', '#60EFFF'],
+                                            randomNumber = Math.floor((Math.random() * colors.length)),
+                                            color = colors[randomNumber];
+                                        console.log("color = " + color);
+                                        if (color === '#FF00A7') {
+                                            $("#logo").attr("src", '../style/image/logo_purple.png');
+                                        } else {
+                                            $("#logo").attr("src", '../style/image/logo blue.png');
+                                        }
+                                        $("#logoTextColor").css('color', color);
+                                    },
+                                    function () {
+                                        $("#logoTextColor").css('color', '#FFF');
+                                        $("#logo").attr("src", '../style/image/logo.png');
                                     }
-                                    $("#logoTextColor").css('color', color);
-                                },
-                                function(){
-                                    $("#logoTextColor").css('color', '#FFF');
-                                    $("#logo").attr ("src",'../style/image/logo.png');
-                                }
-                            );
-                        });
-                    </script>
-                </div>
-
-                <div id="currTime" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 my-auto-vert">
-                    <p id="currentDate">Current Date</p>
-                </div>
-
-                <div class="col-lg-2 ol-md-4 col-sm-6 col-xs-6 my-auto-vert form-group">
-                    <button id="curr_btn" type="button" class="btn-blue float-right" onclick="location.href='current.html'">Current Stock</button>
-                </div>
-                <div class="col-lg-2 ol-md-4 col-sm-6 col-xs-6 my-auto-vert form-group">
-                    <button type="button" class="btn-purple float-right" onclick="location.href='prediction.html'">Our Prediction</button>
-                </div>
-
+                                );
+                            });
+                        </script>
+                    </div>
+                </span>
+                <span class='tab_buttons'>
+                    <div class="d-inline">
+                        <button id="curr_btn" type="button" class="btn-blue" onclick="location.href='current.html'">Current
+                            Stock</button>
+                    </div>
+                    <div class="d-inline">
+                        <button type="button" class="btn-purple" onclick="location.href='prediction.html'">Our
+                            Prediction</button>
+                    </div>
+                </span>
             </div>
-        </div>
-    </nav>
-</header>
+        </nav>
+    </header>
 
-<!--<div id="overlay">-->
-    <!--<img src="style/image/index_back.png">-->
-<!--</div>-->
+    <div id="currTime" class="current_date">
+        <p id="currentDate">Current Date</p>
+    </div>
 
-<!--table + chart-->
-<div class="container">
-    <div id="SearchBar"></div>
-    <div id="StockChart" class="currentChart"></div>
-    <div id="StockTable"></div>
-</div>
+    <!--table + chart-->
+    <div class="container">
+        <div id="SearchBar"></div>
+        <div id="StockChart" class="currentChart"></div>
+        <div id="StockTable"></div>
+    </div>
 
-<!--footer-->
-<footer class="myFooter navbar-fixed-bottom">
-    Copyright © 2018 SJSU Apply Machine Learning for Stock Price Prediction Group. All rights reserved.
-</footer>
+    <!--footer-->
+    <footer class="myFooter navbar-fixed-bottom">
+        Copyright © 2018 SJSU Apply Machine Learning for Stock Price Prediction Group. All rights reserved.
+    </footer>
 </body>
 
 <script src="bundle.js"></script>
