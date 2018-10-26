@@ -43,12 +43,13 @@ button {
     -webkit-transition: all .4s ease 0s;
     -o-transition: all .4s ease 0s;
     transition: all .4s ease 0s;
-    color: #60EFFF;
+    color: white;
     background: #09203F;
-    border-color: transparent;
+    border-color: white;
 }
 
 .btn-blue:hover {
+    color: #60EFFF;
     border-color: #60EFFF;
     cursor: pointer;
     text-decoration: none;
@@ -66,12 +67,13 @@ button {
     -webkit-transition: all .4s ease 0s;
     -o-transition: all .4s ease 0s;
     transition: all .4s ease 0s;
-    color: #FF00A7;
+    color: white;
     background: #09203F;
-    border-color: transparent;
+    border-color: white;
 }
 
-.btn-purple:hover {
+.btn-purple:hover, .btn-purple:focus{
+    color: #FF00A7;
     border-color: #FF00A7;
     cursor: pointer;
     text-decoration: none;
@@ -167,11 +169,17 @@ header {
     margin-bottom: auto;
 }
 
+.current_date {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-inline-start: auto;
+}
+
 h5.logoText {
-    margin-left: 60px;
-    padding-top: 17px;
-    font-size: 150%;
+    margin-left: 20px;
+    font-size: 200%;
     color: white;
+    vertical-align: bottom;
 }
 
 .indexLogo {
@@ -274,8 +282,15 @@ h5.logoText {
 
 
 /* ----------current stock starts here ----------*/
-#curr_btn {
+.curr_btn {
     background: #203353;
+    color: #60EFFF;
+    border: #60EFFF 1px solid;
+}
+
+.predic_btn {
+    background: #203353;
+    color: #60EFFF;
     border: #60EFFF 1px solid;
 }
 
@@ -306,10 +321,9 @@ h5.logoText {
     border: #FF00A7 1px solid;
 }
 
-
-
 /* ---- footer starts here ----*/
 .myFooter {
+    margin-top: 40px;;
     font-family: "D-DIN Condensed", serif;
     background: #09203F;
     text-align: center;
@@ -318,4 +332,10 @@ h5.logoText {
     position: relative;
     clear: both;
     color: white;
+}
+
+.tab_buttons {
+    margin-top: auto;
+    float: right;
+    margin-right: 0px;
 }
