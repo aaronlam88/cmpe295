@@ -62,22 +62,28 @@
 
                             function showPredictPage() {
                                 document.getElementById("currentPage").style.display = "none";
+                                document.getElementById("predictionPage").style.display = null;
+                                document.getElementById("currentPageBtn").classList.remove("curr_btn");
+                                document.getElementById("predictionPageBtn").focus();
                                 console.log("here");
                             }
 
                             function showCurrentPage() {
                                 document.getElementById("currentPage").style.display = null;
+                                document.getElementById("predictionPage").style.display = "none";
+                                document.getElementById("currentPageBtn").classList.add("curr_btn");
+                                document.getElementById("predictionPageBtn").blur();
                             }
                         </script>
                     </div>
                 </span>
                 <span class='tab_buttons'>
                     <div class="d-inline">
-                        <button id="curr_btn" type="button" class="btn-blue" onclick="showCurrentPage()">Current
+                        <button id="currentPageBtn" type="button" class="btn-blue curr_btn" onclick="showCurrentPage()">Current
                             Stock</button>
                     </div>
                     <div class="d-inline">
-                        <button type="button" class="btn-purple" onclick="showPredictPage()">Our
+                        <button id="predictionPageBtn" type="button" class="btn-purple" onclick="showPredictPage()">Our
                             Prediction</button>
                     </div>
                 </span>
@@ -94,6 +100,10 @@
         <div id="SearchBar"></div>
         <div id="StockChart" class="currentChart"></div>
         <div id="StockTable"></div>
+    </div>
+
+    <div id = "predictionPage">
+        <h1>Here is the prediction page</h1>
     </div>
 
     <!--footer-->

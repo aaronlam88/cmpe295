@@ -72,7 +72,7 @@ button {
     border-color: white;
 }
 
-.btn-purple:hover {
+.btn-purple:hover, .btn-purple:focus{
     color: #FF00A7;
     border-color: #FF00A7;
     cursor: pointer;
@@ -282,7 +282,13 @@ h5.logoText {
 
 
 /* ----------current stock starts here ----------*/
-#curr_btn {
+.curr_btn {
+    background: #203353;
+    color: #60EFFF;
+    border: #60EFFF 1px solid;
+}
+
+.predic_btn {
     background: #203353;
     color: #60EFFF;
     border: #60EFFF 1px solid;
