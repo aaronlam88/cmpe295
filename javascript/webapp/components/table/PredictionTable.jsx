@@ -31,7 +31,7 @@ class PredictionTable extends Component {
         let allJason = this.state.data.map(
             item => ({
                 company: item.label,
-                number: 1.23,
+                amount: item.amount,
                 percentage: item.result,
             })
         );
@@ -41,30 +41,32 @@ class PredictionTable extends Component {
     render() {
         this.processData();
 
-        //gainer 1
+        //gainer in Algorithm 1
         let size = 5;
         let gainer1 = this.state.data.slice(0, size).map(
             item => ({
                 company: item.label,
-                number: 1.23,
+                amount: item.amount,
                 percentage: item.result,
             })
         );
 
+        // loser in Algorithm 1
         let loser1 = this.state.data.slice(5, 10).map(
             item => ({
                 company: item.label,
-                number: 1.23,
+                amount: item.amount,
                 percentage: item.result,
             })
         );
 
-        const columns1 = [{
+        // column style for gainer
+        const gainerColumn = [{
             // Header: 'Company',
             accessor: 'company'
         }, {
             // Header: 'Number',
-            accessor: 'number'
+            accessor: 'amount'
         }, {
             accessor: 'percentage',
             style: {
@@ -75,12 +77,13 @@ class PredictionTable extends Component {
         }
         ];
 
-        const columns2 = [{
+        // column style for loser
+        const loserColumn = [{
             // Header: 'Company',
             accessor: 'company'
         }, {
             // Header: 'Number',
-            accessor: 'number'
+            accessor: 'amount'
         }, {
             accessor: 'percentage',
             style: {
@@ -103,7 +106,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={gainer1}
                             noDataText='Loading Data ...'
-                            columns={columns1}
+                            columns={gainerColumn}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
@@ -113,7 +116,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={loser1}
                             noDataText='Loading Data ...'
-                            columns={columns2}
+                            columns={loserColumn}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
@@ -129,7 +132,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={loser1}
                             noDataText='Loading Data ...'
-                            columns={columns2}
+                            columns={loserColumn}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
