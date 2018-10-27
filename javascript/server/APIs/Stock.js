@@ -21,6 +21,18 @@ var Stock = (function () {
 
     }
 
+
+    /* jason format
+    1. 10 result from algorithm 1 (5 top gainer + 5 top loser)：
+        result format {label: String, amount: double, result: double}
+    2. 10 result from algorithm 2 (5 top gainer + 5 top loser)：
+        result format {label: String, amount: double, result: double}
+    3. 1 result from algorithm 3 (only predict go higher or lower without number) :
+        result format: {result: boolean} or {result: int}
+    4. 1 result from algorithm 4 (only predict go higher or lower without number) :
+        result format: {result: boolean} or {result: int}
+    */
+
     function getTop(res) {
         res.json(
             [
