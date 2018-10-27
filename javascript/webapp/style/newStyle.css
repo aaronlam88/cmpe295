@@ -1,3 +1,12 @@
+/*@font-face {*/
+/*font-family: DINCon-reg;*/
+/*src: url(font/DINCond-Regular.ttf);*/
+/*}*/
+
+/*@font-face {*/
+/*font-family: DINCon-bold;*/
+/*src: url(font/DIN-Condensed-Bold.ttf);*/
+/*}*/
 
 
 /*common*/
@@ -45,7 +54,6 @@ button {
     transition: all .4s ease 0s;
     color: white;
     background: #09203F;
-    border-color: white;
 }
 
 .btn-blue:hover {
@@ -69,7 +77,6 @@ button {
     transition: all .4s ease 0s;
     color: white;
     background: #09203F;
-    border-color: white;
 }
 
 .btn-purple:hover, .btn-purple:focus{
@@ -235,6 +242,10 @@ h5.logoText {
     padding: 40px 0 50px 0;
 }
 
+#currentDate {
+    font-size: 1.3rem;
+}
+
 /* ----index developer starts here ----*/
 .developer {
     font-family: "2D-DIN Condensed Bold", serif;
@@ -319,6 +330,10 @@ h5.logoText {
 #pre_btn {
     background: #203353;
     border: #FF00A7 1px solid;
+}
+
+#PredictionTable {
+
 }
 
 /* ---- footer starts here ----*/

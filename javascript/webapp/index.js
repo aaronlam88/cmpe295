@@ -17,6 +17,7 @@ import Calendar from './components/calendar/Calendar.jsx';
 import Searchbox from './components/searchBox/SearchBox.jsx';
 import Table from './components/table/Table.jsx';
 import StockChart from './components/chart/StockChart.jsx'
+import PredictionTable from './components/table/PredictionTable.jsx';
 // import Graph from './components/graph/Graph.jsx';
 // import Button from './components/button/Button.jsx';
 
@@ -72,6 +73,14 @@ class StockTableComponent extends React.PureComponent {
     }
 }
 
+class PredictionComponent extends React.PureComponent {
+    render() {
+        return (
+            <PredictionTable />
+        )
+    }
+}
+
 render(
     <SearchBarComponent />,
     document.getElementById('SearchBar')
@@ -85,4 +94,9 @@ render(
 render(
     <StockTableComponent />,
     document.getElementById('StockTable')
+);
+
+render(
+    <PredictionComponent />,
+    document.getElementById('PredictionTable')
 );
