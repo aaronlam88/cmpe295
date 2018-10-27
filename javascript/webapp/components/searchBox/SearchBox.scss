@@ -1,59 +1,60 @@
 .flex_search {
-    //display: flex;
-    margin-bottom: 5px;
-    //text-align: right;
+  //display: flex;
+  margin-bottom: 5px;
+  //text-align: right;
 }
 
 .mySearch {
-    width:100%;
-    //margin-bottom: 5px;
-    padding: 32px 0;
-    text-align: right;
+  width: 100%;
+  //margin-bottom: 5px;
+  padding: 32px 0;
+  text-align: right;
 }
 
 .searchArea {
-    //flex: 1 1 450px;
-    text-align: center;
+  //flex: 1 1 450px;
+  text-align: center;
 }
 
 .searchBtn {
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    background-color: #60EFFF;
-    color: #133083;
-    border-radius: 30px;
-    opacity: 0.8;
-    border: transparent;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  background-color: #60EFFF;
+  color: #133083;
+  border-radius: 30px;
+  opacity: 0.8;
+  border: transparent;
 }
 
 #subBtn {
-    padding: 5px 0;
-    width: 100%;
-    margin-right: 0;
+  padding: 5px 0;
+  width: 100%;
+  margin-right: 0;
+  cursor: pointer;
 }
 
 .searchBtn:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 #SearchBar {
-    width: 100%;
+  width: 100%;
 }
 
 .flex_search div input {
-    padding: .5em 1em;
-    width: 100%;
+  padding: .5em 1em;
+  width: 100%;
 }
 
 input#stockInput {
-    //padding-left: 5px;
-    padding: 5px 10px 5px 20px;
-    text-align: left;
-    color: rgba(255, 255, 255, 0.7);
-    background: #0f1e55;
-    border: #60EFFF solid 1px;
-    border-radius: 30px;
-    width: 100%;
+  //padding-left: 5px;
+  padding: 5px 10px 5px 20px;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.7);
+  background: #0f1e55;
+  border: #60EFFF solid 1px;
+  border-radius: 30px;
+  width: 100%;
 }
 
 label#currStock {
@@ -65,23 +66,23 @@ label#currStock {
 }
 
 .flex_search div button {
-    padding: .5em 1em;
-    white-space: nowrap;
-    font-family: "Titillium Web", serif;
+  padding: .5em 1em;
+  white-space: nowrap;
+  font-family: "Titillium Web", serif;
 }
 
-.centerItem{
-    text-align: center;
+.centerItem {
+  text-align: center;
 }
 
 Col {
-    background: #5a6a8b;
-    margin: 10px 0;
+  background: #5a6a8b;
+  margin: 10px 0;
 }
 
 .singleCol {
-   margin: 10px 0;
-   padding: 0 0 0 30px;
+  margin: 10px 0;
+  padding: 0 0 0 30px;
 }
 
 .container-fluid {
