@@ -102,19 +102,41 @@ class PredictionTable extends Component {
         return (
             <Grid fluid>
                 <Row>
+                    {/*algorithm 1*/}
+                    <Col sm={12} md={12} lg={12}>
+                        <h2 className={"centerText bottomPadding20"}>Algorithm 1 - Regression Prediction Result</h2>
+                    </Col>
                     <Col sm={12} md={12} lg={6} className="pre_winner">
-                        <h2 className={"blueColor"}>Top 5 Gainers - Algorithm 1</h2>
+                        <h3 className={"blueColor centerText"}>Top 5 Gainers</h3>
                         <ReactTable
                             data={data11}
+                            noDataText='Loading Data ...'
                             columns={columns1}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
                     </Col>
                     <Col sm={12} md={12} lg={6} className="pre_loser">
-                        <h2 className={"purpleColor"}>Top 5 Losers -  Algorithm 1</h2>
+                        <h3 className={"purpleColor centerText"}>Top 5 Losers</h3>
                         <ReactTable
                             data={data12}
+                            noDataText='Loading Data ...'
+                            columns={columns2}
+                            defaultPageSize={5}
+                            showPaginationBottom={false}
+                        />
+                    </Col>
+                    <Col sm={12} md={12} lg={12}><hr /></Col>
+
+                    {/*algorithm 2*/}
+                    <Col sm={12} md={12} lg={12}>
+                        <h2 className={"centerText bottomPadding20"}>Algorithm 2 - xxx Prediction Result</h2>
+                    </Col>
+                    <Col sm={12} md={12} lg={6} className="pre_loser">
+                        <h3 className={"purpleColor"}>Top 5 Losers -  Algorithm 1</h3>
+                        <ReactTable
+                            data={data12}
+                            noDataText='Loading Data ...'
                             columns={columns2}
                             defaultPageSize={5}
                             showPaginationBottom={false}
