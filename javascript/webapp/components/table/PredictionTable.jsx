@@ -74,20 +74,38 @@ class PredictionTable extends Component {
 
     // algorithm 3 result
     alg03Result() {
-        return (this.state.data.slice(20, 21).map(
+        let test3 = this.state.data.slice(20, 21).map(
             item => ({
                 result: item.result,
             })
-        ))
+        );
+        // console.log("test3 = ", test3);
+        test3.forEach(o => {
+            for (let k in o)
+                if (o[k] === 1)
+                    o[k] = 'Go Higher';
+                else
+                    o[k] = 'Go Lower';
+        });
+        console.log("test3////2 ", test3);
+        return test3;
     }
 
     //algorithm 4 result
     alg04Result() {
-        return (this.state.data.slice(21, 22).map(
+        let test4 = this.state.data.slice(21, 22).map(
             item => ({
                 result: item.result,
             })
-        ))
+        );
+        test4.forEach(o => {
+            for (let k in o)
+                if (o[k] === 1)
+                    o[k] = 'Go Higher';
+                else
+                    o[k] = 'Go Lower';
+        });
+        return test4;
     }
 
 
