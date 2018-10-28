@@ -16,7 +16,7 @@ class PredictionTable extends Component {
         super(props);
         this.state = {
             data: [],
-            tableName: props.tableName,
+            value: props.tableName,
         };
     }
 
@@ -41,7 +41,7 @@ class PredictionTable extends Component {
             for (let k in o) {
                 var key = 'percentage';
                 var original = o[key];
-                if (original > 0) {
+                if (original > 4) {
                     o["color"] = 'green';
                 }
                 else if (original === 0) {
@@ -115,22 +115,45 @@ class PredictionTable extends Component {
         return result;
     }
 
-    // changeBG(key) {
-    //     let bgColor;
-    //     if (key === 'green') {
-    //         bgColor = 'rgba(96, 239, 255, 0.4)';
-    //     } else if (key === 'gray') {
-    //         bgColor = 'rgba(65, 65, 65, 0.4)';
-    //     } else {
-    //         bgColor = 'rgba(96, 239, 255, 0.4)';
-    //     }
-    //     console.log("color, ", key);
-    //     return bgColor;
-    // }
+    changeBG(key) {
+        let bgColor;
+        if (key === 'green') {
+            bgColor = 'rgba(96, 239, 255, 0.4)';
+        } else if (key === 'gray') {
+            bgColor = 'rgba(65, 65, 65, 0.4)';
+        } else {
+            bgColor = 'rgba(96, 239, 255, 0.4)';
+        }
+        console.log("color, ", key);
+        return bgColor;
+    }
 
 
     render() {
-        console.log("tableName = ", this.state.tableName);
+        console.log("tableName = ", this.state.value);
+
+        const testColumn = [{
+            accessor: 'company'
+        }, {
+            accessor: 'amount'
+        }, {
+            accessor: 'percentage',
+
+            // Cell: row => (
+            style: {
+                // background: 'rgba(255, 0, 167, 0.5)',
+                background: this.changeBG(this.state.data.color),
+                //         background: this.value > 0
+                //             ? "rgba(255, 0, 167, 0.5)"
+                //             : this.value === 0
+                //             ? "rgba(65, 65, 65, 0.4)"
+                //             : "rgba(96, 239, 255, 0.4)",
+                color: 'black',
+            }
+            // )
+        }];
+
+
 
         // column style for gainer
         const gainerColumn = [{
@@ -198,7 +221,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={this.alg01Gainer()}
                             noDataText='Loading Data ...'
-                            columns={gainerColumn}
+                            columns={testColumn}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />

@@ -79,13 +79,13 @@ class SearchBox extends React.PureComponent {
                     <Grid id="searchBar" fluid>
                         <Row className="show-grid">
                             <Col xs={12} md={5} className="centerItem singleCol">
-                                <label id="currStock" htmlFor="stockInput">Current Stock: <span className="blueColor">{this.state.submittedValue}</span></label>
+                                <label id="currStock" htmlFor="stockInput">Current Stock: <span className="purpleColor">{this.state.submittedValue}</span></label>
                             </Col>
                             <Col xs={12} md={4} className="singleCol">
                                 <input
                                     id="stockInput"
+                                    className="predictionInput"
                                     name="stockInput"
-                                    className="currentInput"
                                     type="text"
                                     placeholder="Search for..."
                                     alt="inputVal"
@@ -95,7 +95,7 @@ class SearchBox extends React.PureComponent {
                                 />
                             </Col>
                             <Col xs={12} md={3} className="singleCol">
-                                <input id="subBtn" type="submit" value="Search" className="searchBtn" />
+                                <input id="subBtn" type="submit" value="Search" className="predictionSearchBtn" />
                             </Col>
                         </Row>
                     </Grid>

@@ -32,7 +32,7 @@
     <title>Stock Prediction</title>
 </head>
 
-<body class="mainBody">
+<body class="mainBody" onload="javascript:showCurrentPage()">
 <!--header-->
 <header>
     <nav class="navbar navbar-fixed-top">
@@ -82,15 +82,15 @@
                     </div>
                 </span>
             <span class='tab_buttons'>
-                    <div class="d-inline">
-                        <button id="currentPageBtn" type="button" class="btn-blue curr_btn" onclick="showCurrentPage()">Current
-                            Stock</button>
-                    </div>
-                    <div class="d-inline">
-                        <button id="predictionPageBtn" type="button" class="btn-purple" onclick="showPredictPage()">Our
-                            Prediction</button>
-                    </div>
-                </span>
+                <div class="d-inline">
+                    <button id="currentPageBtn" type="button" class="btn-blue curr_btn" onclick="showCurrentPage()">Current
+                        Stock</button>
+                </div>
+                <div class="d-inline">
+                    <button id="predictionPageBtn" type="button" class="btn-purple" onclick="showPredictPage()">Our
+                        Prediction</button>
+                </div>
+            </span>
         </div>
     </nav>
 </header>
@@ -111,11 +111,10 @@
 </div>
 
 <div id="predictionPage">
-    <!--<h1>Here is the prediction page</h1>-->
     <div class="container">
+        <div id="PredictionSearchBar"></div>
+        <div id="PredictionChart"></div>
         <div id="PredictionTable"></div>
-    </div>
-    <div class="container">
         <h2>Introduction of Prediction Algorithm</h2>
         <ul class="algorithmIntro">
             <li><span class="blueColor algorithmIntroTopic">Algorithm 1: Regression</span><br>
@@ -125,7 +124,8 @@
                     literature from statistics often refers to the method as multiple linear regression.<br>
                     Different techniques can be used to prepare or train the linear regression equation from data, the most common of which is called Ordinary Least Squares.
                     It is common to therefore refer to a model prepared this way as Ordinary Least Squares Linear Regression or just Least Squares Regression.<br>
-                    -- From <a href="https://machinelearningmastery.com/linear-regression-for-machine-learning/" target="_blank">www.machinelearningmastery.com</a>
+                    -- From <a href="https://machinelearningmastery.com/linear-regression-for-machine-learning/"
+                               target="_blank">www.machinelearningmastery.com</a>
 
                 </span>
             </li>
