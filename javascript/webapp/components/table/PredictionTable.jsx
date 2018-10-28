@@ -16,6 +16,7 @@ class PredictionTable extends Component {
         super(props);
         this.state = {
             data: [],
+            tableName: props.tableName,
         };
     }
 
@@ -28,13 +29,31 @@ class PredictionTable extends Component {
 
     //gainer in Algorithm 1
     alg01Gainer() {
-        return (this.state.data.slice(0, 5).map(
+        let result = this.state.data.slice(0, 5).map(
             item => ({
                 company: item.label,
                 amount: item.amount,
-                percentage: item.result + '%',
+                percentage: item.result,
             })
-        ))
+        );
+        //add color pair for setting background color in render
+        result.forEach(o => {
+            for (let k in o) {
+                var key = 'percentage';
+                var original = o[key];
+                if (original > 0) {
+                    o["color"] = 'green';
+                }
+                else if (original === 0) {
+                    o["color"] = 'gray';
+                } else {
+                    o["color"] = 'red';
+                }
+            }
+            o[key] = original + '%';
+        });
+        console.log(result);
+        return result;
     }
 
     // loser in Algorithm 1
@@ -74,72 +93,79 @@ class PredictionTable extends Component {
 
     // algorithm 3 result
     alg03Result() {
-        let test3 = this.state.data.slice(20, 21).map(
-            item => ({
-                result: item.result,
-            })
-        );
-        // console.log("test3 = ", test3);
-        test3.forEach(o => {
+        let result = this.state.data.slice(20, 21).map(
+            item => ({result: item.result,}));
+        result.forEach(o => {
             for (let k in o)
-                if (o[k] === 1)
-                    o[k] = 'Go Higher';
-                else
-                    o[k] = 'Go Lower';
+                if (o[k] === 1) o[k] = 'Go Higher';
+                else o[k] = 'Go Lower';
         });
-        console.log("test3////2 ", test3);
-        return test3;
+        return result;
     }
 
     //algorithm 4 result
     alg04Result() {
-        let test4 = this.state.data.slice(21, 22).map(
-            item => ({
-                result: item.result,
-            })
-        );
-        test4.forEach(o => {
+        let result = this.state.data.slice(21, 22).map(
+            item => ({result: item.result,}));
+        result.forEach(o => {
             for (let k in o)
-                if (o[k] === 1)
-                    o[k] = 'Go Higher';
-                else
-                    o[k] = 'Go Lower';
+                if (o[k] === 1) o[k] = 'Go Higher';
+                else o[k] = 'Go Lower';
         });
-        return test4;
+        return result;
     }
+
+    // changeBG(key) {
+    //     let bgColor;
+    //     if (key === 'green') {
+    //         bgColor = 'rgba(96, 239, 255, 0.4)';
+    //     } else if (key === 'gray') {
+    //         bgColor = 'rgba(65, 65, 65, 0.4)';
+    //     } else {
+    //         bgColor = 'rgba(96, 239, 255, 0.4)';
+    //     }
+    //     console.log("color, ", key);
+    //     return bgColor;
+    // }
 
 
     render() {
+        console.log("tableName = ", this.state.tableName);
+
         // column style for gainer
         const gainerColumn = [{
             // Header: 'Company',
             accessor: 'company'
         }, {
-            // Header: 'Number',
             accessor: 'amount'
         }, {
             accessor: 'percentage',
             style: {
                 background: 'rgba(96, 239, 255, 0.5)',
-                // background: v.value === '0%' ? 'rgba(96, 239, 255, 0.4)' : 'red',
                 color: 'black',
             },
         }];
 
         // column style for loser
         const loserColumn = [{
-            // Header: 'Company',
             accessor: 'company'
         }, {
-            // Header: 'Number',
             accessor: 'amount'
         }, {
             accessor: 'percentage',
+
+            // Cell: row => (
             style: {
                 background: 'rgba(255, 0, 167, 0.5)',
-                // background: v.value === '0%' ? 'rgba(96, 239, 255, 0.4)' : 'red',
+                //         // background: this.changeBG('color'),
+                //         background: this.value > 0
+                //             ? "rgba(255, 0, 167, 0.5)"
+                //             : this.value === 0
+                //             ? "rgba(65, 65, 65, 0.4)"
+                //             : "rgba(96, 239, 255, 0.4)",
                 color: 'black',
-            },
+            }
+            // )
         }];
 
         // column style for prediction goes higher
@@ -147,7 +173,6 @@ class PredictionTable extends Component {
             accessor: 'result',
             style: {
                 background: 'rgba(96, 239, 255, 0.8)',
-                // background: v.value === '0%' ? 'rgba(96, 239, 255, 0.4)' : 'red',
                 color: 'black',
             },
         }];
@@ -157,7 +182,6 @@ class PredictionTable extends Component {
             accessor: 'result',
             style: {
                 background: 'rgba(255, 0, 167, 0.8)',
-                // background: v.value === '0%' ? 'rgba(96, 239, 255, 0.4)' : 'red',
                 color: 'black',
             },
         }];
@@ -242,6 +266,9 @@ class PredictionTable extends Component {
                             defaultPageSize={1}
                             showPaginationBottom={false}
                         />
+                    </Col>
+                    <Col sm={12} md={12} lg={12} className={"bottomPadding20"}>
+                        <hr/>
                     </Col>
 
                 </Row>

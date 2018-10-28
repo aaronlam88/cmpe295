@@ -335,8 +335,14 @@ h5.logoText {
     border: #FF00A7 1px solid;
 }
 
-#PredictionTable {
+.algorithmIntro {
+    font-size: 1.15rem;
+    text-align: justify;
+}
 
+.algorithmIntroTopic {
+    font-size: 1.4rem;
+    font-weight: bold;
 }
 
 /* ---- footer starts here ----*/
