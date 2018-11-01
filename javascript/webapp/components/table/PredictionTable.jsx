@@ -21,7 +21,7 @@ class PredictionTable extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://54.176.230.26:8081/Predict/top`)
+        axios.get(`http://localhost:8081/Predict/top`)
             .then(res => {
                 this.setState({data: res.data});
             });
@@ -50,7 +50,7 @@ class PredictionTable extends Component {
                     o["color"] = 'red';
                 }
             }
-            o[key] = original + '%';
+            // o[key] = original + '%';
         });
         console.log(result);
         return result;
@@ -62,7 +62,7 @@ class PredictionTable extends Component {
             item => ({
                 company: item.label,
                 amount: item.amount,
-                percentage: item.result + '%',
+                percentage: item.result,
             })
         ))
     }
@@ -73,7 +73,7 @@ class PredictionTable extends Component {
             item => ({
                 company: item.label,
                 amount: item.amount,
-                percentage: item.result + '%',
+                percentage: item.result,
             })
         ))
     }
@@ -85,7 +85,7 @@ class PredictionTable extends Component {
             item => ({
                 company: item.label,
                 amount: item.amount,
-                percentage: item.result + '%',
+                percentage: item.result,
             })
         ))
     }
@@ -139,18 +139,23 @@ class PredictionTable extends Component {
         }, {
             accessor: 'percentage',
 
-            // Cell: row => (
-            style: {
-                // background: 'rgba(255, 0, 167, 0.5)',
-                background: this.changeBG(this.state.data.color),
-                //         background: this.value > 0
-                //             ? "rgba(255, 0, 167, 0.5)"
-                //             : this.value === 0
-                //             ? "rgba(65, 65, 65, 0.4)"
-                //             : "rgba(96, 239, 255, 0.4)",
-                color: 'black',
+            Cell: row => {
+                console.log(row);
+                return (<div
+                    style={{
+                        // width: `${row.value}%`,
+                        height: "100%",
+                        backgroundColor:
+                            row.value > 4.0
+                                ? "#85cc00"
+                                : row.value > 2.0
+                                ? "#ffbf00"
+                                : "#ff2e00",
+                        borderRadius: "2px",
+                        transition: "all .2s ease-out"
+                    }}
+                > {row.value+'%'} </div>);
             }
-            // )
         }];
 
 

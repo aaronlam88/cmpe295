@@ -40,7 +40,7 @@ var Stock = (function () {
                 {label: "GOOG", amount: 4.39, result: 4},
                 {label: "AAPL", amount: 3.72, result: 3},
                 {label: "TSLA", amount: 2.14, result: 2},
-                {label: "PYPL", amount: 1.25, result: 1},
+                {label: "PYPL", amount: 0, result: 0.0},
                 {label: "FB", amount: 4.62, result: -6},
                 {label: "T", amount: 3.65, result: -4},
                 {label: "BIDU", amount: 2.77, result: -3},
