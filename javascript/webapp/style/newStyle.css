@@ -1,3 +1,12 @@
+/*@font-face {*/
+/*font-family: DINCon-reg;*/
+/*src: url(font/DINCond-Regular.ttf);*/
+/*}*/
+
+/*@font-face {*/
+/*font-family: DINCon-bold;*/
+/*src: url(font/DIN-Condensed-Bold.ttf);*/
+/*}*/
 
 
 /*common*/
@@ -31,6 +40,11 @@ button {
     outline: none !important;
 }
 
+#currentPageBtn:hover {
+    background: #60EFFF;
+    color: #0f1e55;
+}
+
 .btn-blue{
     display: inline-block;
     font-weight: 700;
@@ -43,9 +57,9 @@ button {
     -webkit-transition: all .4s ease 0s;
     -o-transition: all .4s ease 0s;
     transition: all .4s ease 0s;
-    color: white;
+    color: rgba(96, 239,255, 0.8);
+    border: 1px solid rgba(96, 239,255, 0.8);
     background: #09203F;
-    border-color: white;
 }
 
 .btn-blue:hover {
@@ -67,16 +81,17 @@ button {
     -webkit-transition: all .4s ease 0s;
     -o-transition: all .4s ease 0s;
     transition: all .4s ease 0s;
-    color: white;
+    color: rgba(255, 0, 167, 0.8);
     background: #09203F;
-    border-color: white;
+    border: 1px solid rgba(255, 0, 167, 0.8);
 }
 
 .btn-purple:hover, .btn-purple:focus{
-    color: #FF00A7;
+    background: #FF00A7;
     border-color: #FF00A7;
     cursor: pointer;
     text-decoration: none;
+    color: #FFF;
 }
 
 .PredictionLogo {
@@ -175,6 +190,10 @@ header {
     margin-inline-start: auto;
 }
 
+#indexLogoAll {
+    cursor: pointer;
+}
+
 h5.logoText {
     margin-left: 20px;
     font-size: 200%;
@@ -233,6 +252,10 @@ h5.logoText {
 .btns {
     text-align: right;
     padding: 40px 0 50px 0;
+}
+
+#currentDate {
+    font-size: 1.3rem;
 }
 
 /* ----index developer starts here ----*/
@@ -296,29 +319,34 @@ h5.logoText {
 
 #overlay img{
     z-index: -1;
-    width: 100%;
+    width: 1200px;
     height: auto;
+    bottom: 10px;
     overflow: hidden;
-    position: relative;
+    position:fixed;
     display: block;
-    opacity: 0.5;
+    opacity: 0.3;
+    background-repeat: repeat-y;
 }
-
-/*#overlay {*/
-    /*!*background-image: url("./image/index_back.png");*!*/
-    /*z-index: -1;*/
-    /*width: 60%;*/
-    /*height: auto;*/
-    /*!*overflow: hidden;*!*/
-    /*position: relative;*/
-    /*display: block;*/
-    /*opacity: 0.5;*/
-/*}*/
 
 /* ----------prediction stock starts here ----------*/
 #pre_btn {
     background: #203353;
     border: #FF00A7 1px solid;
+}
+
+.algorithmIntro {
+    font-size: 1.15rem;
+    text-align: justify;
+}
+
+.algorithmIntroTopic {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+#PredictionChart {
+    padding-bottom: 40px;
 }
 
 /* ---- footer starts here ----*/

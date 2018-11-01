@@ -84,7 +84,7 @@ class StockChart extends React.PureComponent {
 
                     // ==== the line ====
                     borderColor: colors.green30, // line color
-                    borderWidth: 1, // width of the line
+                    borderWidth: 2, // width of the line
 
                     // ==== points on the line ====
                     pointBackgroundColor: colors.green, // point inside color
@@ -107,7 +107,7 @@ class StockChart extends React.PureComponent {
 
                     // ==== the line ====
                     borderColor: colors.purple30, // line color
-                    borderWidth: 1, // width of the line
+                    borderWidth: 2, // width of the line
 
                     // ==== points on the line ====
                     pointBackgroundColor: colors.purple, // point inside color
