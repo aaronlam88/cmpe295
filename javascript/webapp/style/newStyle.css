@@ -1,3 +1,12 @@
+/*@font-face {*/
+/*font-family: DINCon-reg;*/
+/*src: url(font/DINCond-Regular.ttf);*/
+/*}*/
+
+/*@font-face {*/
+/*font-family: DINCon-bold;*/
+/*src: url(font/DIN-Condensed-Bold.ttf);*/
+/*}*/
 
 
 /*common*/
@@ -31,6 +40,11 @@ button {
     outline: none !important;
 }
 
+#currentPageBtn:hover {
+    background: #60EFFF;
+    color: #0f1e55;
+}
+
 .btn-blue{
     display: inline-block;
     font-weight: 700;
@@ -43,12 +57,13 @@ button {
     -webkit-transition: all .4s ease 0s;
     -o-transition: all .4s ease 0s;
     transition: all .4s ease 0s;
-    color: #60EFFF;
+    color: rgba(96, 239,255, 0.8);
+    border: 1px solid rgba(96, 239,255, 0.8);
     background: #09203F;
-    border-color: transparent;
 }
 
 .btn-blue:hover {
+    color: #60EFFF;
     border-color: #60EFFF;
     cursor: pointer;
     text-decoration: none;
@@ -66,15 +81,17 @@ button {
     -webkit-transition: all .4s ease 0s;
     -o-transition: all .4s ease 0s;
     transition: all .4s ease 0s;
-    color: #FF00A7;
+    color: rgba(255, 0, 167, 0.8);
     background: #09203F;
-    border-color: transparent;
+    border: 1px solid rgba(255, 0, 167, 0.8);
 }
 
-.btn-purple:hover {
+.btn-purple:hover, .btn-purple:focus{
+    background: #FF00A7;
     border-color: #FF00A7;
     cursor: pointer;
     text-decoration: none;
+    color: #FFF;
 }
 
 .PredictionLogo {
@@ -167,20 +184,21 @@ header {
     margin-bottom: auto;
 }
 
-h5.logoText {
-    margin-left: 60px;
-    padding-top: 17px;
-    font-size: 150%;
-    /*margin-top: -50px;*/
-    color: white;
+.current_date {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-inline-start: auto;
 }
 
-h5#logoTextColor {
-    margin-left: 60px;
-    padding-top: 17px;
-    font-size: 170%;
-    margin-top: -55px;
+#indexLogoAll {
+    cursor: pointer;
+}
+
+h5.logoText {
+    margin-left: 20px;
+    font-size: 200%;
     color: white;
+    vertical-align: bottom;
 }
 
 .indexLogo {
@@ -236,6 +254,10 @@ h5#logoTextColor {
     padding: 40px 0 50px 0;
 }
 
+#currentDate {
+    font-size: 1.3rem;
+}
+
 /* ----index developer starts here ----*/
 .developer {
     font-family: "D-DIN Condensed", serif;
@@ -283,8 +305,15 @@ h5#logoTextColor {
 
 
 /* ----------current stock starts here ----------*/
-#curr_btn {
+.curr_btn {
     background: #203353;
+    color: #60EFFF;
+    border: #60EFFF 1px solid;
+}
+
+.predic_btn {
+    background: #203353;
+    color: #60EFFF;
     border: #60EFFF 1px solid;
 }
 
@@ -292,11 +321,12 @@ h5#logoTextColor {
     z-index: -1;
     width: 1200px;
     height: auto;
+    bottom: 10px;
     overflow: hidden;
-    position: absolute;
+    position:fixed;
     display: block;
-    opacity: 0.2;
-    margin-top: 30%;
+    opacity: 0.3;
+    background-repeat: repeat-y;
 }
 
 /* ----------prediction stock starts here ----------*/
@@ -305,10 +335,23 @@ h5#logoTextColor {
     border: #FF00A7 1px solid;
 }
 
+.algorithmIntro {
+    font-size: 1.15rem;
+    text-align: justify;
+}
 
+.algorithmIntroTopic {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+#PredictionChart {
+    padding-bottom: 40px;
+}
 
 /* ---- footer starts here ----*/
 .myFooter {
+    margin-top: 40px;;
     font-family: "D-DIN Condensed", serif;
     background: #09203F;
     text-align: center;
@@ -317,4 +360,10 @@ h5#logoTextColor {
     position: relative;
     clear: both;
     color: white;
+}
+
+.tab_buttons {
+    margin-top: auto;
+    float: right;
+    margin-right: 0px;
 }
