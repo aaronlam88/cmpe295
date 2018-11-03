@@ -144,13 +144,24 @@ class PredictionStockChart extends React.PureComponent {
                     fontColor: colors.white,
                     padding: 15,
                     fontFamily: "DIN Condensed",
+                },
+                onHover: function (e) {
+                    e.target.style.cursor = 'pointer';
+                }
+
+            },
+            hover: {
+                onHover: function (e) {
+                    let point = this.getElementAtEvent(e);
+                    if (point.length) e.target.style.cursor = 'pointer';
+                    else e.target.style.cursor = 'default';
                 }
             },
             scales: {
                 yAxes: [{
                     gridLines: {
                         // display: false,
-                        color:colors.purple20,
+                        color: colors.purple20,
                     },
                     ticks: {
                         // beginAtZero:true,
@@ -161,7 +172,7 @@ class PredictionStockChart extends React.PureComponent {
                 xAxes: [{
                     gridLines: {
                         // display: false,
-                        color:colors.purple20,
+                        color: colors.purple20,
                     },
                     ticks: {
                         fontColor: colors.purple,

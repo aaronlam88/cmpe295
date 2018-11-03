@@ -143,6 +143,16 @@ class StockChart extends React.PureComponent {
                     fontColor: colors.white,
                     padding: 15,
                     fontFamily: "DIN Condensed",
+                },
+                onHover: function (e) {
+                    e.target.style.cursor = 'pointer';
+                }
+            },
+            hover: {
+                onHover: function (e) {
+                    let point = this.getElementAtEvent(e);
+                    if (point.length) e.target.style.cursor = 'pointer';
+                    else e.target.style.cursor = 'default';
                 }
             },
             scales: {

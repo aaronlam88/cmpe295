@@ -29,31 +29,13 @@ class PredictionTable extends Component {
 
     //gainer in Algorithm 1
     alg01Gainer() {
-        let result = this.state.data.slice(0, 5).map(
+        return (this.state.data.slice(0, 5).map(
             item => ({
                 company: item.label,
                 amount: item.amount,
                 percentage: item.result,
             })
-        );
-        //add color pair for setting background color in render
-        result.forEach(o => {
-            for (let k in o) {
-                var key = 'percentage';
-                var original = o[key];
-                if (original > 4) {
-                    o["color"] = 'green';
-                }
-                else if (original === 0) {
-                    o["color"] = 'gray';
-                } else {
-                    o["color"] = 'red';
-                }
-            }
-            // o[key] = original + '%';
-        });
-        console.log(result);
-        return result;
+        ))
     }
 
     // loser in Algorithm 1
@@ -115,24 +97,11 @@ class PredictionTable extends Component {
         return result;
     }
 
-    changeBG(key) {
-        let bgColor;
-        if (key === 'green') {
-            bgColor = 'rgba(96, 239, 255, 0.4)';
-        } else if (key === 'gray') {
-            bgColor = 'rgba(65, 65, 65, 0.4)';
-        } else {
-            bgColor = 'rgba(96, 239, 255, 0.4)';
-        }
-        console.log("color, ", key);
-        return bgColor;
-    }
-
-
     render() {
         console.log("tableName = ", this.state.value);
 
-        const testColumn = [{
+        // column style for algorithm 1 and 2
+        const top5column = [{
             accessor: 'company'
         }, {
             accessor: 'amount'
@@ -143,75 +112,43 @@ class PredictionTable extends Component {
                 console.log(row);
                 return (<div
                     style={{
-                        // width: `${row.value}%`,
-                        height: "100%",
+                        height: "120%",
+                        marginTop: "-3px",
+                        paddingTop: '6px',
+                        textAlign: "center",
+                        width: "110%",
                         backgroundColor:
-                            row.value > 4.0
-                                ? "#85cc00"
-                                : row.value > 2.0
-                                ? "#ffbf00"
-                                : "#ff2e00",
-                        borderRadius: "2px",
+                            row.value > 0.0
+                                ? "rgba(96, 239, 255, 0.5)"
+                                : row.value === 0.0
+                                ? "rgba(155, 155, 155, 0.8)"
+                                : "rgba(255, 0, 167, 0.5)",
                         transition: "all .2s ease-out"
                     }}
-                > {row.value+'%'} </div>);
+                > {row.value + '%'} </div>);
             }
         }];
 
-
-
-        // column style for gainer
-        const gainerColumn = [{
-            // Header: 'Company',
-            accessor: 'company'
-        }, {
-            accessor: 'amount'
-        }, {
-            accessor: 'percentage',
-            style: {
-                background: 'rgba(96, 239, 255, 0.5)',
-                color: 'black',
-            },
-        }];
-
-        // column style for loser
-        const loserColumn = [{
-            accessor: 'company'
-        }, {
-            accessor: 'amount'
-        }, {
-            accessor: 'percentage',
-
-            // Cell: row => (
-            style: {
-                background: 'rgba(255, 0, 167, 0.5)',
-                //         // background: this.changeBG('color'),
-                //         background: this.value > 0
-                //             ? "rgba(255, 0, 167, 0.5)"
-                //             : this.value === 0
-                //             ? "rgba(65, 65, 65, 0.4)"
-                //             : "rgba(96, 239, 255, 0.4)",
-                color: 'black',
+        // column style for prediction goes higher or lower
+        const trendColumn = [{
+            accessor: 'result',
+            Cell: row => {
+                console.log(row);
+                return (<div
+                    style={{
+                        height: "200%",
+                        marginTop: "-10px",
+                        paddingTop: '10px',
+                        textAlign: "center",
+                        width: "110%",
+                        backgroundColor:
+                            row.value === 'Go Higher'
+                                ? "rgba(96, 239, 255, 0.8)"
+                                : "rgba(255, 0, 167, 0.8)",
+                        transition: "all .2s ease-out"
+                    }}
+                > {row.value} </div>);
             }
-            // )
-        }];
-
-        // column style for prediction goes higher
-        const higherColumn = [{
-            accessor: 'result',
-            style: {
-                background: 'rgba(96, 239, 255, 0.8)',
-                color: 'black',
-            },
-        }];
-
-        // column style for prediction goes lower
-        const lowerColumn = [{
-            accessor: 'result',
-            style: {
-                background: 'rgba(255, 0, 167, 0.8)',
-                color: 'black',
-            },
         }];
 
         return (
@@ -226,7 +163,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={this.alg01Gainer()}
                             noDataText='Loading Data ...'
-                            columns={testColumn}
+                            columns={top5column}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
@@ -236,7 +173,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={this.alg01Loser()}
                             noDataText='Loading Data ...'
-                            columns={loserColumn}
+                            columns={top5column}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
@@ -254,7 +191,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={this.alg02Gainer()}
                             noDataText='Loading Data ...'
-                            columns={gainerColumn}
+                            columns={top5column}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
@@ -264,7 +201,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={this.alg02Loser()}
                             noDataText='Loading Data ...'
-                            columns={loserColumn}
+                            columns={top5column}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
@@ -279,7 +216,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={this.alg03Result()}
                             noDataText='Loading Data ...'
-                            columns={higherColumn}
+                            columns={trendColumn}
                             defaultPageSize={1}
                             showPaginationBottom={false}
                         />
@@ -290,7 +227,7 @@ class PredictionTable extends Component {
                         <ReactTable
                             data={this.alg04Result()}
                             noDataText='Loading Data ...'
-                            columns={lowerColumn}
+                            columns={trendColumn}
                             defaultPageSize={1}
                             showPaginationBottom={false}
                         />

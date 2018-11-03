@@ -286,6 +286,7 @@
   transition-property: width, min-width, padding, opacity;
 }
 
+
 .ReactTable .rt-th.-hidden,
 .ReactTable .rt-td.-hidden {
   width: 0 !important;
@@ -295,7 +296,7 @@
   opacity: 0 !important
 }
 
-.ReactTable .rt-expander {
+.ReactTable.rt-expander {
   display: inline-block;
   position: relative;
   margin: 0;
