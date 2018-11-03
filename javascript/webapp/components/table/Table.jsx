@@ -57,7 +57,7 @@ class Table extends React.PureComponent {
         let data = this.state.data ? Array.from(this.state.data) : [];
 
         return (
-            <ReactTable
+            <ReactTable className="currTable"
                 data={data}
                 noDataText='Loading Data ...'
                 columns={[

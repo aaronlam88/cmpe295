@@ -85,6 +85,7 @@ class SearchBox extends React.PureComponent {
                                 <input
                                     id="stockInput"
                                     name="stockInput"
+                                    className="currentInput"
                                     type="text"
                                     placeholder="Search for..."
                                     alt="inputVal"

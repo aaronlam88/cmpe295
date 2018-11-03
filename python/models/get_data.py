@@ -19,11 +19,7 @@ class GetData:
     _featuresDiff = None
     _symbols = None
     _map = {'date': 0, 'open': 1, 'high': 2, 'low': 3, 'close': 4, 'adjClose': 5, 'volume': 6}
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 8765e983009e46c1c2a8f13d97b9ce10e9a4fe41
     def __init__(self, dataCount=1002):
         self._dataCount = dataCount
         if self._data == None:
