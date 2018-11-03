@@ -149,7 +149,6 @@ class PredictionTable extends Component {
                     }}
                 > {row.value} </div>);
             }
-
         }];
 
         return (
