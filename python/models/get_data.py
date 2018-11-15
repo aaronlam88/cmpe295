@@ -199,3 +199,15 @@ class GetData:
             else:
                 labels.append(0)
         return labels
+
+    # the oldest data is at the very first index
+    def getSymbolFeaturesWithoutDate(self, symbol):
+        """
+        return a single features[] for a stock symbol
+        """
+        features = []
+        for i in range (self._dataCount-1, 0, -1):
+            features.append(self._data[symbol][i][1:5])
+        return features
+
+

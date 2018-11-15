@@ -5,6 +5,11 @@ import { Grid, Row, Col, } from 'react-bootstrap';
 // import style
 import './SearchBox.scss';
 
+/**
+ * SearchBox is React.PureComponent which control the data of the page
+ * Since we will only get new data when user hits the search button
+ * it's better to call API.getData here 
+ */
 class SearchBox extends React.PureComponent {
     // init setup, only call once when component is created
     // props is immutatable
@@ -15,11 +20,10 @@ class SearchBox extends React.PureComponent {
             value: props.tableName,
             submittedValue: props.tableName
         };
-
+        // take startTime endTime out of the state, and set as private internal variables
+        // reason: avoid re-render the searchbox when Calender change state
         this._startTime = props.startTime;
         this._endTime = props.endTime;
-
-        API.getData(this.state.value, this._startTime, this._endTime, 'dataIsReady');
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,6 +34,7 @@ class SearchBox extends React.PureComponent {
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
+        API.getData(this.state.value, this._startTime, this._endTime, 'dataIsReady');
         window.addEventListener('timeChange', this.timeChange);
     }
 
@@ -80,6 +85,7 @@ class SearchBox extends React.PureComponent {
                                 <input
                                     id="stockInput"
                                     name="stockInput"
+                                    className="currentInput"
                                     type="text"
                                     placeholder="Search for..."
                                     alt="inputVal"

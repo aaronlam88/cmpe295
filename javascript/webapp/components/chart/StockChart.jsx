@@ -84,7 +84,7 @@ class StockChart extends React.PureComponent {
 
                     // ==== the line ====
                     borderColor: colors.green30, // line color
-                    borderWidth: 1, // width of the line
+                    borderWidth: 2, // width of the line
 
                     // ==== points on the line ====
                     pointBackgroundColor: colors.green, // point inside color
@@ -107,7 +107,7 @@ class StockChart extends React.PureComponent {
 
                     // ==== the line ====
                     borderColor: colors.purple30, // line color
-                    borderWidth: 1, // width of the line
+                    borderWidth: 2, // width of the line
 
                     // ==== points on the line ====
                     pointBackgroundColor: colors.purple, // point inside color
@@ -143,6 +143,16 @@ class StockChart extends React.PureComponent {
                     fontColor: colors.white,
                     padding: 15,
                     fontFamily: "DIN Condensed",
+                },
+                onHover: function (e) {
+                    e.target.style.cursor = 'pointer';
+                }
+            },
+            hover: {
+                onHover: function (e) {
+                    let point = this.getElementAtEvent(e);
+                    if (point.length) e.target.style.cursor = 'pointer';
+                    else e.target.style.cursor = 'default';
                 }
             },
             scales: {
