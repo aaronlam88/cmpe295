@@ -7,7 +7,7 @@ import {
     Row,
     Col,
 } from 'react-bootstrap';
-import ReactFontFace from 'react-font-face'
+// import ReactFontFace from 'react-font-face'
 
 // import { Router, Route, hashHistory } from 'react-router'
 
