@@ -50,10 +50,10 @@ if kind == 'Multi':
 
 symbols = getData.getAllSymbols()
 # get_data_block_end
-    
+
 for symbol in symbols:
     accuracy[symbol] = []
-    
+
     # get feature if single
     if kind == 'Single':
         if len(sys.argv) == 4:
@@ -86,5 +86,5 @@ for symbol in symbols:
             (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
 
 # print accuracy
-for symbol in symbols: 
+for symbol in symbols:
     print(symbol + ', ' + ', '.join(accuracy[symbol]), file=results)
