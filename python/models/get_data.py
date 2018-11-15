@@ -34,13 +34,14 @@ class GetData:
             data_save.close
         except Exception:
             logger.debug('Getting data from database')
-
-            configData = json.load(open('../../ignore/db_config.json'))
+            print("config")
+            # configData = json.load(open('../../ignore/db_config.json'))
+            print("configData")
             config = {
-                'user': configData['username'],
-                'password': configData['password'],
-                'host': configData['host'],
-                'database': configData['database'],
+                'user': "cmpe295",
+                'password': "cmpe295.sjsu.2018",
+                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+                'database': "StockDatabase",
                 'raise_on_warnings': True,
                 'buffered': True
             }

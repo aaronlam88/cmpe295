@@ -131,18 +131,3 @@ render(
     <StockTableComponent />,
     document.getElementById('StockTable')
 );
-
-render(
-    <PredictionComponent />,
-    document.getElementById('PredictionTable')
-);
-
-render(
-    <PredictionSearchBarComponent />,
-    document.getElementById('PredictionSearchBar')
-);
-
-render(
-    <PredictionStockChartComponent />,
-    document.getElementById('PredictionChart')
-);
