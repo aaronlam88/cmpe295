@@ -23,8 +23,14 @@ Thumbs.db
 # ignore folders #
 ##################
 bin/
+lib/
+install/
 ignore/
 node_modules/
+out/
+build/
+junit/
+install/
 
 ################
 # ignore files #
@@ -52,3 +58,25 @@ package-lock.json
 *.rar
 *.tar
 *.zip
+
+########################
+# Intellij and VSCode  #
+########################
+.classpath
+.project
+
+.gradle/
+.idea/
+.vscode/
+.settings/
+
+########################
+# python cache folder  #
+########################
+__pycache__/
+
+########################
+# computed data files  #
+########################
+*.save
+*.csv
