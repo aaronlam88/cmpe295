@@ -21,8 +21,7 @@ saveData = SaveData()
 accuracy = {}
 meanSquaredError = {}
 
-# symbols = getData.getAllSymbols()
-symbols = ['FB']
+symbols = getData.getAllSymbols()
 
 # Situation 2: Use yesterday's 'open' 'low' 'hign' price to predict current day's 'close' price #
 # Result: Still high accracy, some stocks are extremly unaccurare
