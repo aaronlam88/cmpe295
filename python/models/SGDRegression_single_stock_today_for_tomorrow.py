@@ -74,4 +74,4 @@ for symbol in symbols:
         print(save_date)
         print(res[0])
    
-        saveData.saveMultipleData(symbol, "SGDRegression", [tuple((save_date, res[0]))])
+        saveData.saveMultipleData(symbol, "SGDRegression", [tuple((save_date, str(res[0])))])

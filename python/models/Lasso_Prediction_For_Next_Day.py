@@ -23,9 +23,6 @@ meanSquaredError = {}
 
 symbols = ['AMZN']
 
-# Situation 2: Use yesterday's 'open' 'low' 'hign' price to predict current day's 'close' price #
-# Result: Still high accracy, some stocks are extremly unaccurare
-
 for symbol in symbols:
 
     # data column: Date|Open|High|Low|Close|Adj_Close
@@ -71,4 +68,4 @@ for symbol in symbols:
     for i in range(1000, 900, -1):
         res = reg.predict([features[i]])
         save_date = dates[i][0:4] + "-" + dates[i][4:6] + "-" + dates[i][6:8]
-        saveData.saveMultipleData(symbol, "LASSO", [tuple((save_date, res[0], res[0]))])
+        saveData.saveMultipleData(symbol, "LASSO", [tuple((save_date, str(res[0])))])
