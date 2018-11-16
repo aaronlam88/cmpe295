@@ -34,9 +34,9 @@ class GetData:
             data_save.close
         except Exception:
             logger.debug('Getting data from database')
-            print("config")
+
             # configData = json.load(open('../../ignore/db_config.json'))
-            print("configData")
+
             config = {
                 'user': "cmpe295",
                 'password': "cmpe295.sjsu.2018",

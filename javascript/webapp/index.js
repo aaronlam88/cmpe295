@@ -7,7 +7,6 @@ import {
     Row,
     Col,
 } from 'react-bootstrap';
-// import ReactFontFace from 'react-font-face'
 
 // import { Router, Route, hashHistory } from 'react-router'
 
@@ -130,4 +129,19 @@ render(
 render(
     <StockTableComponent />,
     document.getElementById('StockTable')
+);
+
+render(
+    <PredictionComponent />,
+    document.getElementById('PredictionTable')
+);
+
+render(
+    <PredictionSearchBarComponent />,
+    document.getElementById('PredictionSearchBar')
+);
+
+render(
+    <PredictionStockChartComponent />,
+    document.getElementById('PredictionChart')
 );
