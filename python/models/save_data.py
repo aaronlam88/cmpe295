@@ -23,26 +23,28 @@ class SaveData:
                 'password': "cmpe295.sjsu.2018",
                 'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
                 'database': "PredictionDatabase",
-                'raise_on_warnings': True,
-
+                'raise_on_warnings': False,
+                'buffered': True
             }
             cnx = mysql.connector.connect(**config)
-            cursor = cnx.cursor(prepared=True)
+            cursor = cnx.cursor()
 
             # data column |Date|DTree|SVM|SGDLinear|SGDRegression
 
             # check if table exist. if not, create a new one
-            if not self.checkTableExists(cnx, table):
-                logger.debug("""Create a new table %s""" % (table))
-                query = """CREATE TABLE IF NOT EXISTS `%s` (`Date` DATETIME NOT NULL,
-                    `DTree` DOUBLE NULL, `SVM` DOUBLE NULL, `SGDLinear` DOUBLE NULL,
-                    `SGDRegression` DOUBLE NULL, PRIMARY KEY (`Date`));""" % (table)
-                cursor.execute(query)
+
+            logger.debug("""Create a new table %s""" % (table))
+            query = """CREATE TABLE IF NOT EXISTS `%s` (`Date` DATETIME NOT NULL,
+                `DTree` DOUBLE NULL, `SVM` DOUBLE NULL, `SGDLinear` DOUBLE NULL,
+                `SGDRegression` DOUBLE NULL, PRIMARY KEY (`Date`));""" % (table)
+            cursor.execute(query)
+            cnx.commit()
 
             # insert the data to the table
-            sql_insert_query = """ INSERT INTO """ + table + """ (Date, """ + algo + """) values(%s,%s) ON DUPLICATE KEY UPDATE """ + algo + """=%s"""
+            sql_insert_query = """ INSERT INTO """ + table + """ (Date, """ + algo + """) values(%s,%s) ON DUPLICATE KEY UPDATE """ + algo + """=Values(""" + algo + """)"""
 
             #used executemany to insert many rows
+            print(records_to_insert)
             result  = cursor.executemany(sql_insert_query, records_to_insert)
             cnx.commit()
             cursor.close()
