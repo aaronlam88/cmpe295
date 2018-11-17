@@ -36,7 +36,7 @@ class SaveData:
             logger.debug("""Create a new table %s""" % (table))
             query = """CREATE TABLE IF NOT EXISTS `%s` (`Date` DATETIME NOT NULL,
                 `DTree` DOUBLE NULL, `SVM` DOUBLE NULL, `SGDLinear` DOUBLE NULL,
-                `SGDRegression` DOUBLE NULL, PRIMARY KEY (`Date`));""" % (table)
+                `SGDRegression` DOUBLE NULL, `LASSORegression` DOUBLE NULL, PRIMARY KEY (`Date`));""" % (table)
             cursor.execute(query)
             cnx.commit()
 

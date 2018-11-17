@@ -21,7 +21,7 @@ saveData = SaveData()
 accuracy = {}
 meanSquaredError = {}
 
-symbols = ['AMZN']
+symbols = getData.getAllSymbols()
 
 for symbol in symbols:
 
@@ -46,8 +46,8 @@ for symbol in symbols:
     X_test = features[901:998]
     y_test = result[902:999]
     
-    reg = linear_model.Lasso(alpha=0.1, copy_X=True, fit_intercept=True, max_iter=1000, normalize=False, positive=False, precompute=False, random_state=None, selection='cyclic', tol=0.0001, warm_start=False).fit(X_train, y_train)
-    
+    reg = linear_model.Lasso(alpha=0.1, copy_X=True, fit_intercept=True, max_iter=1000,normalize=False, positive=False, precompute=False, random_state=None,selection='cyclic', tol=0.0001, warm_start=False)
+    reg.fit(X_train, y_train)
     # predict data #
     y_pred = reg.predict(X_test)
    
@@ -68,4 +68,4 @@ for symbol in symbols:
     for i in range(1000, 900, -1):
         res = reg.predict([features[i]])
         save_date = dates[i][0:4] + "-" + dates[i][4:6] + "-" + dates[i][6:8]
-        saveData.saveMultipleData(symbol, "LASSO", [tuple((save_date, str(res[0])))])
+        saveData.saveMultipleData(symbol, "LASSORegression", [tuple((save_date, str(res[0])))])

@@ -66,7 +66,7 @@ for symbol in symbols:
             (symbol, round(reg.score(X_test, y_test)*100, 2)), file=sys.stderr)  
     print(symbol + ', ' + '(score accuracy)' + ', '.join(accuracy[symbol]), file=results)
     print(symbol + ', ' + '(mean squared error)' + ', '.join(meanSquaredError[symbol]), file=results) 
-
+    
     # save last 100 days' prediction data, date save as the date of 'yesterday'
     for i in range(1000, 900, -1):
         res = reg.predict([features[i]])
