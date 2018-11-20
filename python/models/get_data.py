@@ -173,7 +173,16 @@ class GetData:
         for key in self._data.keys():
             symbols.append(key)
         return symbols
-
+    
+    def getAllSymbolsSinceIndex(self, index):
+        """
+        return all stock symbols that cached locally since index 'index'
+        """
+        AllSymbols = self.getAllSymbols()
+        symbols = []
+        for i in range(index, len(AllSymbols)-1, 1):
+            symbols.append(AllSymbols[i])
+        return symbols
 
 
     def getSymbolCLFLabels(self, symbol, field=0):
