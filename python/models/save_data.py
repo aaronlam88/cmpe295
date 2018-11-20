@@ -29,7 +29,7 @@ class SaveData:
             cnx = mysql.connector.connect(**config)
             cursor = cnx.cursor()
 
-            # data column |Date|DTree|SVM|SGDLinear|SGDRegression
+            # data column |Date|DTree|SVM|SGDLinear|SGDRegression|LASSORegression
 
             # check if table exist. if not, create a new one
 
@@ -41,7 +41,7 @@ class SaveData:
             cnx.commit()
 
             # insert the data to the table
-            sql_insert_query = """ INSERT INTO """ + table + """ (Date, """ + algo + """) values(%s,%s) ON DUPLICATE KEY UPDATE """ + algo + """=Values(""" + algo + """)"""
+            sql_insert_query = """ INSERT INTO `""" + table + """` (Date, """ + algo + """) values(%s,%s) ON DUPLICATE KEY UPDATE """ + algo + """=Values(""" + algo + """)"""
 
             #used executemany to insert many rows
             print(records_to_insert)
