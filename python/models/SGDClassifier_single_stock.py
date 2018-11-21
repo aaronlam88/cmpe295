@@ -21,10 +21,11 @@ for symbol in symbols:
      
     # we just predict up/down of close price #
     result = getData.getSymbolCLFLabels(symbol, 4)
-    features = getData.getSymbolFeatures(symbol)
+    features = getData.getSymbolFeaturesWithoutDate(symbol)
+    allFeatures = getData.getSymbolFeatures(symbol)
     dates = []
 
-    for feature in features:
+    for feature in allFeatures:
         dates.append(feature[0])
 
     # create train and test data set #
