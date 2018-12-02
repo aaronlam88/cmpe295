@@ -73,43 +73,27 @@ class PredictionStockChart extends React.PureComponent {
             datasets: [
                 {
                     // ==== data used to draw the line ====
-                    data: open,
-
-                    // ==== label for the line ====
-                    label: 'Algorithm 1 Prediction',
-
-                    // ==== the area under the line ===
-                    fill: false, // should the area below the line be fill with color fillColor
-                    fillColor: colors.green30,
-
-                    // ==== the line ====
-                    borderColor: colors.green30, // line color
-                    borderWidth: 2, // width of the line
-
-                    // ==== points on the line ====
-                    pointBackgroundColor: colors.green, // point inside color
-                    pointBorderColor: colors.green, // point outside color
-                    pointHighlightFill: colors.white,
-                    pointHighlightStroke: colors.green30,
-                    pointRadius: 3,
-                    pointStyle: 'circle', // 'circle', 'cross', 'crossRot', 'dash', 'line', 'rect', 'rectRounded', 'rectRot', 'star', 'triangle',
-                },
-
-                {
-                    // ==== data used to draw the line ====
                     data: close,
 
                     // ==== label for the line ====
-                    label: 'Algorithm 2 Prediction',
+                    label: 'Real Market Close Data',
 
                     // ==== the area under the line ===
                     fill: false, // should the area below the line be fill with color fillColor
-                    fillColor: colors.purple,
+                    fillColor: colors.purple30,
 
                     // ==== the line ====
-                    borderColor: colors.purple30, // line color
+                    borderColor: colors.purple50, // line color
                     borderWidth: 2, // width of the line
 
+                //     // ==== points on the line ====
+                //     pointBackgroundColor: colors.green, // point inside color
+                //     pointBorderColor: colors.green, // point outside color
+                //     pointHighlightFill: colors.white,
+                //     pointHighlightStroke: colors.green30,
+                //     pointRadius: 3,
+                //     pointStyle: 'circle', // 'circle', 'cross', 'crossRot', 'dash', 'line', 'rect', 'rectRounded', 'rectRot', 'star', 'triangle',
+                // },
                     // ==== points on the line ====
                     pointBackgroundColor: colors.purple, // point inside color
                     pointBorderColor: colors.purple, // point outside color
@@ -118,6 +102,30 @@ class PredictionStockChart extends React.PureComponent {
                     pointRadius: 3,
                     pointStyle: 'circle', // 'circle', 'cross', 'crossRot', 'dash', 'line', 'rect', 'rectRounded', 'rectRot', 'star', 'triangle',
                 },
+
+                // {
+                //     // ==== data used to draw the line ====
+                //     data: open,
+                //
+                //     // ==== label for the line ====
+                //     label: 'Algorithm 2 Prediction',
+                //
+                //     // ==== the area under the line ===
+                //     fill: false, // should the area below the line be fill with color fillColor
+                //     fillColor: colors.purple,
+                //
+                //     // ==== the line ====
+                //     borderColor: colors.purple30, // line color
+                //     borderWidth: 2, // width of the line
+                //
+                //     // ==== points on the line ====
+                //     pointBackgroundColor: colors.purple, // point inside color
+                //     pointBorderColor: colors.purple, // point outside color
+                //     pointHighlightFill: colors.white,
+                //     pointHighlightStroke: colors.purple30,
+                //     pointRadius: 3,
+                //     pointStyle: 'circle', // 'circle', 'cross', 'crossRot', 'dash', 'line', 'rect', 'rectRounded', 'rectRot', 'star', 'triangle',
+                // },
             ],
         };
 

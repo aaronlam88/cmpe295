@@ -4,7 +4,7 @@ var cache = require('../library/cache');
 var Symbols = (function () {
     function getAllSymbols(res) {
         let table = '4update';
-        let q = `SELECT Symbol FROM ${table};`
+        let q = `SELECT Symbol FROM ${table};`;
         console.log("query: ", q);
         if (cache.has(q)) {
             console.log('hit cache');

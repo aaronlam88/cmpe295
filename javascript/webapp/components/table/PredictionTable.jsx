@@ -4,6 +4,7 @@ import {
     Grid,
     Row,
     Col,
+    Image,
 } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -26,28 +27,28 @@ class PredictionTable extends Component {
                 this.setState({data: res.data});
             });
     }
-
-    //gainer in Algorithm 1
-    alg01Gainer() {
-        return (this.state.data.slice(0, 5).map(
-            item => ({
-                company: item.label,
-                amount: item.amount,
-                percentage: item.result,
-            })
-        ))
-    }
-
-    // loser in Algorithm 1
-    alg01Loser() {
-        return (this.state.data.slice(5, 10).map(
-            item => ({
-                company: item.label,
-                amount: item.amount,
-                percentage: item.result,
-            })
-        ))
-    }
+    //
+    // //gainer in Algorithm 1
+    // alg01Gainer() {
+    //     return (this.state.data.slice(0, 5).map(
+    //         item => ({
+    //             company: item.label,
+    //             amount: item.amount,
+    //             percentage: item.result,
+    //         })
+    //     ))
+    // }
+    //
+    // // loser in Algorithm 1
+    // alg01Loser() {
+    //     return (this.state.data.slice(5, 10).map(
+    //         item => ({
+    //             company: item.label,
+    //             amount: item.amount,
+    //             percentage: item.result,
+    //         })
+    //     ))
+    // }
 
     //gainer in Algorithm 2
     alg02Gainer() {
@@ -73,8 +74,8 @@ class PredictionTable extends Component {
     }
 
 
-    // algorithm 3 result
-    alg03Result() {
+    // algorithm 2 result / Dtree
+    alg02Result() {
         let result = this.state.data.slice(20, 21).map(
             item => ({result: item.result,}));
         result.forEach(o => {
@@ -85,14 +86,42 @@ class PredictionTable extends Component {
         return result;
     }
 
-    //algorithm 4 result
-    alg04Result() {
+    //algorithm 3 result / SVM
+    alg03Result() {
         let result = this.state.data.slice(21, 22).map(
             item => ({result: item.result,}));
         result.forEach(o => {
             for (let k in o)
                 if (o[k] === 1) o[k] = 'Go Higher';
                 else o[k] = 'Go Lower';
+        });
+        return result;
+    }
+
+    //algorithm 4 result / SGDLinear
+    alg04Result() {
+        let result = this.state.data.slice(22, 23).map(
+            item => ({result: item.result,}));
+        result.forEach(o => {
+            for (let k in o)
+                if (o[k] === 1) o[k] = 'Go Higher';
+                else o[k] = 'Go Lower';
+        });
+        return result;
+    }
+
+    // conclusion for algorithm 2,3 and 4
+    algConclusion() {
+        var count = 0;
+        let result = this.state.data.slice(20, 23).map(
+            item => ({result: item.result}));
+        result.forEach(o => {
+            for (let k in o) {
+                count += o[k];
+                if (count > 1) o[k] = 'final Go Higher';
+                else o[k] = 'final Go Lower';
+                console.log(o[k]);
+            }
         });
         return result;
     }
@@ -155,36 +184,36 @@ class PredictionTable extends Component {
             <Grid fluid>
                 <Row>
                     {/*algorithm 1*/}
-                    <Col sm={12} md={12} lg={12}>
-                        <h2 className={"centerText bottomPadding20"}>Algorithm 1 - Regression Prediction Result</h2>
-                    </Col>
-                    <Col sm={12} md={12} lg={6} className="pre_winner">
-                        <h3 className={"blueColor centerText"}>Top 5 Gainers</h3>
-                        <ReactTable
-                            data={this.alg01Gainer()}
-                            noDataText='Loading Data ...'
-                            columns={top5column}
-                            defaultPageSize={5}
-                            showPaginationBottom={false}
-                        />
-                    </Col>
-                    <Col sm={12} md={12} lg={6} className="pre_loser">
-                        <h3 className={"purpleColor centerText"}>Top 5 Losers</h3>
-                        <ReactTable
-                            data={this.alg01Loser()}
-                            noDataText='Loading Data ...'
-                            columns={top5column}
-                            defaultPageSize={5}
-                            showPaginationBottom={false}
-                        />
-                    </Col>
-                    <Col sm={12} md={12} lg={12}>
-                        <hr/>
-                    </Col>
+                    {/*<Col sm={12} md={12} lg={12}>*/}
+                        {/*<h2 className={"centerText bottomPadding20"}>Algorithm 1 - Regression Prediction Result</h2>*/}
+                    {/*</Col>*/}
+                    {/*<Col sm={12} md={12} lg={6} className="pre_winner">*/}
+                        {/*<h3 className={"blueColor centerText"}>Top 5 Gainers</h3>*/}
+                        {/*<ReactTable*/}
+                            {/*data={this.alg01Gainer()}*/}
+                            {/*noDataText='Loading Data ...'*/}
+                            {/*columns={top5column}*/}
+                            {/*defaultPageSize={5}*/}
+                            {/*showPaginationBottom={false}*/}
+                        {/*/>*/}
+                    {/*</Col>*/}
+                    {/*<Col sm={12} md={12} lg={6} className="pre_loser">*/}
+                        {/*<h3 className={"purpleColor centerText"}>Top 5 Losers</h3>*/}
+                        {/*<ReactTable*/}
+                            {/*data={this.alg01Loser()}*/}
+                            {/*noDataText='Loading Data ...'*/}
+                            {/*columns={top5column}*/}
+                            {/*defaultPageSize={5}*/}
+                            {/*showPaginationBottom={false}*/}
+                        {/*/>*/}
+                    {/*</Col>*/}
+                    {/*<Col sm={12} md={12} lg={12}>*/}
+                        {/*<hr/>*/}
+                    {/*</Col>*/}
 
                     {/*algorithm 2*/}
                     <Col sm={12} md={12} lg={12}>
-                        <h2 className={"centerText bottomPadding20"}>Algorithm 2 - xxx Prediction Result</h2>
+                        <h2 className={"centerText bottomPadding20"}>LASSORegression Algorithm Prediction Result</h2>
                     </Col>
                     <Col sm={12} md={12} lg={6} className="pre_winner">
                         <h3 className={"blueColor centerText"}>Top 5 Gainers</h3>
@@ -210,9 +239,36 @@ class PredictionTable extends Component {
                         <hr/>
                     </Col>
 
-                    {/*algorithm 3 and 4 */}
-                    <Col sm={12} md={12} lg={6} className="pre_winner">
-                        <h2 className={"centerText"}>Algorithm 3 prediction Result</h2>
+                    {/*algorithm 2, 3 and 4 conclusion*/}
+                    <Col sm={12} md={12} lg={12} className="pre_winner">
+                        <h2 className={"centerText"}>Algorithm Dtree, SVM and SGDLiner prediction Result conclusion</h2>
+                        <ReactTable
+                            data={this.algConclusion()}
+                            // data={this.alg04Result()}
+                            noDataText='Loading Data ...'
+                            columns={trendColumn}
+                            defaultPageSize={1}
+                            showPaginationBottom={false}
+                        />
+                    </Col>
+                    <Col sm={12} md={12} lg={12}>
+                        <Image src='../../style/image/conclusionMark.png' alt="conclusionMark" responsive className="responsiveImg"/>
+                    </Col>
+
+                    {/*algorithm 2, 3 and 4 */}
+                    <Col sm={12} md={12} lg={4} className="pre_winner">
+                        <h2 className={"centerText"}>Algorithm Dtree prediction Result</h2>
+                        <ReactTable
+                            data={this.alg02Result()}
+                            noDataText='Loading Data ...'
+                            columns={trendColumn}
+                            defaultPageSize={1}
+                            showPaginationBottom={false}
+                        />
+                    </Col>
+
+                    <Col sm={12} md={12} lg={4} className="pre_loser">
+                        <h2 className={"centerText"}>Algorithm SVM prediction Result</h2>
                         <ReactTable
                             data={this.alg03Result()}
                             noDataText='Loading Data ...'
@@ -222,8 +278,8 @@ class PredictionTable extends Component {
                         />
                     </Col>
 
-                    <Col sm={12} md={12} lg={6} className="pre_loser">
-                        <h2 className={"centerText"}>Algorithm 4 prediction Result</h2>
+                    <Col sm={12} md={12} lg={4} className="pre_loser">
+                        <h2 className={"centerText"}>Algorithm SGDLinear prediction Result</h2>
                         <ReactTable
                             data={this.alg04Result()}
                             noDataText='Loading Data ...'
@@ -235,7 +291,6 @@ class PredictionTable extends Component {
                     <Col sm={12} md={12} lg={12} className={"bottomPadding20"}>
                         <hr/>
                     </Col>
-
                 </Row>
             </Grid>
         )

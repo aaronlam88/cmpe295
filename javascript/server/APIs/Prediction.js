@@ -1,4 +1,4 @@
-var db = require('../library/dbconnection'); //reference of dbconnection.js
+var db = require('../library/predictiondb'); //reference of predictiondb.js
 var cache = require('../library/cache');
 
 var Stock = (function () {
@@ -60,6 +60,7 @@ var Stock = (function () {
 
                 {result: 1},
                 {result: 0},
+                {result: 1},
             ]
         );
     }
