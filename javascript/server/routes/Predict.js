@@ -1,9 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var Stock = require('../APIs/Prediction');
+var Prediction = require('../APIs/Prediction');
 
 router.get('/top', function (req, res) {
-    Stock.getTop(res);
+    Prediction.getTop(res);
+});
+
+router.get('/:table/:start_date/:end_date', function (req, res, next) {
+    Prediction.getPredictionById(req.params.table, req.params.start_date, req.params.end_date, res);
+});
+
+router.get('/:table/latest', function(req, res, next) {
+    Prediction.getLatest(req.params.table, res)
 });
 
 module.exports = router;

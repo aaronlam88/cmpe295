@@ -15,7 +15,6 @@ class PredictionStockChart extends React.PureComponent {
             tableName: props.tableName,
             startTime: props.startTime,
             endTime: props.endTime,
-
             data: {},
         };
     }

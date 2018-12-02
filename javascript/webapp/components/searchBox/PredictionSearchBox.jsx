@@ -1,5 +1,5 @@
 import React from 'react';
-import API from '../utilities/API.js';
+import API from '../utilities/predictionAPI.js';
 import { Grid, Row, Col, } from 'react-bootstrap';
 
 // import style

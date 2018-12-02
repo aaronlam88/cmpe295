@@ -1,8 +1,20 @@
 var db = require('../library/predictiondb'); //reference of predictiondb.js
 var cache = require('../library/cache');
 
-var Stock = (function () {
-    function getStockById(table, start_date, end_date, res) {
+var Prediction = (function () {
+
+
+    /*
+    * example: http://localhost:8081/Predict/GOOG/20181112/20181121
+    * [
+    * {"Date":"2018-11-16 00:00:00","DTree":1,"SVM":0,"SGDLinear":0,"SGDRegression":-33924368239540.305,"LASSORegression":1058.6251924196856},
+    * {"Date":"2018-11-15 00:00:00","DTree":0,"SVM":0,"SGDLinear":0,"SGDRegression":-33540837479602.82,"LASSORegression":1056.375909863339},
+    * {"Date":"2018-11-14 00:00:00","DTree":0,"SVM":0,"SGDLinear":0,"SGDRegression":-33475034013078.4,"LASSORegression":1043.0930812316162},
+    * {"Date":"2018-11-13 00:00:00","DTree":0,"SVM":0,"SGDLinear":0,"SGDRegression":-33417228092627.6,"LASSORegression":1045.69616019958},
+    * {"Date":"2018-11-12 00:00:00","DTree":1,"SVM":0,"SGDLinear":0,"SGDRegression":-33646793315375.812,"LASSORegression":1046.3033048127943}]
+    * */
+
+    function getPredictionById(table, start_date, end_date, res) {
         let q = `SELECT * FROM ${table} WHERE Date >= '${start_date}' AND Date <= '${end_date}' ORDER BY Date DESC;`;
         console.log("query: ", q);
         if (cache.has(q)) {
@@ -18,7 +30,29 @@ var Stock = (function () {
                 }
             });
         }
+    }
 
+    /*
+    * http://localhost:8081/Predict/GOOG/latest
+    * [{"Date":"2018-11-16 00:00:00","DTree":1,"SVM":0,"SGDLinear":0,"SGDRegression":-33924368239540.305,"LASSORegression":1058.6251924196856}]
+    * */
+
+    function getLatest(table, res) {
+        let q = `SELECT * FROM ${table} ORDER BY Date DESC LIMIT 1;`;
+        console.log("query: ", q);
+        if (cache.has(q)) {
+            console.log('hit cache');
+            res.json(cache.get(q));
+        } else {
+            db.query(q, function (err, result, fields) {
+                if (err) {
+                    res.json(err);
+                } else {
+                    cache.set(q, result);
+                    res.json(result);
+                }
+            });
+        }
     }
 
 
@@ -68,9 +102,10 @@ var Stock = (function () {
     // expose functions or variables in the return
     // ==> make functions or variables in the return public
     return {
-        getStockById: getStockById,
+        getPredictionById: getPredictionById,
+        getLatest: getLatest,
         getTop: getTop,
     }
 })();
 
-module.exports = Stock;
+module.exports = Prediction;

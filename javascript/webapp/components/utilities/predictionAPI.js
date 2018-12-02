@@ -4,7 +4,7 @@ import moment from 'moment';
 /**
  * an API to get data
  */
-const API = {
+const predictionAPI = {
     /**
      * create an URL to get data from the backend server
      * @param {String} tableName the name of the stock symbol
@@ -14,7 +14,7 @@ const API = {
     getURLFromPrams(tableName, startTime, endTime) {
         let host = window.location.hostname;
         let port = '8081';
-        let resource = 'Stocks';
+        let resource = 'Predict';
         let format = 'YYYY-MM-DD';
 
         if (!tableName) {
@@ -97,4 +97,4 @@ const API = {
     }
 }
 
-export default API;
+export default predictionAPI;
