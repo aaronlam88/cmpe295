@@ -22,17 +22,17 @@ var Prediction = (function () {
     * */
 
     function getPredictionById(table, start_date, end_date, res) {
-        let q = `SELECT * FROM ${table} WHERE Date >= '${start_date}' AND Date <= '${end_date}' ORDER BY Date DESC;`;
+        let q = `SELECT * FROM ${table} WHERE Date >= '${start_date}' AND Date <= '${end_date}' ORDER BY Date;`;
         // console.log("query: ", q);
-        if (cache.has(q)) {
+        if (cache.has('predict' + q)) {
             console.log('hit cache');
-            res.json(cache.get(q));
+            res.json(cache.get('predict' + q));
         } else {
             predictionConnection.query(q, function (err, result, fields) {
                 if (err) {
                     res.json(err);
                 } else {
-                    cache.set(q, result);
+                    cache.set('predict' + q, result);
                     res.json(result);
                 }
             });
@@ -47,15 +47,15 @@ var Prediction = (function () {
     function getLatest(table, res) {
         let q = `SELECT * FROM ${table} ORDER BY Date DESC LIMIT 1;`;
         // console.log("query: ", q);
-        if (cache.has(q)) {
+        if (cache.has('predict' + q)) {
             console.log('hit cache');
-            res.json(cache.get(q));
+            res.json(cache.get('predict' + q));
         } else {
             predictionConnection.query(q, function (err, result, fields) {
                 if (err) {
                     res.json(err);
                 } else {
-                    cache.set(q, result);
+                    cache.set('predict' + q, result);
                     res.json(result);
                 }
             });

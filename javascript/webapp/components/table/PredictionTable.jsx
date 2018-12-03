@@ -80,8 +80,8 @@ class PredictionTable extends Component {
             item => ({result: item.result,}));
         result.forEach(o => {
             for (let k in o)
-                if (o[k] === 1) o[k] = 'Go Higher';
-                else o[k] = 'Go Lower';
+                if (o[k] === 1) o[k] = 'Will Go Higher';
+                else o[k] = 'Will Go Lower';
         });
         return result;
     }
@@ -92,8 +92,8 @@ class PredictionTable extends Component {
             item => ({result: item.result,}));
         result.forEach(o => {
             for (let k in o)
-                if (o[k] === 1) o[k] = 'Go Higher';
-                else o[k] = 'Go Lower';
+                if (o[k] === 1) o[k] = 'Will Go Higher';
+                else o[k] = 'Will Go Lower';
         });
         return result;
     }
@@ -104,8 +104,8 @@ class PredictionTable extends Component {
             item => ({result: item.result,}));
         result.forEach(o => {
             for (let k in o)
-                if (o[k] === 1) o[k] = 'Go Higher';
-                else o[k] = 'Go Lower';
+                if (o[k] === 1) o[k] = 'Will Go Higher';
+                else o[k] = 'Will Go Lower';
         });
         return result;
     }
@@ -166,9 +166,9 @@ class PredictionTable extends Component {
                         marginTop: "-10px",
                         paddingTop: '10px',
                         textAlign: "center",
-                        width: "110%",
+                        width: "100%",
                         backgroundColor:
-                            row.value === 'Go Higher'
+                            row.value === 'Will Go Higher'
                                 ? "rgba(96, 239, 255, 0.8)"
                                 : "rgba(255, 0, 167, 0.8)",
                         transition: "all .2s ease-out"
@@ -188,7 +188,8 @@ class PredictionTable extends Component {
                         marginTop: "-10px",
                         paddingTop: '10px',
                         textAlign: "center",
-                        width: "110%",
+                        width: "100%",
+                        color: "black",
                         backgroundColor:
                             row.value === 'The conclusion trend for this stock will go higher'
                                 ? "rgba(96, 239, 255, 0.8)"
