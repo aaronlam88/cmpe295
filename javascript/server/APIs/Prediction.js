@@ -1,8 +1,15 @@
-var db = require('../library/predictiondb'); //reference of predictiondb.js
+// var db = require('../library/predictiondb'); //reference of predictiondb.js
+var mysql = require('mysql');
 var cache = require('../library/cache');
 
 var Prediction = (function () {
-
+    var predictionConnection = mysql.createPool({
+        "user": "cmpe295",
+        "password": "cmpe295.sjsu.2018",
+        "host": "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+        database: 'PredictionDatabase',
+        dateStrings: true
+    });
 
     /*
     * example: http://localhost:8081/Predict/GOOG/20181112/20181121
@@ -16,12 +23,12 @@ var Prediction = (function () {
 
     function getPredictionById(table, start_date, end_date, res) {
         let q = `SELECT * FROM ${table} WHERE Date >= '${start_date}' AND Date <= '${end_date}' ORDER BY Date DESC;`;
-        console.log("query: ", q);
+        // console.log("query: ", q);
         if (cache.has(q)) {
             console.log('hit cache');
             res.json(cache.get(q));
         } else {
-            db.query(q, function (err, result, fields) {
+            predictionConnection.query(q, function (err, result, fields) {
                 if (err) {
                     res.json(err);
                 } else {
@@ -39,12 +46,12 @@ var Prediction = (function () {
 
     function getLatest(table, res) {
         let q = `SELECT * FROM ${table} ORDER BY Date DESC LIMIT 1;`;
-        console.log("query: ", q);
+        // console.log("query: ", q);
         if (cache.has(q)) {
             console.log('hit cache');
             res.json(cache.get(q));
         } else {
-            db.query(q, function (err, result, fields) {
+            predictionConnection.query(q, function (err, result, fields) {
                 if (err) {
                     res.json(err);
                 } else {

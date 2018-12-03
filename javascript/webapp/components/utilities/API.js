@@ -2,7 +2,7 @@ import $ from 'jquery';
 import moment from 'moment';
 
 /**
- * an API to get data
+ * an predictionAPI to get data
  */
 const API = {
     /**
@@ -32,9 +32,9 @@ const API = {
         }
 
         // for dev
-        if (host === 'localhost' || host === '0.0.0.0') {
-            host = '54.176.230.26';
-        }
+        // if (host === 'localhost' || host === '0.0.0.0') {
+        //     host = '54.176.230.26';
+        // }
 
         // save params
         this.tableName = tableName;

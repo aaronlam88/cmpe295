@@ -113,17 +113,14 @@ class PredictionTable extends Component {
     // conclusion for algorithm 2,3 and 4
     algConclusion() {
         var count = 0;
-        let result = this.state.data.slice(20, 23).map(
-            item => ({result: item.result}));
-        result.forEach(o => {
-            for (let k in o) {
-                count += o[k];
-                if (count > 1) o[k] = 'final Go Higher';
-                else o[k] = 'final Go Lower';
-                console.log(o[k]);
-            }
+        // console.log("slice", this.state.data.slice(20,23));
+        this.state.data.slice(20, 23).forEach(e => {
+            count += e.result;
         });
-        return result;
+        var resultStr = "lower";
+        count >= 2 ? resultStr = "The conclusion trend for this stock will go higher" : resultStr = "The conclusion trend for this stock will go lower";
+        console.log(count);
+        return [{result: resultStr}];
     }
 
     render() {
@@ -138,7 +135,7 @@ class PredictionTable extends Component {
             accessor: 'percentage',
 
             Cell: row => {
-                console.log(row);
+                // console.log(row);
                 return (<div
                     style={{
                         height: "120%",
@@ -162,7 +159,7 @@ class PredictionTable extends Component {
         const trendColumn = [{
             accessor: 'result',
             Cell: row => {
-                console.log(row);
+                // console.log(row);
                 return (<div
                     style={{
                         height: "200%",
@@ -180,38 +177,33 @@ class PredictionTable extends Component {
             }
         }];
 
+        // column style for conclusion
+        const conclusionColumn = [{
+            accessor: 'result',
+            Cell: row => {
+                // console.log(row);
+                return (<div
+                    style={{
+                        height: "200%",
+                        marginTop: "-10px",
+                        paddingTop: '10px',
+                        textAlign: "center",
+                        width: "110%",
+                        backgroundColor:
+                            row.value === 'The conclusion trend for this stock will go higher'
+                                ? "rgba(96, 239, 255, 0.8)"
+                                : "rgba(255, 0, 167, 0.8)",
+                        transition: "all .2s ease-out"
+                    }}
+                > {row.value} </div>);
+            }
+        }];
+
         return (
             <Grid fluid>
                 <Row>
-                    {/*algorithm 1*/}
-                    {/*<Col sm={12} md={12} lg={12}>*/}
-                        {/*<h2 className={"centerText bottomPadding20"}>Algorithm 1 - Regression Prediction Result</h2>*/}
-                    {/*</Col>*/}
-                    {/*<Col sm={12} md={12} lg={6} className="pre_winner">*/}
-                        {/*<h3 className={"blueColor centerText"}>Top 5 Gainers</h3>*/}
-                        {/*<ReactTable*/}
-                            {/*data={this.alg01Gainer()}*/}
-                            {/*noDataText='Loading Data ...'*/}
-                            {/*columns={top5column}*/}
-                            {/*defaultPageSize={5}*/}
-                            {/*showPaginationBottom={false}*/}
-                        {/*/>*/}
-                    {/*</Col>*/}
-                    {/*<Col sm={12} md={12} lg={6} className="pre_loser">*/}
-                        {/*<h3 className={"purpleColor centerText"}>Top 5 Losers</h3>*/}
-                        {/*<ReactTable*/}
-                            {/*data={this.alg01Loser()}*/}
-                            {/*noDataText='Loading Data ...'*/}
-                            {/*columns={top5column}*/}
-                            {/*defaultPageSize={5}*/}
-                            {/*showPaginationBottom={false}*/}
-                        {/*/>*/}
-                    {/*</Col>*/}
-                    {/*<Col sm={12} md={12} lg={12}>*/}
-                        {/*<hr/>*/}
-                    {/*</Col>*/}
 
-                    {/*algorithm 2*/}
+                    {/*algorithm LASSORegression*/}
                     <Col sm={12} md={12} lg={12}>
                         <h2 className={"centerText bottomPadding20"}>LASSORegression Algorithm Prediction Result</h2>
                     </Col>
@@ -246,7 +238,7 @@ class PredictionTable extends Component {
                             data={this.algConclusion()}
                             // data={this.alg04Result()}
                             noDataText='Loading Data ...'
-                            columns={trendColumn}
+                            columns={conclusionColumn}
                             defaultPageSize={1}
                             showPaginationBottom={false}
                         />

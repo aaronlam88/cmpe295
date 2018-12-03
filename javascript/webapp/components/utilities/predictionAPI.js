@@ -2,7 +2,7 @@ import $ from 'jquery';
 import moment from 'moment';
 
 /**
- * an API to get data
+ * an predictionAPI to get data
  */
 const predictionAPI = {
     /**
@@ -32,9 +32,9 @@ const predictionAPI = {
         }
 
         // for dev
-        if (host === 'localhost' || host === '0.0.0.0') {
-            host = '54.176.230.26';
-        }
+        // if (host === 'localhost' || host === '0.0.0.0') {
+        //     host = '54.176.230.26';
+        // }
 
         // save params
         this.tableName = tableName;
@@ -62,7 +62,8 @@ const predictionAPI = {
      * get data from backend server using jQuery get or local cache with localStorage
      * will call $.get, will do window.dispatchEvent(url)
      * to get the data, use window.addEventListener(url, (event) => (event.data))
-     * @param {string} url 
+     * @param {string} url
+     * @param {string} eventID
      */
     jQueryGet(url, eventID) {
         // if query the cached data, return cache without calling get

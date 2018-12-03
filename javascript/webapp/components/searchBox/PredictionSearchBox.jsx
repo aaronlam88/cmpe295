@@ -1,5 +1,6 @@
 import React from 'react';
-import API from '../utilities/predictionAPI.js';
+import predictionAPI from '../utilities/predictionAPI.js';
+import API from '../utilities/API.js';
 import { Grid, Row, Col, } from 'react-bootstrap';
 
 // import style
@@ -8,9 +9,9 @@ import './SearchBox.scss';
 /**
  * SearchBox is React.PureComponent which control the data of the page
  * Since we will only get new data when user hits the search button
- * it's better to call API.getData here 
+ * it's better to call predictionAPI.getData here
  */
-class SearchBox extends React.PureComponent {
+class PredictionSearchBox extends React.PureComponent {
     // init setup, only call once when component is created
     // props is immutatable
     // component will change base on state
@@ -34,7 +35,8 @@ class SearchBox extends React.PureComponent {
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-        API.getData(this.state.value, this._startTime, this._endTime, 'dataIsReady');
+        predictionAPI.getData(this.state.value, this._startTime, this._endTime, 'predictDataIsReady');
+        API.getData(this.state.value, this._startTime, this._endTime, 'realDataIsReady');
         window.addEventListener('timeChange', this.timeChange);
     }
 
@@ -64,7 +66,8 @@ class SearchBox extends React.PureComponent {
     }
 
     handleSubmit(event) {
-        API.getData(this.state.value, this._startTime, this._endTime, 'dataIsReady');
+        predictionAPI.getData(this.state.value, this._startTime, this._endTime, 'predictDataIsReady');
+        API.getData(this.state.value, this._startTime, this._endTime, 'realDataIsReady');
         this.setState({ submittedValue: this.state.value });
         event.preventDefault();
     }
@@ -105,4 +108,4 @@ class SearchBox extends React.PureComponent {
     }
 }
 
-export default SearchBox;
+export default PredictionSearchBox;
