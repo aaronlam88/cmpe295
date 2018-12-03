@@ -1,15 +1,15 @@
-// var db = require('../library/predictiondb'); //reference of predictiondb.js
-var mysql = require('mysql');
+var db = require('../library/predictiondb'); //reference of predictiondb.js
+// var mysql = require('mysql');
 var cache = require('../library/cache');
 
 var Prediction = (function () {
-    var predictionConnection = mysql.createPool({
-        "user": "cmpe295",
-        "password": "cmpe295.sjsu.2018",
-        "host": "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
-        database: 'PredictionDatabase',
-        dateStrings: true
-    });
+//     var predictionConnection = mysql.createPool({
+//         "user": "cmpe295",
+//         "password": "cmpe295.sjsu.2018",
+//         "host": "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+//         database: 'PredictionDatabase',
+//         dateStrings: true
+//     });
 
     /*
     * example: http://localhost:8081/Predict/GOOG/20181112/20181121
@@ -28,7 +28,7 @@ var Prediction = (function () {
             console.log('hit cache');
             res.json(cache.get('predict' + q));
         } else {
-            predictionConnection.query(q, function (err, result, fields) {
+            db.query(q, function (err, result, fields) {
                 if (err) {
                     res.json(err);
                 } else {
@@ -51,7 +51,7 @@ var Prediction = (function () {
             console.log('hit cache');
             res.json(cache.get('predict' + q));
         } else {
-            predictionConnection.query(q, function (err, result, fields) {
+            db.query(q, function (err, result, fields) {
                 if (err) {
                     res.json(err);
                 } else {
