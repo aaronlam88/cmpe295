@@ -13,7 +13,8 @@
 }
 
 .pre_winner .ReactTable,
-.pre_loser .ReactTable {
+.pre_loser .ReactTable,
+.preAll .ReactTable{
   border: 1px solid transparent;
 }
 
@@ -89,7 +90,8 @@
 }
 
 .pre_winner .ReactTable .rt-thead.-header,
-.pre_loser .ReactTable .rt-thead.-header {
+.pre_loser .ReactTable .rt-thead.-header,
+.preAll .ReactTable .rt-thead.-header{
   color: red;
   border: 1px solid transparent;
 }
@@ -199,6 +201,20 @@
   font-size: 1.2rem;
 }
 
+.preAll .ReactTable .rt-tbody .rt-tr-group {
+  //border-bottom: solid 1px rgba(0, 0, 0, 0.05);
+  border-bottom: transparent !important;
+}
+
+.preAll .ReactTable .rt-tbody .rt-tr-group:last-child {
+  border-bottom: transparent !important;
+}
+
+.preAll .ReactTable .rt-tbody .rt-td {
+  border-right: transparent !important;
+  font-size: 1.2rem;
+}
+
 .pre_loser .ReactTable .rt-tbody .rt-tr-group {
   //border-bottom: solid 1px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(255, 0, 167, 0.5) !important;
@@ -214,7 +230,8 @@
 }
 
 .pre_winner .ReactTable .rt-tbody .rt-td,
-.pre_loser .ReactTable .rt-tbody .rt-td {
+.pre_loser .ReactTable .rt-tbody .rt-td,
+.preAll .ReactTable .rt-tbody .rt-td {
   border-right: 1px solid transparent;
   font-size: 1.3rem;
 }
@@ -271,6 +288,14 @@
   font-size: 1.5rem;
   color: black;
   font-weight: bold;
+}
+
+.preAll .ReactTable .rt-tr:hover .rt-td {
+  font-size: 1.5rem;
+  color: black;
+  font-weight: bold;
+  background: transparent;
+  opacity: 1;
 }
 
 .ReactTable .rt-th,

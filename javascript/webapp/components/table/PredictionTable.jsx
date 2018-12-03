@@ -118,7 +118,7 @@ class PredictionTable extends Component {
             count += e.result;
         });
         var resultStr = "lower";
-        count >= 2 ? resultStr = "The conclusion trend for this stock will go higher" : resultStr = "The conclusion trend for this stock will go lower";
+        count >= 2 ? resultStr = "The conclusion trend for this stock will go higher tomorrow" : resultStr = "The conclusion trend for this stock will go lower tomorrow";
         console.log(count);
         return [{result: resultStr}];
     }
@@ -191,7 +191,7 @@ class PredictionTable extends Component {
                         width: "100%",
                         color: "black",
                         backgroundColor:
-                            row.value === 'The conclusion trend for this stock will go higher'
+                            row.value === 'The conclusion trend for this stock will go higher tomorrow'
                                 ? "rgba(96, 239, 255, 0.8)"
                                 : "rgba(255, 0, 167, 0.8)",
                         transition: "all .2s ease-out"
@@ -233,7 +233,7 @@ class PredictionTable extends Component {
                     </Col>
 
                     {/*algorithm 2, 3 and 4 conclusion*/}
-                    <Col sm={12} md={12} lg={12} className="pre_winner">
+                    <Col sm={12} md={12} lg={12} className="preAll">
                         <h2 className={"centerText"}>Algorithm Dtree, SVM and SGDLiner prediction Result conclusion</h2>
                         <ReactTable
                             data={this.algConclusion()}
@@ -249,7 +249,7 @@ class PredictionTable extends Component {
                     </Col>
 
                     {/*algorithm 2, 3 and 4 */}
-                    <Col sm={12} md={12} lg={4} className="pre_winner">
+                    <Col sm={12} md={12} lg={4} className="preAll">
                         <h2 className={"centerText"}>Algorithm Dtree prediction Result</h2>
                         <ReactTable
                             data={this.alg02Result()}
@@ -260,7 +260,7 @@ class PredictionTable extends Component {
                         />
                     </Col>
 
-                    <Col sm={12} md={12} lg={4} className="pre_loser">
+                    <Col sm={12} md={12} lg={4} className="preAll">
                         <h2 className={"centerText"}>Algorithm SVM prediction Result</h2>
                         <ReactTable
                             data={this.alg03Result()}
@@ -271,7 +271,7 @@ class PredictionTable extends Component {
                         />
                     </Col>
 
-                    <Col sm={12} md={12} lg={4} className="pre_loser">
+                    <Col sm={12} md={12} lg={4} className="preAll">
                         <h2 className={"centerText"}>Algorithm SGDLinear prediction Result</h2>
                         <ReactTable
                             data={this.alg04Result()}
