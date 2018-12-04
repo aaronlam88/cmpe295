@@ -32,25 +32,16 @@ for date in dates:
         prediction_price = getPredictionData.getSymbolsPredictionClosePrice(symbol, date_for_prediction_price)
         if len(prediction_price) != 0 and len(close_price) != 0:
             if prediction_price[0][0] is not None and close_price[0][0] is not None:
-                increased_rate = (prediction_price[0][0] - close_price[0][0]) / close_price[0][0]
-                q.push(date, symbol, increased_rate)
+                difference = prediction_price[0][0] - close_price[0][0]
+                increased_rate = difference / close_price[0][0]
+                q.push(date, symbol, increased_rate, difference)
     
     count = 0
     while (count < 5 and len(q) != 0):
         count = count + 1
         obj = q.pop()
-        saveTop5.saveMultipleData(str(date_for_close_price), str(obj[2]), str(-1 * obj[0]), count)
+        saveTop5.saveMultipleData(str(date_for_close_price), str(obj[2]), str(-1 * obj[0]), count, str(obj[4]))
     
-
-    
-
-
-        
-
-
-
-
-
     
 
 

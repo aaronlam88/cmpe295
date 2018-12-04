@@ -5,8 +5,8 @@ class PriorityQueueImpl:
         self._queue = []
         self._index = 0
  
-    def push(self, date, symbol, priority):
-        heapq.heappush(self._queue, (-priority, self._index, symbol, date))
+    def push(self, date, symbol, priority, difference):
+        heapq.heappush(self._queue, (-priority, self._index, symbol, date, difference))
         self._index += 1
  
     def pop(self):

@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class SaveTop5:
     """This class provide functions to save top 5 stocks and bottom 5 stocks to our prediction database"""
 
-    def saveMultipleData(self, date, symbol, rate, rank):
+    def saveMultipleData(self, date, symbol, rate, rank, difference):
         try:
             logger.debug('Saving data to database')
             config = {
@@ -35,17 +35,17 @@ class SaveTop5:
 
             logger.debug("""Create a new table TOP5""")
             query = """CREATE TABLE IF NOT EXISTS `TOP5` (`Date` DATETIME NOT NULL,
-                    `Symbol` TEXT NOT NULL, `Rate` DOUBLE NOT NULL, `Rank` INTEGER NOT NULL, PRIMARY KEY (`Date`, `Rank`));"""
+                    `Symbol` TEXT NOT NULL, `Rate` DOUBLE NOT NULL, `Rank` INTEGER NOT NULL, `Difference` DOUBLE NOT NULL, PRIMARY KEY (`Date`, `Rank`));"""
             logger.debug(query)
             cursor.execute(query)
             cnx.commit()
 
             # insert the data to the table
-            sql_insert_query = """ INSERT INTO `TOP5`  (Date, Symbol, Rate, Rank) values(%s, %s, %s, %s)
-                               ON DUPLICATE KEY UPDATE Symbol= VALUES(symbol), Rate=VALUES(Rate) """
+            sql_insert_query = """ INSERT INTO `TOP5`  (Date, Symbol, Rate, Rank, Difference) values(%s, %s, %s, %s, %s)
+                               ON DUPLICATE KEY UPDATE Symbol= VALUES(Symbol), Rate=VALUES(Rate), Difference=VALUES(Difference) """
                                
             logger.debug(sql_insert_query)
-            records_to_insert = [tuple((date, symbol, rate, rank))]
+            records_to_insert = [tuple((date, symbol, rate, rank, difference))]
 
             #used executemany to insert many rows
             logger.debug(records_to_insert)
