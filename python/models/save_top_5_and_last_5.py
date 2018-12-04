@@ -50,6 +50,15 @@ class SaveRank:
         self.saveMultipleData(records_to_insert, query, sql_insert_query)
 
     def saveMultipleData(self, records_to_insert, query, sql_insert_query):
+        self._config = {
+                'user': "cmpe295",
+                'password': "cmpe295.sjsu.2018",
+                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+                'database': "PredictionDatabase",
+                'raise_on_warnings': False,
+                'buffered': True
+            }
+
         try:
             logger.debug('Saving data to database')
             cnx = mysql.connector.connect(**self._config)

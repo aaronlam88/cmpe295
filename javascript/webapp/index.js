@@ -130,8 +130,6 @@ render(
     <StockTableComponent />,
     document.getElementById('StockTable')
 );
-<<<<<<< HEAD
-=======
 
 render(
     <PredictionComponent />,
@@ -147,4 +145,3 @@ render(
     <PredictionStockChartComponent />,
     document.getElementById('PredictionChart')
 );
->>>>>>> 0174be65bc70492cd6487962f687eaa35b6f7f73
