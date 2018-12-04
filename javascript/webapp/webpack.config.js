@@ -42,7 +42,6 @@ module.exports = {
                 // - Use RegExp only in test and for filename matching
                 // - Use arrays of absolute paths in include and exclude
                 // - Try to avoid exclude and prefer include
-
                 loader: "babel-loader",
                 // the loader which should be applied, it'll be resolved relative to the context
 

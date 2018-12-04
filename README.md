@@ -36,7 +36,6 @@ cd javascript/server
 npm install
 node app.js
 ```
-
 # Machine Learning
 Read README.md in python folder
 

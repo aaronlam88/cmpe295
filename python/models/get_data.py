@@ -7,7 +7,7 @@ import mysql.connector
 import pickle
 # for deepcopy
 import copy
-
+import time
 import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -18,12 +18,23 @@ class GetData:
     _features = None
     _featuresDiff = None
     _symbols = None
+    _config = None
     _map = {'date': 0, 'open': 1, 'high': 2, 'low': 3, 'close': 4, 'adjClose': 5, 'volume': 6}
-    
+
     def __init__(self, dataCount=1002):
         self._dataCount = dataCount
         if self._data == None:
             self._data = self._getData()
+
+        if self._config == None:
+            self._config = {
+                'user': "cmpe295",
+                'password': "cmpe295.sjsu.2018",
+                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+                'database': "StockDatabase",
+                'raise_on_warnings': True,
+                'buffered': True
+            }
 
     def _getData(self):
         data = None
@@ -35,16 +46,9 @@ class GetData:
         except Exception:
             logger.debug('Getting data from database')
 
-            configData = json.load(open('../../ignore/db_config.json'))
-            config = {
-                'user': configData['username'],
-                'password': configData['password'],
-                'host': configData['host'],
-                'database': configData['database'],
-                'raise_on_warnings': True,
-                'buffered': True
-            }
-            cnx = mysql.connector.connect(**config)
+            # configData = json.load(open('../../ignore/db_config.json'))
+         
+            cnx = mysql.connector.connect(**self._config)
             cursor = cnx.cursor()
 
             # data column |Date|Open|High|Low|Close|CloseAdj|Volumn|
@@ -172,7 +176,16 @@ class GetData:
         for key in self._data.keys():
             symbols.append(key)
         return symbols
-
+    
+    def getAllSymbolsSinceIndex(self, index):
+        """
+        return all stock symbols that cached locally since index 'index'
+        """
+        AllSymbols = self.getAllSymbols()
+        symbols = []
+        for i in range(index, len(AllSymbols)-1, 1):
+            symbols.append(AllSymbols[i])
+        return symbols
 
 
     def getSymbolCLFLabels(self, symbol, field=0):
@@ -208,5 +221,24 @@ class GetData:
         for i in range (self._dataCount-1, 0, -1):
             features.append(self._data[symbol][i][1:5])
         return features
+
+    def getSymbolClosePrice(self, symbol, date):
+        """
+        return the date and close prices for a stock symbol
+        """
+        query = """SELECT close FROM `%s` WHERE Date='%s';""" % (
+                    symbol, date)
+        cnx = mysql.connector.connect(**self._config)
+        cursor = cnx.cursor()
+        cursor.execute(query)
+
+        try:
+            result = cursor.fetchall()
+        except Exception:
+            logger.error('Unable to get close price of given date: ', exc_info=True)
+
+        return result
+        
+        
 
 
