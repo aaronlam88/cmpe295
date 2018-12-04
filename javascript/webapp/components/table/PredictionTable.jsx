@@ -78,6 +78,12 @@ class PredictionTable extends PureComponent {
                 this.setState({top5Data: res.data});
             }).catch((err) => {
         });
+
+        axios.get(`http://localhost:8081/Predict/BOTTOM5/bottom5`)
+            .then(res => {
+                this.setState({bottom5Data: res.data});
+            }).catch((err) => {
+        });
     }
 
     /*
@@ -122,13 +128,13 @@ class PredictionTable extends PureComponent {
 
     // loser in Algorithm LASSO Regression
     LASSOLoser() {
-        // return (this.state.data.slice(15, 20).map(
-        //     item => ({
-        //         company: item.label,
-        //         amount: '- ' + item.amount,
-        //         percentage: item.result,
-        //     })
-        // ))
+        return (this.state.bottom5Data.reverse().map(
+            item => ({
+                company: item.Symbol,
+                amount: item.Difference.toFixed(4),
+                percentage: (item.Rate * 100).toFixed(4),
+            })
+        ));
     }
 
 
@@ -324,7 +330,7 @@ class PredictionTable extends PureComponent {
 
                     {/*algorithm Dtree, SVM and SGDLiner conclusion*/}
                     <Col sm={12} md={12} lg={12} className='preAll'>
-                        <h2 className={'centerText bottomPadding20'}>Algorithm Dtree, SVM and SGDLiner prediction Result conclusion</h2>
+                        <h2 className={'centerText bottomPadding20'}>Algorithm Dtree, SVM and SGDLiner Prediction Result Conclusion</h2>
                         <h4 className={'centerText bottomPadding20'}>Last Update: {this.trendDate()}</h4>
                         <ReactTable
                             data={this.algConclusion()}
@@ -341,7 +347,7 @@ class PredictionTable extends PureComponent {
 
                     {/*algorithm Dtree, SVM and SGDLiner */}
                     <Col sm={12} md={12} lg={4} className='preAll'>
-                        <h2 className={'centerText'}>Algorithm Dtree prediction Result</h2>
+                        <h2 className={'centerText'}>Algorithm Dtree Prediction Result</h2>
                         <ReactTable
                             data={this.DtreeResult()}
                             noDataText='Loading Data ...'
@@ -352,7 +358,7 @@ class PredictionTable extends PureComponent {
                     </Col>
 
                     <Col sm={12} md={12} lg={4} className='preAll'>
-                        <h2 className={'centerText'}>Algorithm SVM prediction Result</h2>
+                        <h2 className={'centerText'}>Algorithm SVM Prediction Result</h2>
                         <ReactTable
                             data={this.SVMResult()}
                             noDataText='Loading Data ...'
@@ -363,7 +369,7 @@ class PredictionTable extends PureComponent {
                     </Col>
 
                     <Col sm={12} md={12} lg={4} className='preAll'>
-                        <h2 className={'centerText'}>Algorithm SGDLinear prediction Result</h2>
+                        <h2 className={'centerText'}>Algorithm SGDLinear Prediction Result</h2>
                         <ReactTable
                             data={this.SGDLinearResult()}
                             noDataText='Loading Data ...'

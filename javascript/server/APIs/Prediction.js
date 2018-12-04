@@ -80,6 +80,24 @@ var Prediction = (function () {
         }
     }
 
+    function getBottom5(table, res) {
+        let q = `SELECT * FROM ${table} ORDER BY Date DESC LIMIT 5;`;
+        // console.log("query: ", q);
+        if (cache.has('predict' + q)) {
+            console.log('hit cache');
+            res.json(cache.get('predict' + q));
+        } else {
+            db.query(q, function (err, result, fields) {
+                if (err) {
+                    res.json(err);
+                } else {
+                    cache.set('predict' + q, result);
+                    res.json(result);
+                }
+            });
+        }
+    }
+
 
     /* json format
         1. 10 result from algorithm 1 (5 top gainer + 5 top loser)：
@@ -130,6 +148,7 @@ var Prediction = (function () {
         getPredictionById: getPredictionById,
         getLatest: getLatest,
         getTop5: getTop5,
+        getBottom5: getBottom5,
         getTop: getTop,
     }
 })();

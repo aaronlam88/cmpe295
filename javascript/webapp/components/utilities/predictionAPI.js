@@ -96,6 +96,6 @@ const predictionAPI = {
             console.debug('jquery')
         });
     }
-}
+};
 
 export default predictionAPI;
