@@ -112,8 +112,8 @@ var Prediction = (function () {
                 {label: "FB", amount: 1.88, result: -2.4},
                 {label: "BIDU", amount: 1.25, result: -1.33},
 
+                {result: null},
                 {result: 1},
-                {result: 0},
                 {result: 0},
             ]
         );

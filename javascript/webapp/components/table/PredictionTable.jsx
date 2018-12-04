@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ReactTable from "react-table";
+import ReactTable from 'react-table';
 import {
     Grid,
     Row,
@@ -18,101 +18,164 @@ class PredictionTable extends Component {
         this.state = {
             data: [],
             value: props.tableName,
+            tableName: props.tableName,
+            startTime: props.startTime,
+            endTime: props.endTime,
             top5Data: [],
         };
+        // this.predictDataIsReady = this.predictDataIsReady.bind(this);
     }
 
+    /*
+    * example: http://localhost:8081/Predict/GOOG/20181112/20181121
+    * [
+    * {"Date":"2018-11-16 00:00:00","DTree":1,"SVM":0,"SGDLinear":0,"SGDRegression":-33924368239540.305,"LASSORegression":1058.6251924196856},
+    * {"Date":"2018-11-15 00:00:00","DTree":0,"SVM":0,"SGDLinear":0,"SGDRegression":-33540837479602.82,"LASSORegression":1056.375909863339},
+    * {"Date":"2018-11-14 00:00:00","DTree":0,"SVM":0,"SGDLinear":0,"SGDRegression":-33475034013078.4,"LASSORegression":1043.0930812316162},
+    * {"Date":"2018-11-13 00:00:00","DTree":0,"SVM":0,"SGDLinear":0,"SGDRegression":-33417228092627.6,"LASSORegression":1045.69616019958},
+    * {"Date":"2018-11-12 00:00:00","DTree":1,"SVM":0,"SGDLinear":0,"SGDRegression":-33646793315375.812,"LASSORegression":1046.3033048127943}]
+    * */
+
     componentDidMount() {
-        axios.get(`http://localhost:8081/Predict/top`)
+        console.log("tablename",this.state.tableName);
+        var currTable = this.state.tableName;
+        var currStart = this.state.startTime;
+        var currEnd = this.state.endTime;
+
+        var newData = `http://localhost:8081/Predict/${currTable}/${currStart}/${currEnd}`;
+        // var newData = `http://localhost:8081/Predict/${this.state.tableName}/${this.state.startTime}/${this.state.endTime}`;
+        // axios.get(`http://localhost:8081/Predict/top`)
+        console.log("newdaata = " + newData);
+        
+        axios.get(newData)
             .then(res => {
                 this.setState({data: res.data});
-            }).catch((err)=> {});
+            }).catch((err) => {
+        });
 
 
         axios.get(`http://localhost:8081/Predict/TOP5/top5`)
             .then(res => {
                 this.setState({top5Data: res.data});
-            }).catch((err)=> {});
+            }).catch((err) => {
+        });
     }
 
-    //gainer in Algorithm LASSORegression
-    alg02Gainer() {
-        console.log("data", this.state.data);
-        console.log("top5data", this.state.top5Data);
-        return (this.state.data.slice(10, 15).map(
+    /*
+    * [{'Date':'2018-10-29 00:00:00','Symbol':'DXC','Rate':0.06664174431664008,'Rank':5,'Difference':4.6342669664208955},
+    * {'Date':'2018-10-29 00:00:00','Symbol':'BA','Rate':0.0688791147976129,'Rank':4,'Difference':23.11514185941445},
+    * {'Date':'2018-10-29 00:00:00','Symbol':'NVDA','Rate':0.07096435225707545,'Rank':3,'Difference':13.172402711136584},
+    * {'Date':'2018-10-29 00:00:00','Symbol':'TTWO','Rate':0.07467415365278805,'Rank':2,'Difference':8.342596520763635},
+    * {'Date':'2018-10-29 00:00:00','Symbol':'HRS','Rate':0.0831705565981325,'Rank':1,'Difference':12.200289113721169}]
+    * */
+
+    //last update date of LASSO Regression predict data
+    LASSODate() {
+        var dateJson = this.state.top5Data.slice(0, 1);
+        for (var key in dateJson)
+        {
+            for (var key1 in dateJson[key]) {
+                var latestDate = dateJson[key][key1];
+                break;
+            }
+        }
+        return latestDate;
+    }
+
+    //last update date of trend
+    trendDate() {
+        var dateJson = this.state.data;
+        console.log("trend", dateJson);
+        for (var key in dateJson)
+        {
+            for (var key1 in dateJson[key]) {
+                var latestDate = dateJson[key][key1];
+                break;
+            }
+        }
+        return latestDate;
+    }
+
+    //gainer in Algorithm LASSO Regression
+    LASSOGainer() {
+        return (this.state.top5Data.reverse().map(
             item => ({
-                company: item.label,
-                amount: item.amount,
-                percentage: item.result,
+                company: item.Symbol,
+                amount: '+ ' + item.Difference.toFixed(4),
+                percentage: item.Rate.toFixed(4),
             })
-        ))
+        ));
     }
 
 
-    // loser in Algorithm LASSORegression
-    alg02Loser() {
-        return (this.state.data.slice(15, 20).map(
-            item => ({
-                company: item.label,
-                amount: item.amount,
-                percentage: item.result,
-            })
-        ))
+    // loser in Algorithm LASSO Regression
+    LASSOLoser() {
+        // return (this.state.data.slice(15, 20).map(
+        //     item => ({
+        //         company: item.label,
+        //         amount: item.amount,
+        //         percentage: item.result,
+        //     })
+        // ))
     }
 
 
     // algorithm 2 result / Dtree
     alg02Result() {
-        let result = this.state.data.slice(20, 21).map(
-            item => ({result: item.result,}));
-        result.forEach(o => {
-            for (let k in o)
-                if (o[k] === 1) o[k] = 'Will Go Higher';
-                else o[k] = 'Will Go Lower';
-        });
-        return result;
+        // let result = this.state.data.slice(20, 21).map(
+        //     item => ({result: item.result,}));
+        // result.forEach(o => {
+        //     for (let k in o)
+        //         if (o[k] === 1) o[k] = 'Will Go Higher';
+        //         else if (o[k] === null) o[k] = 'Still calculating, please check later';
+        //         else o[k] = 'Will Go Lower';
+        // });
+        // return result;
     }
 
     //algorithm 3 result / SVM
     alg03Result() {
-        let result = this.state.data.slice(21, 22).map(
-            item => ({result: item.result,}));
-        result.forEach(o => {
-            for (let k in o)
-                if (o[k] === 1) o[k] = 'Will Go Higher';
-                else o[k] = 'Will Go Lower';
-        });
-        return result;
+        // let result = this.state.data.slice(21, 22).map(
+        //     item => ({result: item.result,}));
+        // result.forEach(o => {
+        //     for (let k in o)
+        //         if (o[k] === 1) o[k] = 'Will Go Higher';
+        //         else if (o[k] === null) o[k] = 'Still calculating, please check later';
+        //         else o[k] = 'Will Go Lower';
+        // });
+        // return result;
     }
 
     //algorithm 4 result / SGDLinear
     alg04Result() {
-        let result = this.state.data.slice(22, 23).map(
-            item => ({result: item.result,}));
-        result.forEach(o => {
-            for (let k in o)
-                if (o[k] === 1) o[k] = 'Will Go Higher';
-                else o[k] = 'Will Go Lower';
-        });
-        return result;
+        // let result = this.state.data.slice(22, 23).map(
+        //     item => ({result: item.result,}));
+        // result.forEach(o => {
+        //     for (let k in o)
+        //         if (o[k] === 1) o[k] = 'Will Go Higher';
+        //         else if (o[k] === null) o[k] = 'Still calculating, please check later';
+        //         else o[k] = 'Will Go Lower';
+        // });
+        // return result;
     }
 
     // conclusion for algorithm 2,3 and 4
     algConclusion() {
-        var count = 0;
-        // console.log("slice", this.state.data.slice(20,23));
-        this.state.data.slice(20, 23).forEach(e => {
-            count += e.result;
-        });
-        var resultStr = "lower";
-        count >= 2 ? resultStr = "The conclusion trend for this stock will go higher tomorrow" : resultStr = "The conclusion trend for this stock will go lower tomorrow";
-        return [{result: resultStr}];
+        // let count = 0;
+        // // console.log('slice', this.state.data.slice(20, 23));
+        // this.state.data.slice(20, 23).forEach(e => {
+        //     if (e.result === null) return [{result: 'Still calculating, please check later'}];
+        //     else count += e.result;
+        // });
+        // let resultStr = 'Calculating ...';
+        // count >= 2 ? resultStr = 'The conclusion trend for this stock will go higher in the next business day' : resultStr = 'The conclusion trend for this stock will go lower in the next business day';
+        // return [{result: resultStr}];
     }
 
     render() {
-        console.log("tableName = ", this.state.value);
+        // console.log('tableName = ', this.state.value);
 
-        // column style for algorithm LASSORegression top 5
+        // column style for algorithm LASSO Regression top 5
         const top5column = [{
             accessor: 'company'
         }, {
@@ -124,18 +187,18 @@ class PredictionTable extends Component {
                 // console.log(row);
                 return (<div
                     style={{
-                        height: "120%",
-                        marginTop: "-3px",
+                        height: '120%',
+                        marginTop: '-3px',
                         paddingTop: '6px',
-                        textAlign: "center",
-                        width: "110%",
+                        textAlign: 'center',
+                        width: '110%',
                         backgroundColor:
-                            row.value > 0.0
-                                ? "rgba(96, 239, 255, 0.5)"
-                                : row.value === 0.0
-                                ? "rgba(155, 155, 155, 0.8)"
-                                : "rgba(255, 0, 167, 0.5)",
-                        transition: "all .2s ease-out"
+                            row.value > 0.0000
+                                ? 'rgba(96, 239, 255, 0.5)'
+                                : row.value === 0.0000
+                                ? 'rgba(155, 155, 155, 0.8)'
+                                : 'rgba(255, 0, 167, 0.5)',
+                        transition: 'all .2s ease-out'
                     }}
                 > {row.value + '%'} </div>);
             }
@@ -147,16 +210,18 @@ class PredictionTable extends Component {
             Cell: row => {
                 return (<div
                     style={{
-                        height: "200%",
-                        marginTop: "-10px",
+                        height: '200%',
+                        marginTop: '-10px',
                         paddingTop: '10px',
-                        textAlign: "center",
-                        width: "100%",
+                        textAlign: 'center',
+                        width: '100%',
                         backgroundColor:
                             row.value === 'Will Go Higher'
-                                ? "rgba(96, 239, 255, 0.8)"
-                                : "rgba(255, 0, 167, 0.8)",
-                        transition: "all .2s ease-out"
+                                ? 'rgba(96, 239, 255, 0.8)'
+                                : row.value === 'Still calculating, please check later'
+                                ? 'rgba(155, 155, 155, 0.8)'
+                                : 'rgba(255, 0, 167, 0.8)',
+                        transition: 'all .2s ease-out'
                     }}
                 > {row.value} </div>);
             }
@@ -168,17 +233,19 @@ class PredictionTable extends Component {
             Cell: row => {
                 return (<div
                     style={{
-                        height: "200%",
-                        marginTop: "-10px",
+                        height: '200%',
+                        marginTop: '-10px',
                         paddingTop: '10px',
-                        textAlign: "center",
-                        width: "100%",
-                        // color: "black",
+                        textAlign: 'center',
+                        width: '100%',
+                        // color: 'black',
                         backgroundColor:
-                            row.value === 'The conclusion trend for this stock will go higher tomorrow'
-                                ? "rgba(96, 239, 255, 0.8)"
-                                : "rgba(255, 0, 167, 0.8)",
-                        transition: "all .2s ease-out"
+                            row.value === 'The conclusion trend for this stock will go higher in the next business day'
+                                ? 'rgba(96, 239, 255, 0.8)'
+                                : row.value === 'Still calculating, please check later'
+                                ? 'rgba(155, 155, 155, 0.8)'
+                                : 'rgba(255, 0, 167, 0.8)',
+                        transition: 'all .2s ease-out'
                     }}
                 > {row.value} </div>);
             }
@@ -188,24 +255,25 @@ class PredictionTable extends Component {
             <Grid fluid>
                 <Row>
 
-                    {/*algorithm LASSORegression*/}
+                    {/*algorithm LASSO Regression*/}
                     <Col sm={12} md={12} lg={12}>
-                        <h2 className={"centerText bottomPadding20"}>LASSORegression Algorithm Prediction Result</h2>
+                        <h2 className={'centerText bottomPadding20'}>LASSO Regression Algorithm Prediction Result For Next Business Day</h2>
+                        <h4 className={'centerText bottomPadding20'}>Last Update: {this.LASSODate()}</h4>
                     </Col>
-                    <Col sm={12} md={12} lg={6} className="pre_winner">
-                        <h3 className={"blueColor centerText"}>Top 5 Gainers</h3>
+                    <Col sm={12} md={12} lg={6} className='pre_winner'>
+                        <h3 className={'blueColor centerText'}>Top 5 Gainers</h3>
                         <ReactTable
-                            data={this.alg02Gainer()}
+                            data={this.LASSOGainer()}
                             noDataText='Loading Data ...'
                             columns={top5column}
                             defaultPageSize={5}
                             showPaginationBottom={false}
                         />
                     </Col>
-                    <Col sm={12} md={12} lg={6} className="pre_loser">
-                        <h3 className={"purpleColor centerText"}>Top 5 Losers</h3>
+                    <Col sm={12} md={12} lg={6} className='pre_loser'>
+                        <h3 className={'purpleColor centerText'}>Top 5 Losers</h3>
                         <ReactTable
-                            data={this.alg02Loser()}
+                            data={this.LASSOLoser()}
                             noDataText='Loading Data ...'
                             columns={top5column}
                             defaultPageSize={5}
@@ -217,8 +285,9 @@ class PredictionTable extends Component {
                     </Col>
 
                     {/*algorithm 2, 3 and 4 conclusion*/}
-                    <Col sm={12} md={12} lg={12} className="preAll">
-                        <h2 className={"centerText"}>Algorithm Dtree, SVM and SGDLiner prediction Result conclusion</h2>
+                    <Col sm={12} md={12} lg={12} className='preAll'>
+                        <h2 className={'centerText'}>Algorithm Dtree, SVM and SGDLiner prediction Result conclusion</h2>
+                        <h4 className={'centerText bottomPadding20'}>Last Update: {this.trendDate()}</h4>
                         <ReactTable
                             data={this.algConclusion()}
                             // data={this.alg04Result()}
@@ -229,12 +298,13 @@ class PredictionTable extends Component {
                         />
                     </Col>
                     <Col sm={12} md={12} lg={12}>
-                        <Image src='../../style/image/conclusionMark.png' alt="conclusionMark" responsive className="responsiveImg"/>
+                        <Image src='../../style/image/conclusionMark.png' alt='conclusionMark' responsive
+                               className='responsiveImg'/>
                     </Col>
 
                     {/*algorithm 2, 3 and 4 */}
-                    <Col sm={12} md={12} lg={4} className="preAll">
-                        <h2 className={"centerText"}>Algorithm Dtree prediction Result</h2>
+                    <Col sm={12} md={12} lg={4} className='preAll'>
+                        <h2 className={'centerText'}>Algorithm Dtree prediction Result</h2>
                         <ReactTable
                             data={this.alg02Result()}
                             noDataText='Loading Data ...'
@@ -244,8 +314,8 @@ class PredictionTable extends Component {
                         />
                     </Col>
 
-                    <Col sm={12} md={12} lg={4} className="preAll">
-                        <h2 className={"centerText"}>Algorithm SVM prediction Result</h2>
+                    <Col sm={12} md={12} lg={4} className='preAll'>
+                        <h2 className={'centerText'}>Algorithm SVM prediction Result</h2>
                         <ReactTable
                             data={this.alg03Result()}
                             noDataText='Loading Data ...'
@@ -255,8 +325,8 @@ class PredictionTable extends Component {
                         />
                     </Col>
 
-                    <Col sm={12} md={12} lg={4} className="preAll">
-                        <h2 className={"centerText"}>Algorithm SGDLinear prediction Result</h2>
+                    <Col sm={12} md={12} lg={4} className='preAll'>
+                        <h2 className={'centerText'}>Algorithm SGDLinear prediction Result</h2>
                         <ReactTable
                             data={this.alg04Result()}
                             noDataText='Loading Data ...'
@@ -265,7 +335,7 @@ class PredictionTable extends Component {
                             showPaginationBottom={false}
                         />
                     </Col>
-                    <Col sm={12} md={12} lg={12} className={"bottomPadding20"}>
+                    <Col sm={12} md={12} lg={12} className={'bottomPadding20'}>
                         <hr/>
                     </Col>
                 </Row>
