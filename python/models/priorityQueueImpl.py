@@ -21,3 +21,11 @@ class PriorityQueueImpl:
             return self.pop()
         except IndexError:
             raise StopIteration
+    
+    def getLast5(self):
+        last5 = []
+        index = len(self._queue) - 1
+        while index > len(self._queue) - 6:
+            last5.append(self._queue[index])
+            index = index - 1
+        return last5

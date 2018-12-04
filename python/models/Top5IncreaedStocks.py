@@ -6,12 +6,12 @@ from get_data import GetData
 from save_data import SaveData
 from get_prediction_data import GetPredictionData
 from priorityQueueImpl import PriorityQueueImpl
-from save_top_5_and_last_5 import SaveTop5
+from save_top_5_and_last_5 import SaveRank
 
 getData = GetData()
 saveData = SaveData()
 getPredictionData = GetPredictionData()
-saveTop5 = SaveTop5()
+saveRank = SaveRank()
 
 symbols = getData.getAllSymbols()
 
@@ -33,14 +33,21 @@ for date in dates:
         if len(prediction_price) != 0 and len(close_price) != 0:
             if prediction_price[0][0] is not None and close_price[0][0] is not None:
                 difference = prediction_price[0][0] - close_price[0][0]
-                increased_rate = difference / close_price[0][0]
-                q.push(date, symbol, increased_rate, difference)
-    
+                if close_price[0][0] != 0:
+                    increased_rate = difference / close_price[0][0]
+                    q.push(date, symbol, increased_rate, difference)
+
+    last5 = q.getLast5()
+    rank = 5
+    for val in last5:
+        saveRank.saveTop5AndBottom5(str(date_for_close_price), str(val[2]), str(-1 * val[0]), rank, str(val[4]), "bottom5")
+        rank = rank - 1
+
     count = 0
     while (count < 5 and len(q) != 0):
         count = count + 1
         obj = q.pop()
-        saveTop5.saveMultipleData(str(date_for_close_price), str(obj[2]), str(-1 * obj[0]), count, str(obj[4]))
+        saveRank.saveTop5AndBottom5(str(date_for_close_price), str(obj[2]), str(-1 * obj[0]), count, str(obj[4]), "top5")
     
     
 
