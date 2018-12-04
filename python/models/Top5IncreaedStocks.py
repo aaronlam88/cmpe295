@@ -27,7 +27,7 @@ for date in dates:
     date_for_close_price = date[0].strftime("%Y-%m-%d")
     date_for_prediction_price = date[0].strftime("%Y-%m-%d 00:00:00")
 
-    for symbol in symbols[0:50]:
+    for symbol in symbols:
         close_price = getData.getSymbolClosePrice(symbol, date_for_close_price)
         prediction_price = getPredictionData.getSymbolsPredictionClosePrice(symbol, date_for_prediction_price)
         if len(prediction_price) != 0 and len(close_price) != 0:
