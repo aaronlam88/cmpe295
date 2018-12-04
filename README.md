@@ -1,6 +1,5 @@
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/aaronlam88/cmpe295.svg?columns=all)](https://waffle.io/aaronlam88/cmpe295)
 
->>>>>>> 129cfd02ee03685e8b7f3a00419ee4caf1027738
 # CONFIG
 All config such as username, password, or host should be in ignore folder in current directory.
 Please ask your project manager for this folder or set it up yourself so you can run the project.
