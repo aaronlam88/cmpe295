@@ -128,7 +128,7 @@ class PredictionTable extends PureComponent {
 
     // loser in Algorithm LASSO Regression
     LASSOLoser() {
-        return (this.state.bottom5Data.reverse().map(
+        return (this.state.bottom5Data.map(
             item => ({
                 company: item.Symbol,
                 amount: item.Difference.toFixed(4),
