@@ -18,6 +18,7 @@ class PredictionTable extends Component {
         this.state = {
             data: [],
             value: props.tableName,
+            top5Data: [],
         };
     }
 
@@ -25,33 +26,19 @@ class PredictionTable extends Component {
         axios.get(`http://localhost:8081/Predict/top`)
             .then(res => {
                 this.setState({data: res.data});
-            });
-    }
-    //
-    // //gainer in Algorithm 1
-    // alg01Gainer() {
-    //     return (this.state.data.slice(0, 5).map(
-    //         item => ({
-    //             company: item.label,
-    //             amount: item.amount,
-    //             percentage: item.result,
-    //         })
-    //     ))
-    // }
-    //
-    // // loser in Algorithm 1
-    // alg01Loser() {
-    //     return (this.state.data.slice(5, 10).map(
-    //         item => ({
-    //             company: item.label,
-    //             amount: item.amount,
-    //             percentage: item.result,
-    //         })
-    //     ))
-    // }
+            }).catch((err)=> {});
 
-    //gainer in Algorithm 2
+
+        axios.get(`http://localhost:8081/Predict/TOP5/top5`)
+            .then(res => {
+                this.setState({top5Data: res.data});
+            }).catch((err)=> {});
+    }
+
+    //gainer in Algorithm LASSORegression
     alg02Gainer() {
+        console.log("data", this.state.data);
+        console.log("top5data", this.state.top5Data);
         return (this.state.data.slice(10, 15).map(
             item => ({
                 company: item.label,
@@ -62,7 +49,7 @@ class PredictionTable extends Component {
     }
 
 
-    // loser in Algorithm 2
+    // loser in Algorithm LASSORegression
     alg02Loser() {
         return (this.state.data.slice(15, 20).map(
             item => ({
@@ -119,14 +106,13 @@ class PredictionTable extends Component {
         });
         var resultStr = "lower";
         count >= 2 ? resultStr = "The conclusion trend for this stock will go higher tomorrow" : resultStr = "The conclusion trend for this stock will go lower tomorrow";
-        console.log(count);
         return [{result: resultStr}];
     }
 
     render() {
         console.log("tableName = ", this.state.value);
 
-        // column style for algorithm 1 and 2
+        // column style for algorithm LASSORegression top 5
         const top5column = [{
             accessor: 'company'
         }, {
@@ -159,7 +145,6 @@ class PredictionTable extends Component {
         const trendColumn = [{
             accessor: 'result',
             Cell: row => {
-                // console.log(row);
                 return (<div
                     style={{
                         height: "200%",
@@ -181,7 +166,6 @@ class PredictionTable extends Component {
         const conclusionColumn = [{
             accessor: 'result',
             Cell: row => {
-                // console.log(row);
                 return (<div
                     style={{
                         height: "200%",
@@ -189,7 +173,7 @@ class PredictionTable extends Component {
                         paddingTop: '10px',
                         textAlign: "center",
                         width: "100%",
-                        color: "black",
+                        // color: "black",
                         backgroundColor:
                             row.value === 'The conclusion trend for this stock will go higher tomorrow'
                                 ? "rgba(96, 239, 255, 0.8)"

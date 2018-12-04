@@ -84,7 +84,7 @@ class PredictionStockChart extends React.PureComponent {
         let predictionDataLength = predictionData.length;
         if (predictionDataLength > 1) {
             let date0 = new Date(rawData[0]['Date']);
-            console.log("date0", date0);
+            // console.log("date0", date0);
             let date1 = new Date(rawData[1]['Date']);
             if (date0 > date1) {
                 predictionData.reverse();

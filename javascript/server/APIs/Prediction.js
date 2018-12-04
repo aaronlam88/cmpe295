@@ -1,16 +1,7 @@
 var db = require('../library/predictiondb'); //reference of predictiondb.js
-// var mysql = require('mysql');
 var cache = require('../library/cache');
 
 var Prediction = (function () {
-//     var predictionConnection = mysql.createPool({
-//         "user": "cmpe295",
-//         "password": "cmpe295.sjsu.2018",
-//         "host": "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
-//         database: 'PredictionDatabase',
-//         dateStrings: true
-//     });
-
     /*
     * example: http://localhost:8081/Predict/GOOG/20181112/20181121
     * [
@@ -62,6 +53,28 @@ var Prediction = (function () {
         }
     }
 
+    function getTop5(table, res) {
+        let q = `SELECT * FROM ${table} ORDER BY Date DESC LIMIT 5;`;
+        // console.log("query: ", q);
+        if (cache.has('predict' + q)) {
+            console.log('hit cache');
+            res.json(cache.get('predict' + q));
+        } else {
+            db.query(q, function (err, result, fields) {
+                if (err) {
+                    res.json(err);
+                } else {
+                    cache.set('predict' + q, result);
+                    res.json(result);
+                }
+            });
+        }
+        // res.json([
+        //     {test1: 111, name: "test1"},
+        //     {test1: 222, name: "test222"},
+        // ]);
+    }
+
 
     /* json format
         1. 10 result from algorithm 1 (5 top gainer + 5 top loser)：
@@ -101,7 +114,7 @@ var Prediction = (function () {
 
                 {result: 1},
                 {result: 0},
-                {result: 1},
+                {result: 0},
             ]
         );
     }
@@ -111,6 +124,7 @@ var Prediction = (function () {
     return {
         getPredictionById: getPredictionById,
         getLatest: getLatest,
+        getTop5: getTop5,
         getTop: getTop,
     }
 })();

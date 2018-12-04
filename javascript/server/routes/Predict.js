@@ -14,4 +14,8 @@ router.get('/:table/latest', function(req, res, next) {
     Prediction.getLatest(req.params.table, res)
 });
 
+router.get('/:table/top5', function(req, res){
+    Prediction.getTop5(req.params.table, res);
+});
+
 module.exports = router;
