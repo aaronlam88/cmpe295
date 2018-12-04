@@ -36,7 +36,7 @@ for date in dates:
                 q.push(date, symbol, increased_rate)
     
     count = 0
-    while (count < 1 and len(q) != 0):
+    while (count < 5 and len(q) != 0):
         count = count + 1
         obj = q.pop()
         saveTop5.saveMultipleData(str(date_for_close_price), str(obj[2]), str(-1 * obj[0]), count)
