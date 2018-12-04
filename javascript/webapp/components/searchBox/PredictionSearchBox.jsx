@@ -28,7 +28,6 @@ class PredictionSearchBox extends React.PureComponent {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
         this.timeChange = this.timeChange.bind(this);
     }
 

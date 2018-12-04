@@ -18,12 +18,13 @@ class PredictionTable extends Component {
         this.state = {
             data: [],
             value: props.tableName,
-            tableName: props.tableName,
-            startTime: props.startTime,
-            endTime: props.endTime,
+            // tableName: props.tableName,
+            // startTime: props.startTime,
+            // endTime: props.endTime,
             top5Data: [],
+            bottom5Data:[],
         };
-        // this.predictDataIsReady = this.predictDataIsReady.bind(this);
+        this.predictionDataIsReady = this.predictionDataIsReady.bind(this);
     }
 
     /*
@@ -36,18 +37,44 @@ class PredictionTable extends Component {
     * {"Date":"2018-11-12 00:00:00","DTree":1,"SVM":0,"SGDLinear":0,"SGDRegression":-33646793315375.812,"LASSORegression":1046.3033048127943}]
     * */
 
-    componentDidMount() {
-        console.log("tablename",this.state.tableName);
-        var currTable = this.state.tableName;
-        var currStart = this.state.startTime;
-        var currEnd = this.state.endTime;
 
-        var newData = `http://localhost:8081/Predict/${currTable}/${currStart}/${currEnd}`;
+    // call after component update
+    componentDidUpdate(prevProps, prevState) {
+
+    }
+
+    predictionDataIsReady(event) {
+        this.setState({
+            // tableName: event.tableName,
+            // startTime: event.startTime,
+            // endTime: event.endTime,
+        });
+        // console.log("predictionDataIsReady", event.data);
+    }
+
+    // call before component is removed from dom
+    // similar to destructor in c++
+    // clean up before you leave to avoid memory leak (ex: remove listenner)
+    componentWillUnmount() {
+        window.removeEventListener('predictionDataIsReady', this.predictionDataIsReady);
+    }
+
+    // call after component is mounted to the dom
+    // add listener here if needed
+    componentDidMount() {
+        window.addEventListener('predictionDataIsReady', (event) => this.predictionDataIsReady(event));
+
+        console.log("tablename", this.state.value);
+
+        // let currTable = this.state.value;
+        let currTable = "GOOG";
+
+        let newData = `http://localhost:8081/Predict/${currTable}/latest`;
+        console.log("newData = " + newData);
         // var newData = `http://localhost:8081/Predict/${this.state.tableName}/${this.state.startTime}/${this.state.endTime}`;
         // axios.get(`http://localhost:8081/Predict/top`)
-        console.log("newdaata = " + newData);
-        
-        axios.get(newData)
+        // axios.get(newData)
+        axios.get(`http://localhost:8081/Predict/GOOG/2018-11-06/2018-11-06`)
             .then(res => {
                 this.setState({data: res.data});
             }).catch((err) => {
@@ -71,27 +98,24 @@ class PredictionTable extends Component {
 
     //last update date of LASSO Regression predict data
     LASSODate() {
-        var dateJson = this.state.top5Data.slice(0, 1);
-        for (var key in dateJson)
-        {
-            for (var key1 in dateJson[key]) {
-                var latestDate = dateJson[key][key1];
-                break;
-            }
+        let dateJson = this.state.top5Data.slice(0, 1);
+        let dateKey = "Date";
+        for (let key in dateJson) {
+            var latestDate = dateJson[key][dateKey];
+            // for (let key1 in dateJson[key]) {
+            //     var latestDate = dateJson[key][key1];
+            //     break;
+            // }
         }
         return latestDate;
     }
 
     //last update date of trend
     trendDate() {
-        var dateJson = this.state.data;
-        console.log("trend", dateJson);
-        for (var key in dateJson)
-        {
-            for (var key1 in dateJson[key]) {
-                var latestDate = dateJson[key][key1];
-                break;
-            }
+        let dateJson = this.state.data;
+        let dateKey = "Date";
+        for (let key in dateJson) {
+            var latestDate = dateJson[key][dateKey];
         }
         return latestDate;
     }
@@ -113,41 +137,54 @@ class PredictionTable extends Component {
         // return (this.state.data.slice(15, 20).map(
         //     item => ({
         //         company: item.label,
-        //         amount: item.amount,
+        //         amount: '- ' + item.amount,
         //         percentage: item.result,
         //     })
         // ))
     }
 
 
-    // algorithm 2 result / Dtree
-    alg02Result() {
-        // let result = this.state.data.slice(20, 21).map(
-        //     item => ({result: item.result,}));
-        // result.forEach(o => {
-        //     for (let k in o)
-        //         if (o[k] === 1) o[k] = 'Will Go Higher';
-        //         else if (o[k] === null) o[k] = 'Still calculating, please check later';
-        //         else o[k] = 'Will Go Lower';
-        // });
-        // return result;
+    // algorithm Dtree result
+    DtreeResult() {
+        // [{"Date":"2018-11-29 00:00:00","DTree":null,"SVM":null,"SGDLinear":null,"SGDRegression":null,"LASSORegression":1087.5860614651904}]
+        let latestJson = this.state.data;
+        let dtree = "DTree";
+        for (let key in latestJson) {
+            var dTreeRes = latestJson[key][dtree];
+        }
+        let resultStr = 'Calculating ...';
+        if(dTreeRes === 1) resultStr = 'Will Go Higher';
+        else if (dTreeRes === null) resultStr = 'Still calculating, please check later';
+        else resultStr = 'Will Go Lower';
+        return [{result: resultStr}];
     }
 
-    //algorithm 3 result / SVM
-    alg03Result() {
-        // let result = this.state.data.slice(21, 22).map(
-        //     item => ({result: item.result,}));
-        // result.forEach(o => {
-        //     for (let k in o)
-        //         if (o[k] === 1) o[k] = 'Will Go Higher';
-        //         else if (o[k] === null) o[k] = 'Still calculating, please check later';
-        //         else o[k] = 'Will Go Lower';
-        // });
-        // return result;
+    //algorithm SVM result
+    SVMResult() {
+        let latestJson = this.state.data;
+        let SVM = "SVM";
+        for (let key in latestJson) {
+            var SVMRes = latestJson[key][SVM];
+        }
+        let resultStr = 'Calculating ...';
+        if(SVMRes === 1) resultStr = 'Will Go Higher';
+        else if (SVMRes === null) resultStr = 'Still calculating, please check later';
+        else resultStr = 'Will Go Lower';
+        return [{result: resultStr}];
     }
 
     //algorithm 4 result / SGDLinear
-    alg04Result() {
+    SGDLinearResult() {
+        let latestJson = this.state.data;
+        let SGDLinear = "SGDLinear";
+        for (let key in latestJson) {
+            var SGDLinearRes = latestJson[key][SGDLinear];
+        }
+        let resultStr = 'Calculating ...';
+        if(SGDLinearRes === 1) resultStr = 'Will Go Higher';
+        else if (SGDLinearRes === null) resultStr = 'Still calculating, please check later';
+        else resultStr = 'Will Go Lower';
+        return [{result: resultStr}];
         // let result = this.state.data.slice(22, 23).map(
         //     item => ({result: item.result,}));
         // result.forEach(o => {
@@ -161,6 +198,19 @@ class PredictionTable extends Component {
 
     // conclusion for algorithm 2,3 and 4
     algConclusion() {
+        let count = 0;
+        let latestJson = this.state.data;
+        for (let key in latestJson) {
+            for (let key1 in latestJson[key]) {
+                var currRes = latestJson[key][key1];
+                if (currRes === null) return [{result: 'Still calculating, please check later'}];
+                else count += currRes;
+            }
+        }
+        let resultStr = 'Calculating ...';
+        count >= 2 ? resultStr = 'The conclusion trend for this stock will go higher in the next business day of last update date'
+            : resultStr = 'The conclusion trend for this stock will go lower in the next business day of last update date';
+        return [{result: resultStr}];
         // let count = 0;
         // // console.log('slice', this.state.data.slice(20, 23));
         // this.state.data.slice(20, 23).forEach(e => {
@@ -168,7 +218,8 @@ class PredictionTable extends Component {
         //     else count += e.result;
         // });
         // let resultStr = 'Calculating ...';
-        // count >= 2 ? resultStr = 'The conclusion trend for this stock will go higher in the next business day' : resultStr = 'The conclusion trend for this stock will go lower in the next business day';
+        // count >= 2 ? resultStr = 'The conclusion trend for this stock will go higher in the next business day of last update date'
+        //     : resultStr = 'The conclusion trend for this stock will go lower in the next business day of last update date';
         // return [{result: resultStr}];
     }
 
@@ -200,7 +251,7 @@ class PredictionTable extends Component {
                                 : 'rgba(255, 0, 167, 0.5)',
                         transition: 'all .2s ease-out'
                     }}
-                > {row.value + '%'} </div>);
+                > {row.value + ' %'} </div>);
             }
         }];
 
@@ -240,7 +291,7 @@ class PredictionTable extends Component {
                         width: '100%',
                         // color: 'black',
                         backgroundColor:
-                            row.value === 'The conclusion trend for this stock will go higher in the next business day'
+                            row.value === 'The conclusion trend for this stock will go higher in the next business day of last update date'
                                 ? 'rgba(96, 239, 255, 0.8)'
                                 : row.value === 'Still calculating, please check later'
                                 ? 'rgba(155, 155, 155, 0.8)'
@@ -284,9 +335,9 @@ class PredictionTable extends Component {
                         <hr/>
                     </Col>
 
-                    {/*algorithm 2, 3 and 4 conclusion*/}
+                    {/*algorithm Dtree, SVM and SGDLiner conclusion*/}
                     <Col sm={12} md={12} lg={12} className='preAll'>
-                        <h2 className={'centerText'}>Algorithm Dtree, SVM and SGDLiner prediction Result conclusion</h2>
+                        <h2 className={'centerText bottomPadding20'}>Algorithm Dtree, SVM and SGDLiner prediction Result conclusion</h2>
                         <h4 className={'centerText bottomPadding20'}>Last Update: {this.trendDate()}</h4>
                         <ReactTable
                             data={this.algConclusion()}
@@ -302,11 +353,11 @@ class PredictionTable extends Component {
                                className='responsiveImg'/>
                     </Col>
 
-                    {/*algorithm 2, 3 and 4 */}
+                    {/*algorithm Dtree, SVM and SGDLiner */}
                     <Col sm={12} md={12} lg={4} className='preAll'>
                         <h2 className={'centerText'}>Algorithm Dtree prediction Result</h2>
                         <ReactTable
-                            data={this.alg02Result()}
+                            data={this.DtreeResult()}
                             noDataText='Loading Data ...'
                             columns={trendColumn}
                             defaultPageSize={1}
@@ -317,7 +368,7 @@ class PredictionTable extends Component {
                     <Col sm={12} md={12} lg={4} className='preAll'>
                         <h2 className={'centerText'}>Algorithm SVM prediction Result</h2>
                         <ReactTable
-                            data={this.alg03Result()}
+                            data={this.SVMResult()}
                             noDataText='Loading Data ...'
                             columns={trendColumn}
                             defaultPageSize={1}
@@ -328,7 +379,7 @@ class PredictionTable extends Component {
                     <Col sm={12} md={12} lg={4} className='preAll'>
                         <h2 className={'centerText'}>Algorithm SGDLinear prediction Result</h2>
                         <ReactTable
-                            data={this.alg04Result()}
+                            data={this.SGDLinearResult()}
                             noDataText='Loading Data ...'
                             columns={trendColumn}
                             defaultPageSize={1}

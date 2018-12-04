@@ -53,6 +53,15 @@ var Prediction = (function () {
         }
     }
 
+    /*
+    * http://localhost:8081/Predict/TOP5/top5
+    * [{"Date":"2018-10-29 00:00:00","Symbol":"DXC","Rate":0.06664174431664008,"Rank":5,"Difference":4.6342669664208955},
+    * {"Date":"2018-10-29 00:00:00","Symbol":"BA","Rate":0.0688791147976129,"Rank":4,"Difference":23.11514185941445},
+    * {"Date":"2018-10-29 00:00:00","Symbol":"NVDA","Rate":0.07096435225707545,"Rank":3,"Difference":13.172402711136584},
+    * {"Date":"2018-10-29 00:00:00","Symbol":"TTWO","Rate":0.07467415365278805,"Rank":2,"Difference":8.342596520763635},
+    * {"Date":"2018-10-29 00:00:00","Symbol":"HRS","Rate":0.0831705565981325,"Rank":1,"Difference":12.200289113721169}]
+    * */
+
     function getTop5(table, res) {
         let q = `SELECT * FROM ${table} ORDER BY Date DESC LIMIT 5;`;
         // console.log("query: ", q);
@@ -69,10 +78,6 @@ var Prediction = (function () {
                 }
             });
         }
-        // res.json([
-        //     {test1: 111, name: "test1"},
-        //     {test1: 222, name: "test222"},
-        // ]);
     }
 
 
