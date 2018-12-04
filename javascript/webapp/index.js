@@ -7,6 +7,7 @@ import {
     Row,
     Col,
 } from 'react-bootstrap';
+
 // import { Router, Route, hashHistory } from 'react-router'
 
 // import style
@@ -16,7 +17,11 @@ import './style/newStyle.css';
 import Calendar from './components/calendar/Calendar.jsx';
 import Searchbox from './components/searchBox/SearchBox.jsx';
 import Table from './components/table/Table.jsx';
-import StockChart from './components/chart/StockChart.jsx'
+import StockChart from './components/chart/StockChart.jsx';
+import PredictionTable from './components/table/PredictionTable.jsx';
+import PredictionCalendar from './components/calendar/PredictionCalendar.jsx';
+import PredictionSearchBox from './components/searchBox/PredictionSearchBox.jsx';
+import PredictionStockChart from './components/chart/PredictionStockChart.jsx';
 // import Graph from './components/graph/Graph.jsx';
 // import Button from './components/button/Button.jsx';
 
@@ -51,6 +56,27 @@ class SearchBarComponent extends React.PureComponent {
     }
 }
 
+class PredictionSearchBarComponent extends React.PureComponent {
+    render() {
+        return (
+            <Grid fluid>
+                <Row>
+                    <Col sm={12} md={12} lg={5} className="customCalendar">
+                        <PredictionCalendar
+                            {...defaultValue}
+                        />
+                    </Col>
+                    <Col sm={12} md={12} lg={7} className="customSearch">
+                        <PredictionSearchBox
+                            {...defaultValue}
+                        />
+                    </Col>
+                </Row>
+            </Grid>
+        );
+    }
+}
+
 
 class StockChartComponent extends React.PureComponent {
     render() {
@@ -62,12 +88,30 @@ class StockChartComponent extends React.PureComponent {
     }
 }
 
+class PredictionStockChartComponent extends React.PureComponent {
+    render() {
+        return (
+            <PredictionStockChart className="line-chart"
+                        {...defaultValue}
+            />
+        );
+    }
+}
+
 class StockTableComponent extends React.PureComponent {
     render() {
         return (
             <Table className="grid-table"
                 {...defaultValue}
             />
+        )
+    }
+}
+
+class PredictionComponent extends React.PureComponent {
+    render() {
+        return (
+            <PredictionTable />
         )
     }
 }
@@ -86,3 +130,21 @@ render(
     <StockTableComponent />,
     document.getElementById('StockTable')
 );
+<<<<<<< HEAD
+=======
+
+render(
+    <PredictionComponent />,
+    document.getElementById('PredictionTable')
+);
+
+render(
+    <PredictionSearchBarComponent />,
+    document.getElementById('PredictionSearchBar')
+);
+
+render(
+    <PredictionStockChartComponent />,
+    document.getElementById('PredictionChart')
+);
+>>>>>>> 0174be65bc70492cd6487962f687eaa35b6f7f73

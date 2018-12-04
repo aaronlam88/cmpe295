@@ -21,10 +21,6 @@ meanSquaredError = {}
 
 symbols = getData.getAllSymbols()
 
-
-# Situation 1: Use current day's 'open' 'low' 'hign' price to predict current day's 'close' price #
-# Result: hign algorithm accuracy, some stocks are extremly unaccurare #
-
 for symbol in symbols:
 
     # data column: Open|High|Low|Close|Adj_Close
@@ -41,7 +37,10 @@ for symbol in symbols:
         features.append([feature[0], feature[1], feature[2]])
 
     # create train and test data set #
-    X_train, X_test, y_train, y_test = train_test_split(features, result, test_size=.15)
+    X_train = features[0:900]
+    y_train = result[5:905]
+    X_test = features[901:994]
+    y_test = result[906:999]
 
     reg = SGDRegressor(max_iter=100000, loss='squared_loss', penalty='l2', shuffle=False, tol=1e-3, eta0=0.0001).fit(X_train, y_train)
     
@@ -56,6 +55,10 @@ for symbol in symbols:
     # It gives us the measure of how far the predictions were from the actual output
     meanSquaredError[symbol].append(str(round(mean_absolute_error(y_test, y_pred)))+'%')
     
+#     print(y_test)
+#     print("predict:" + "\n" + "---------------")
+#     print(y_pred)
+
     print("[INFO] %s: %3.2f%%" %
             (symbol, round(reg.score(X_test, y_test)*100, 2)), file=sys.stderr)
     

@@ -7,7 +7,7 @@ import colors from '../commonColor.js';
 // import style
 import './StockChart.scss';
 
-class StockChart extends React.PureComponent {
+class PredictionStockChart extends React.PureComponent {
     constructor(props) {
         super(props);
 
@@ -76,7 +76,7 @@ class StockChart extends React.PureComponent {
                     data: open,
 
                     // ==== label for the line ====
-                    label: 'open',
+                    label: 'Algorithm 1 Prediction',
 
                     // ==== the area under the line ===
                     fill: false, // should the area below the line be fill with color fillColor
@@ -94,12 +94,13 @@ class StockChart extends React.PureComponent {
                     pointRadius: 3,
                     pointStyle: 'circle', // 'circle', 'cross', 'crossRot', 'dash', 'line', 'rect', 'rectRounded', 'rectRot', 'star', 'triangle',
                 },
+
                 {
                     // ==== data used to draw the line ====
                     data: close,
 
                     // ==== label for the line ====
-                    label: 'close',
+                    label: 'Algorithm 2 Prediction',
 
                     // ==== the area under the line ===
                     fill: false, // should the area below the line be fill with color fillColor
@@ -127,10 +128,10 @@ class StockChart extends React.PureComponent {
                 display: true,
                 text: this.state.tableName,
                 fill: true,
-                backgroundColor: colors.green60,
-                borderColor: colors.green,
+                backgroundColor: colors.purple60,
+                borderColor: colors.purple,
                 fontSize: 25,
-                fontColor: colors.green,
+                fontColor: colors.purple,
                 fontFamily: "DIN Condensed",
             },
             legend: {
@@ -147,6 +148,7 @@ class StockChart extends React.PureComponent {
                 onHover: function (e) {
                     e.target.style.cursor = 'pointer';
                 }
+
             },
             hover: {
                 onHover: function (e) {
@@ -159,21 +161,21 @@ class StockChart extends React.PureComponent {
                 yAxes: [{
                     gridLines: {
                         // display: false,
-                        color:colors.green5,
+                        color: colors.purple20,
                     },
                     ticks: {
                         // beginAtZero:true,
-                        fontColor: colors.green60,
+                        fontColor: colors.purple80,
                         fontFamily: "DIN",
                     },
                 }],
                 xAxes: [{
                     gridLines: {
                         // display: false,
-                        color:colors.green5,
+                        color: colors.purple20,
                     },
                     ticks: {
-                        fontColor: colors.green,
+                        fontColor: colors.purple,
                         fontFamily: "DIN",
                     },
                 }]
@@ -190,4 +192,4 @@ class StockChart extends React.PureComponent {
     }
 }
 
-export default StockChart;
+export default PredictionStockChart;
