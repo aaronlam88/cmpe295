@@ -39,7 +39,7 @@ class PredictionStockChart extends React.PureComponent {
             endTime: event.endTime,
             predictionData: event.data,
         });
-        // console.log("predictionDataIsReady", event.data);
+        // console.log("predictDataIsReady", event.data);
     }
 
     dataIsReady(event) {

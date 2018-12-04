@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import ReactTable from 'react-table';
 import {
     Grid,
@@ -11,20 +11,20 @@ import axios from 'axios';
 // import css for react-table
 import './Table.scss';
 
-class PredictionTable extends Component {
+class PredictionTable extends PureComponent {
 
     constructor(props) {
         super(props);
         this.state = {
             data: [],
             value: props.tableName,
-            // tableName: props.tableName,
+            tableName: props.tableName,
             // startTime: props.startTime,
             // endTime: props.endTime,
             top5Data: [],
             bottom5Data:[],
         };
-        this.predictionDataIsReady = this.predictionDataIsReady.bind(this);
+        this.predictDataIsReady = this.predictDataIsReady.bind(this);
     }
 
     /*
@@ -43,38 +43,30 @@ class PredictionTable extends Component {
 
     }
 
-    predictionDataIsReady(event) {
+    predictDataIsReady(event) {
         this.setState({
-            // tableName: event.tableName,
+            tableName: event.tableName,
             // startTime: event.startTime,
             // endTime: event.endTime,
         });
-        // console.log("predictionDataIsReady", event.data);
+        console.log("predictDataIsReady", event.tableName);
     }
 
     // call before component is removed from dom
     // similar to destructor in c++
     // clean up before you leave to avoid memory leak (ex: remove listenner)
     componentWillUnmount() {
-        window.removeEventListener('predictionDataIsReady', this.predictionDataIsReady);
+        window.removeEventListener('predictDataIsReady', this.predictDataIsReady);
     }
 
     // call after component is mounted to the dom
     // add listener here if needed
     componentDidMount() {
-        window.addEventListener('predictionDataIsReady', (event) => this.predictionDataIsReady(event));
-
-        console.log("tablename", this.state.value);
-
-        // let currTable = this.state.value;
-        let currTable = "GOOG";
-
+        window.addEventListener('predictDataIsReady', (event) => this.predictDataIsReady(event));
+        let currTable = this.state.tableName;
         let newData = `http://localhost:8081/Predict/${currTable}/latest`;
-        console.log("newData = " + newData);
-        // var newData = `http://localhost:8081/Predict/${this.state.tableName}/${this.state.startTime}/${this.state.endTime}`;
-        // axios.get(`http://localhost:8081/Predict/top`)
-        // axios.get(newData)
-        axios.get(`http://localhost:8081/Predict/GOOG/2018-11-06/2018-11-06`)
+        axios.get(newData)
+        // axios.get(`http://localhost:8081/Predict/GOOG/2018-11-06/2018-11-06`)
             .then(res => {
                 this.setState({data: res.data});
             }).catch((err) => {
@@ -102,10 +94,6 @@ class PredictionTable extends Component {
         let dateKey = "Date";
         for (let key in dateJson) {
             var latestDate = dateJson[key][dateKey];
-            // for (let key1 in dateJson[key]) {
-            //     var latestDate = dateJson[key][key1];
-            //     break;
-            // }
         }
         return latestDate;
     }
@@ -126,7 +114,7 @@ class PredictionTable extends Component {
             item => ({
                 company: item.Symbol,
                 amount: '+ ' + item.Difference.toFixed(4),
-                percentage: item.Rate.toFixed(4),
+                percentage: (item.Rate * 100).toFixed(4),
             })
         ));
     }
@@ -202,7 +190,7 @@ class PredictionTable extends Component {
         let latestJson = this.state.data;
         for (let key in latestJson) {
             for (let key1 in latestJson[key]) {
-                var currRes = latestJson[key][key1];
+                let currRes = latestJson[key][key1];
                 if (currRes === null) return [{result: 'Still calculating, please check later'}];
                 else count += currRes;
             }
@@ -224,7 +212,7 @@ class PredictionTable extends Component {
     }
 
     render() {
-        // console.log('tableName = ', this.state.value);
+        console.log('tableName', this.state.tableName);
 
         // column style for algorithm LASSO Regression top 5
         const top5column = [{
@@ -235,7 +223,6 @@ class PredictionTable extends Component {
             accessor: 'percentage',
 
             Cell: row => {
-                // console.log(row);
                 return (<div
                     style={{
                         height: '120%',
@@ -341,7 +328,6 @@ class PredictionTable extends Component {
                         <h4 className={'centerText bottomPadding20'}>Last Update: {this.trendDate()}</h4>
                         <ReactTable
                             data={this.algConclusion()}
-                            // data={this.alg04Result()}
                             noDataText='Loading Data ...'
                             columns={conclusionColumn}
                             defaultPageSize={1}

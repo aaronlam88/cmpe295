@@ -111,7 +111,9 @@ class StockTableComponent extends React.PureComponent {
 class PredictionComponent extends React.PureComponent {
     render() {
         return (
-            <PredictionTable />
+            <PredictionTable
+                {...defaultValue}
+            />
         )
     }
 }
