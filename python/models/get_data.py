@@ -18,7 +18,6 @@ class GetData:
     _features = None
     _featuresDiff = None
     _symbols = None
-    _config = None
     _map = {'date': 0, 'open': 1, 'high': 2, 'low': 3, 'close': 4, 'adjClose': 5, 'volume': 6}
 
     def __init__(self, dataCount=1002):
@@ -36,12 +35,13 @@ class GetData:
         except Exception:
             logger.debug('Getting data from database')
 
-            # configData = json.load(open('../../ignore/db_config.json'))
+            configData = json.load(open('../../ignore/db_config.json'))
+
             config = {
-                'user': "cmpe295",
-                'password': "cmpe295.sjsu.2018",
-                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
-                'database': "StockDatabase",
+                'user': configData['username'],
+                'password': configData['password'],
+                'host': configData['host'],
+                'database': configData['database'],
                 'raise_on_warnings': True,
                 'buffered': True
             }
@@ -161,7 +161,7 @@ class GetData:
         return a single features[] for a stock symbol
         """
         features = []
-        for i in range (self._dataCount-1, 0, -1):
+        for i in range (self._dataCount-1, -1, -1):
             features.append(self._data[symbol][i])
         return features
 
