@@ -33,9 +33,9 @@ for symbol in symbols:
     low = 0
     X_train = features[low:mid]
     y_train = result[low:mid]
-    X_test = features[mid+1:high]
-    y_test = result[mid+1:high]
-    dates = dates[mid+1:high]
+    X_test = features[mid+1:]
+    y_test = result[mid+1:]
+    dates = dates[mid+2:]
         
     # create classifier
     my_classifier = SGDClassifier(loss="log", penalty="elasticnet") 
