@@ -80,3 +80,5 @@ __pycache__/
 ########################
 *.save
 *.csv
+
+javascript/server/public/

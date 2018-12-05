@@ -11,6 +11,7 @@ const colors = {
     purple10: 'rgba(255,0,167,0.1)',
     purple20: 'rgba(255,0,167,0.2)',
     purple30: 'rgba(255,0,167,0.3)',
+    purple50: 'rgba(255,0,167,0.5)',
     purple60: 'rgba(255,0,167,0.6)',
     purple80: 'rgba(255,0,167,0.8)',
     orange: '#FBB03B',

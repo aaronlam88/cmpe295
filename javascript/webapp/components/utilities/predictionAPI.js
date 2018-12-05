@@ -4,7 +4,7 @@ import moment from 'moment';
 /**
  * an predictionAPI to get data
  */
-const API = {
+const predictionAPI = {
     /**
      * create an URL to get data from the backend server
      * @param {String} tableName the name of the stock symbol
@@ -14,7 +14,7 @@ const API = {
     getURLFromPrams(tableName, startTime, endTime) {
         let host = window.location.hostname;
         let port = '8081';
-        let resource = 'Stocks';
+        let resource = 'Predict';
         let format = 'YYYY-MM-DD';
 
         if (!tableName) {
@@ -62,7 +62,8 @@ const API = {
      * get data from backend server using jQuery get or local cache with localStorage
      * will call $.get, will do window.dispatchEvent(url)
      * to get the data, use window.addEventListener(url, (event) => (event.data))
-     * @param {string} url 
+     * @param {string} url
+     * @param {string} eventID
      */
     jQueryGet(url, eventID) {
         // if query the cached data, return cache without calling get
@@ -95,6 +96,6 @@ const API = {
             console.debug('jquery')
         });
     }
-}
+};
 
-export default API;
+export default predictionAPI;

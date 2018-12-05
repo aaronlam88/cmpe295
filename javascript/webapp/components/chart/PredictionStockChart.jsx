@@ -15,15 +15,16 @@ class PredictionStockChart extends React.PureComponent {
             tableName: props.tableName,
             startTime: props.startTime,
             endTime: props.endTime,
-
             data: {},
+            predictionData: {},
         };
     }
 
     // call after component is mounted to the dom
     // add listenner here if needed
     componentDidMount() {
-        window.addEventListener('dataIsReady', (event) => this.dataIsReady(event));
+        window.addEventListener('predictDataIsReady', (event) => this.predictionDataIsReady(event));
+        window.addEventListener('realDataIsReady', (event) => this.dataIsReady(event));
     }
 
     // call after component update
@@ -31,19 +32,32 @@ class PredictionStockChart extends React.PureComponent {
 
     }
 
+    predictionDataIsReady(event) {
+        this.setState({
+            tableName: event.tableName,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            predictionData: event.data,
+        });
+        // console.log("predictDataIsReady", event.data);
+    }
+
     dataIsReady(event) {
         this.setState({
             tableName: event.tableName,
             startTime: event.startTime,
             endTime: event.endTime,
-            data: event.data
+            data: event.data,
         });
+        // console.log("dataIsReady", event.data);
     }
 
     processData() {
         let rawData = this.state.data ? Array.from(this.state.data) : [];
+        let predictionData = this.state.predictionData ? Array.from(this.state.predictionData) : [];
 
         if (rawData === undefined || rawData.length === 0) return rawData;
+        if (predictionData === undefined || predictionData.length === 0) return predictionData;
 
         // make sure that data are in increasing time order
         // the api should return data in the correct order, just double check here
@@ -65,6 +79,20 @@ class PredictionStockChart extends React.PureComponent {
         let volume = rawData.map(row => row['Volume']);
 
 
+
+        // prediction part
+        let predictionDataLength = predictionData.length;
+        if (predictionDataLength > 1) {
+            let date0 = new Date(rawData[0]['Date']);
+            // console.log("date0", date0);
+            let date1 = new Date(rawData[1]['Date']);
+            if (date0 > date1) {
+                predictionData.reverse();
+            }
+        }
+
+        let predictionClose = predictionData.map(row => row['LASSORegression']);
+
         let line = {};
         // read more about line datasets here http://www.chartjs.org/docs/latest/charts/line.html
         line.data = {
@@ -73,17 +101,17 @@ class PredictionStockChart extends React.PureComponent {
             datasets: [
                 {
                     // ==== data used to draw the line ====
-                    data: open,
+                    data: predictionClose,
 
                     // ==== label for the line ====
-                    label: 'Algorithm 1 Prediction',
+                    label: 'LASSORegression Algorithm Prediction',
 
                     // ==== the area under the line ===
                     fill: false, // should the area below the line be fill with color fillColor
                     fillColor: colors.green30,
 
                     // ==== the line ====
-                    borderColor: colors.green30, // line color
+                    borderColor: colors.green60, // line color
                     borderWidth: 2, // width of the line
 
                     // ==== points on the line ====
@@ -100,14 +128,14 @@ class PredictionStockChart extends React.PureComponent {
                     data: close,
 
                     // ==== label for the line ====
-                    label: 'Algorithm 2 Prediction',
+                    label: 'Real Market Close Data',
 
                     // ==== the area under the line ===
                     fill: false, // should the area below the line be fill with color fillColor
                     fillColor: colors.purple,
 
                     // ==== the line ====
-                    borderColor: colors.purple30, // line color
+                    borderColor: colors.purple50, // line color
                     borderWidth: 2, // width of the line
 
                     // ==== points on the line ====
@@ -165,7 +193,7 @@ class PredictionStockChart extends React.PureComponent {
                     },
                     ticks: {
                         // beginAtZero:true,
-                        fontColor: colors.purple80,
+                        fontColor: colors.purple,
                         fontFamily: "DIN",
                     },
                 }],

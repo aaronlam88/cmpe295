@@ -8,7 +8,7 @@ import './SearchBox.scss';
 /**
  * SearchBox is React.PureComponent which control the data of the page
  * Since we will only get new data when user hits the search button
- * it's better to call API.getData here 
+ * it's better to call predictionAPI.getData here
  */
 class SearchBox extends React.PureComponent {
     // init setup, only call once when component is created
