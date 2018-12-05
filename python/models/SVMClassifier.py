@@ -55,14 +55,14 @@ for symbol in symbols:
         save_date = dates[i][0:4] + "-" + dates[i][4:6] + "-" + dates[i][6:8]
         sql_data.append((save_date, str(predictions[i])))
 
-    saveData.saveMultipleData(symbol, "DTree", sql_data)
+    saveData.saveMultipleData(symbol, "SVM", sql_data)
 
     # Predict the next day
     today = datetime.strptime(dates[len(dates)-1], '%Y%m%d')
     next_day = today + timedelta(days= 7-today.weekday() if today.weekday()>3 else 1)
     next_day = next_day.strftime('%Y-%m-%d')
     next_price = str(my_classifier.predict([features[len(features)-1]])[0])
-    saveData.saveMultipleData(symbol, "DTree", [tuple((next_day, next_price))])
+    saveData.saveMultipleData(symbol, "SVM", [tuple((next_day, next_price))])
     print(next_day + ": " + next_price)
 
 
