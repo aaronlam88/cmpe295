@@ -151,6 +151,19 @@ a.btn-purple-2:hover {
     text-decoration: none;
 }
 
+a.referenceLink {
+    color: rgba(96, 239, 255, 0.6);
+    -webkit-transition: all .4s ease 0s;
+    -o-transition: all .4s ease 0s;
+    transition: all .4s ease 0s;
+}
+
+
+a.referenceLink:hover {
+    color: rgba(96, 239, 255, 1);
+    text-decoration: underline;
+}
+
 @media(min-width:768px) {
     .navbar-custom {
         padding: 15px 0;
