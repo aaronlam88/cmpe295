@@ -50,7 +50,7 @@ for symbol in symbols:
         (symbol, accuracy_score(y_test, predictions)*100), file=sys.stderr)
    
     # save the results to db
-    for i in range(1000, 900, -1):
+    for i in range(999, 900, -1):
         res = my_classifier.predict([features[i]])
         save_date = dates[i][0:4] + "-" + dates[i][4:6] + "-" + dates[i][6:8]
         saveData.saveMultipleData(symbol, "SGDLinear", [tuple((save_date, str(res[0])))])
