@@ -29,7 +29,7 @@ class PredictionTable extends PureComponent {
     }
 
     /*
-    * example: http://${host}:8081/Predict/GOOG/20181112/20181121
+    * example: http://${this.host}:8081/Predict/GOOG/20181112/20181121
     * [
     * {"Date":"2018-11-16 00:00:00","DTree":1,"SVM":0,"SGDLinear":0,"SGDRegression":-33924368239540.305,"LASSORegression":1058.6251924196856},
     * {"Date":"2018-11-15 00:00:00","DTree":0,"SVM":0,"SGDLinear":0,"SGDRegression":-33540837479602.82,"LASSORegression":1056.375909863339},
@@ -65,21 +65,21 @@ class PredictionTable extends PureComponent {
     componentDidMount() {
         window.addEventListener('predictDataIsReady', (event) => this.predictDataIsReady(event));
         let currTable = this.state.tableName;
-        let newData = `http://${host}:8081/Predict/${currTable}/latest`;
+        let newData = `http://${this.host}:8081/Predict/${currTable}/latest`;
         axios.get(newData)
-        // axios.get(`http://${host}:8081/Predict/GOOG/2018-11-06/2018-11-06`)
+        // axios.get(`http://${this.host}:8081/Predict/GOOG/2018-11-06/2018-11-06`)
             .then(res => {
                 this.setState({data: res.data});
             }).catch((err) => {
         });
 
-        axios.get(`http://${host}:8081/Predict/TOP5/top5`)
+        axios.get(`http://${this.host}:8081/Predict/TOP5/top5`)
             .then(res => {
                 this.setState({top5Data: res.data});
             }).catch((err) => {
         });
 
-        axios.get(`http://${host}:8081/Predict/BOTTOM5/bottom5`)
+        axios.get(`http://${this.host}:8081/Predict/BOTTOM5/bottom5`)
             .then(res => {
                 this.setState({bottom5Data: res.data});
             }).catch((err) => {
