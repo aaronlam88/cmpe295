@@ -26,16 +26,6 @@ class GetData:
         if self._data == None:
             self._data = self._getData()
 
-        if self._config == None:
-            self._config = {
-                'user': "cmpe295",
-                'password': "cmpe295.sjsu.2018",
-                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
-                'database': "StockDatabase",
-                'raise_on_warnings': True,
-                'buffered': True
-            }
-
     def _getData(self):
         data = None
         try:
@@ -47,8 +37,15 @@ class GetData:
             logger.debug('Getting data from database')
 
             # configData = json.load(open('../../ignore/db_config.json'))
-         
-            cnx = mysql.connector.connect(**self._config)
+            config = {
+                'user': "cmpe295",
+                'password': "cmpe295.sjsu.2018",
+                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+                'database': "StockDatabase",
+                'raise_on_warnings': True,
+                'buffered': True
+            }
+            cnx = mysql.connector.connect(**config)
             cursor = cnx.cursor()
 
             # data column |Date|Open|High|Low|Close|CloseAdj|Volumn|
@@ -228,7 +225,16 @@ class GetData:
         """
         query = """SELECT close FROM `%s` WHERE Date='%s';""" % (
                     symbol, date)
-        cnx = mysql.connector.connect(**self._config)
+
+        config = {
+                'user': "cmpe295",
+                'password': "cmpe295.sjsu.2018",
+                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+                'database': "StockDatabase",
+                'raise_on_warnings': True,
+                'buffered': True
+            }
+        cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
         cursor.execute(query)
 
