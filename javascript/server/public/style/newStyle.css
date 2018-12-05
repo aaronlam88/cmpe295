@@ -1,12 +1,12 @@
-@font-face {
-font-family: DINCon-reg;
-src: url(font/DINCond-Regular.ttf);
-}
+/*@font-face {*/
+/*font-family: DINCon-reg;*/
+/*src: url(font/DINCond-Regular.ttf);*/
+/*}*/
 
-@font-face {
-font-family: DINCon-bold;
-src: url(font/DIN-Condensed-Bold.ttf);
-}
+/*@font-face {*/
+/*font-family: DINCon-bold;*/
+/*src: url(font/DIN-Condensed-Bold.ttf);*/
+/*}*/
 
 
 /*common*/
@@ -151,6 +151,19 @@ a.btn-purple-2:hover {
     text-decoration: none;
 }
 
+a.referenceLink {
+    color: rgba(96, 239, 255, 0.6);
+    -webkit-transition: all .4s ease 0s;
+    -o-transition: all .4s ease 0s;
+    transition: all .4s ease 0s;
+}
+
+
+a.referenceLink:hover {
+    color: rgba(96, 239, 255, 1);
+    text-decoration: underline;
+}
+
 @media(min-width:768px) {
     .navbar-custom {
         padding: 15px 0;
@@ -260,7 +273,7 @@ h5.logoText {
 
 /* ----index developer starts here ----*/
 .developer {
-    font-family: "2D-DIN Condensed Bold", serif;
+    font-family: "D-DIN Condensed", serif;
     text-align: center;
     margin-top: 50px;
 }
@@ -306,8 +319,8 @@ h5.logoText {
 
 /* ----------current stock starts here ----------*/
 .curr_btn {
-    background: #203353;
-    color: #60EFFF;
+    background: #60EFFF;
+    color: #203353;
     border: #60EFFF 1px solid;
 }
 
@@ -344,6 +357,7 @@ h5.logoText {
     font-size: 1.4rem;
     font-weight: bold;
 }
+
 #PredictionChart {
     padding-bottom: 40px;
 }

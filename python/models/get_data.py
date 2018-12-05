@@ -36,6 +36,7 @@ class GetData:
                 'buffered': True
             }
 
+
     def _getData(self):
         data = None
         try:
@@ -47,7 +48,14 @@ class GetData:
             logger.debug('Getting data from database')
 
             # configData = json.load(open('../../ignore/db_config.json'))
-         
+            self._config = {
+                'user': "cmpe295",
+                'password': "cmpe295.sjsu.2018",
+                'host': "stockdatabase.cxswepygqy9j.us-west-1.rds.amazonaws.com",
+                'database': "StockDatabase",
+                'raise_on_warnings': True,
+                'buffered': True
+            }
             cnx = mysql.connector.connect(**self._config)
             cursor = cnx.cursor()
 
