@@ -3,6 +3,6 @@ var options = {
     max: 20, 
     dispose: function (key, n) { n = null; }
 }
-var cache = LRU(options)
+var cache = new LRU(options)
 
 module.exports = cache;
