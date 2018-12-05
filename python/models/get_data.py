@@ -21,7 +21,7 @@ class GetData:
     _config = None
     _map = {'date': 0, 'open': 1, 'high': 2, 'low': 3, 'close': 4, 'adjClose': 5, 'volume': 6}
 
-    def __init__(self, dataCount=1002):
+    def __init__(self, dataCount=1001):
         self._dataCount = dataCount
         if self._data == None:
             self._data = self._getData()
@@ -171,10 +171,10 @@ class GetData:
         return a single features[] for a stock symbol
         """
         features = []
-        for i in range (self._dataCount-1, 0, -1):
+        for i in range (self._dataCount-1, -1, -1):
             features.append(self._data[symbol][i])
         return features
-
+        
     def getAllSymbols(self):
         """
         return all stock symbols that we cached locally
