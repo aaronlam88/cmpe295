@@ -72,7 +72,6 @@ class PredictionTable extends PureComponent {
             }).catch((err) => {
         });
 
-
         axios.get(`http://localhost:8081/Predict/TOP5/top5`)
             .then(res => {
                 this.setState({top5Data: res.data});

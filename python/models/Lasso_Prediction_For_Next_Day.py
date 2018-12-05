@@ -2,7 +2,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_absolute_error
 from sklearn.cross_validation import train_test_split
 from sklearn.cross_validation import cross_val_score
-from sklearn.linear_model import SGDRegressor
+from sklearn import linear_model
 
 import os
 import sys
@@ -22,9 +22,6 @@ accuracy = {}
 meanSquaredError = {}
 
 symbols = getData.getAllSymbols()
-
-# Situation 2: Use yesterday's 'open' 'low' 'hign' price to predict current day's 'close' price #
-# Result: Still high accracy, some stocks are extremly unaccurare
 
 for symbol in symbols:
 
@@ -49,8 +46,8 @@ for symbol in symbols:
     X_test = features[901:998]
     y_test = result[902:999]
     
-    reg = SGDRegressor(max_iter=100000, loss='squared_loss', penalty='l2', shuffle=False, tol=1e-3, eta0=0.0001).fit(X_train, y_train)
-    
+    reg = linear_model.Lasso(alpha=0.1, copy_X=True, fit_intercept=True, max_iter=1000,normalize=False, positive=False, precompute=False, random_state=None,selection='cyclic', tol=0.0001, warm_start=False)
+    reg.fit(X_train, y_train)
     # predict data #
     y_pred = reg.predict(X_test)
    
@@ -66,12 +63,9 @@ for symbol in symbols:
             (symbol, round(reg.score(X_test, y_test)*100, 2)), file=sys.stderr)  
     print(symbol + ', ' + '(score accuracy)' + ', '.join(accuracy[symbol]), file=results)
     print(symbol + ', ' + '(mean squared error)' + ', '.join(meanSquaredError[symbol]), file=results) 
-    
+
     # save last 100 days' prediction data, date save as the date of 'yesterday'
     for i in range(1000, 900, -1):
         res = reg.predict([features[i]])
         save_date = dates[i][0:4] + "-" + dates[i][4:6] + "-" + dates[i][6:8]
-        print(save_date)
-        print(res[0])
-   
-        saveData.saveMultipleData(symbol, "SGDRegression", [tuple((save_date, str(res[0])))])
+        saveData.saveMultipleData(symbol, "LASSORegression", [tuple((save_date, str(res[0])))])
