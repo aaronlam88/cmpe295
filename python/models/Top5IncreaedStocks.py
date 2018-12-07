@@ -40,7 +40,7 @@ for date in dates:
     last5 = q.getLast5()
     rank = len(last5)
     for val in last5:
-        saveRank.saveTop5AndBottom5(str(date_for_close_price), str(val[2]), str(-1 * val[0]), rank, str(val[4]), "bottom5")
+        saveRank.saveTop5AndBottom5(str(date_for_close_price), str(val[2]), str(val[0]), rank, str(val[4]), "bottom5")
         rank = rank - 1
 
     top5 = q.getTop5()
