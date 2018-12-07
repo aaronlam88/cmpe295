@@ -103,7 +103,7 @@ class GetPredictionData:
         """
         return all the dates that has prediction data
         """
-        query = """SELECT `Date` FROM `AMZN` ORDER BY `Date` DESC LIMIT 20;""" 
+        query = """SELECT `Date` FROM `AMZN` ORDER BY `Date` DESC LIMIT 5;""" 
         cnx = mysql.connector.connect(**self._config)
         cursor = cnx.cursor()
         cursor.execute(query)
