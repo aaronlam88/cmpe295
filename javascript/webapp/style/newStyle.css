@@ -1,13 +1,12 @@
-/*@font-face {*/
-/*font-family: DINCon-reg;*/
-/*src: url(font/DINCond-Regular.ttf);*/
-/*}*/
+@font-face {
+    font-family: DINCon-reg;
+    src: url('font/DINCond-Regular.ttf');
+}
 
-/*@font-face {*/
-/*font-family: DINCon-bold;*/
-/*src: url(font/DIN-Condensed-Bold.ttf);*/
-/*}*/
-
+@font-face {
+    font-family: DINCon-bold;
+    src: url('font/DIN-Condensed-Bold.ttf');
+}
 
 /*common*/
 
@@ -177,14 +176,14 @@ a.referenceLink:hover {
 
 /* ----------index page starts here ----------*/
 .mainBody {
-    font-family: "D-DIN Condensed", serif;
+    font-family: DINCon-bold, serif;
     /*background-image: linear-gradient(45deg, #232B80, #00123B);*/
     color: white;
 }
 
 /* ----index header starts here ----*/
 header {
-    font-family: "D-DIN Condensed", serif;
+    font-family: DINCon-bold, serif;
 }
 
 .navbar-header {
@@ -226,7 +225,7 @@ h5.logoText {
 
 /* ----index main starts here ----*/
 .myMain {
-    font-family: "D-DIN Condensed", serif;
+    font-family: DINCon-bold, serif;
     text-align: center;
     padding: 30px 0 40px 0;
 }
@@ -242,7 +241,7 @@ h5.logoText {
 }
 
 .din {
-    font-family: "D-DIN Condensed", serif;
+    font-family: DINCon-bold, serif;
 }
 
 .blueColor {
@@ -273,7 +272,7 @@ h5.logoText {
 
 /* ----index developer starts here ----*/
 .developer {
-    font-family: "D-DIN Condensed", serif;
+    font-family: DINCon-bold, serif;
     text-align: center;
     margin-top: 50px;
 }
@@ -365,7 +364,7 @@ h5.logoText {
 /* ---- footer starts here ----*/
 .myFooter {
     margin-top: 40px;;
-    font-family: "D-DIN Condensed", serif;
+    font-family: DINCon-bold, serif;
     background: #09203F;
     text-align: center;
     font-size: small;

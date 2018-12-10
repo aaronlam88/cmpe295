@@ -1,7 +1,7 @@
 require('@babel/preset-react');
 require('@babel/preset-env');
 
-require('node-sass') ;
+require('node-sass');
 
 const path = require('path');
 
@@ -12,13 +12,13 @@ module.exports = {
     entry: './index.js',// string | object | array
     // Here the application starts executing
     // and webpack starts bundling
-    
+
     output: {
         // options related to how webpack emits results
-        path: path.resolve(__dirname,'build'), // string
+        path: path.resolve(__dirname, 'build'), // string
         // the target directory for all output files
         // must be an absolute path (use the Node.js path module)
-        
+
         filename: "bundle.js", // string
         // the filename template for entry chunks
 
@@ -61,8 +61,14 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-                test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                    loader: 'file-loader?name=fonts/[name].[ext]'
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts/'
+                    }
+                }]
             }
         ]
     },

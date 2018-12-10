@@ -7,13 +7,15 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 // import style
 import './Calendar.scss';
 
-export default class Calendar extends React.PureComponent {
+export default class PredictionCalendar extends React.PureComponent {
     constructor(props) {
         super(props);
-
+        let from = new Date(props.startTime);
+        let to = new Date(props.endTime);
+        to.setDate(to.getDate() + 1);
         this.state = {
-            from: new Date(props.startTime),
-            to: new Date(props.endTime),
+            from: from,
+            to: to,
         };
 
         this.handleFromChange = this.handleFromChange.bind(this);
@@ -61,6 +63,8 @@ export default class Calendar extends React.PureComponent {
         const { from, to } = this.state;
         const modifiers = { start: from, end: to };
         const today = new Date();
+        today.setDate(today.getDate() + 1);
+
         return (
             <div className="InputFromTo">
                 <Grid fluid>
